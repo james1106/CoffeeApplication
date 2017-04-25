@@ -1,0 +1,87 @@
+server:
+  port: 8081
+  context-path: /api/coffees
+datasource:
+    url: jdbc:mysql://coffee.mysqldb.chinacloudapi.cn:3306/coffees?characterEncoding=utf8
+    username: coffee%movtek
+    password: movtek.123
+
+#spring 配置
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+  redis:
+    database: 0                                  # Redis数据库索引（默认为0）
+    host: coffee.mysqldb.chinacloudapi.cn         #主机地址
+    port: 6379                                    # Redis服务器连接端口
+    pool:
+      max-active: 8                              # 连接池最大连接数（使用负值表示没有限制）
+      max-wait: -1                               # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-idle: 8                                # 连接池中的最大空闲连接
+      min-idle: 0                                # 连接池中的最小空闲连接
+    timeout: 0                                   # 连接超时时间（毫秒）
+    password: a9527                              #密码
+
+mybatis:
+    type-aliases-package: com.mk.coffee.model
+    mapper-locations: classpath:mybatis/mapper/*.xml
+    config-location:  classpath:mybatis/mybatis-config.xml
+
+
+#分页插件配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+#阿里大于短信
+dayu:
+   url: http://gw.api.taobao.com/router/rest
+   appkey: 23660280
+   secret: 3267ebe0f2326ab637686b3b02962908
+   smsTemplateCode: SMS_51550002
+   smsFreeSignName: E乐饮咖啡
+
+# 七牛云
+qiniu:
+  accessKey: 2geuZhCmUbz-ZJuC2b_nMZ9TtG4IS5EfF6i0aaAt
+  secretKey: ZODBkWN4CsmJ3MHnGporGShZXnLphQsCPT33rg4h
+  bucketName: coffees
+  imageUrl: http://omsg526i0.bkt.clouddn.com/
+
+
+#微信公众号开发
+wechat:
+  mp:
+    appId: wxb4de448e44d78c61
+    secret: d736389a0f0891ba03171ddc93e0c410
+    token: elyincoffees
+    aesKey: AyH7Jhdp0aVuWuR6xxMKUK6nz1lbumzEV4m4Wzlc7bv
+    partenerId: 1410905702
+    partenerKey: 7d8e9r8ufhj43huje98j8rh4kjhf9832
+    certPath: /home/mkcaffe/cert/apiclient_cert.p12
+    notifyURL: http://mkcaffee.chinaeast.cloudapp.chinacloudapi.cn/api/coffees/pay/notify
+    intervalTime: 30
+    paySucceedTemplateId: xPmvXsXJDiQE-oyLfokgerzAfJ8LTr3tMkZpDQ9L7vE
+    paySucceedTemplateUrl: http://huihuisuiyue.apps.mugglecoding.com/notDraw
+
+    makeCoffeesTemplateId: KgLcgcx4tODTVT9oo3ntdCF8-_46Ku2SLwJpuY7tGgU
+    makeCoffeesTemplateUrl: http://huihuisuiyue.apps.mugglecoding.com/index
+    body: E乐饮咖啡
+
+
+# e乐饮咖啡配置
+make:
+    coffees:
+      url: http://103.231.67.143:8079/FASTCODE
+      name: eleyin
+      password: eleyin123
+
+# 极光推送
+jpush:
+  appKey: b2458f2a6eed5a8b4689a827
+  masterSecret: 485e65c82599d8474aa7c304
+
+
+

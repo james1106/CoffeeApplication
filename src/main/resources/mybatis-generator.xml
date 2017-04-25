@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="jdbc.properties"/>
+    <context id="default" targetRuntime="MyBatis3">
+        <!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true"/> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+        <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}" userId="${jdbc.username}"
+                        password="${jdbc.password}"/>
+
+        <javaModelGenerator targetPackage="com.mk.coffee.model" targetProject="src/main/java">
+            <property name="constructorBased" value="true"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources/mybatis"/>
+
+        <javaClientGenerator type="MIXEDMAPPER" targetPackage="com.mk.coffee.mapper" targetProject="src/main/java">
+            <property name="rootInterface" value=""/>
+        </javaClientGenerator>
+
+        <!--   <table tableName="coffeeinfo" domainObjectName="CoffeeInfo">
+
+           </table>
+           <table tableName="custom" domainObjectName="Custom">
+
+           </table>
+           <table tableName="havecoupon" domainObjectName="HaveCoupon">
+
+           </table>
+           <table tableName="members" domainObjectName="Members">
+
+           </table>
+           <table tableName="order" domainObjectName="Order">
+
+           </table>
+           <table tableName="product" domainObjectName="Product">
+
+           </table>
+
+           <table tableName="o_auth" domainObjectName="Oauth">
+
+           </table>-->
+        <!--<table tableName="product" domainObjectName="Product">
+
+        </table>
+        <table tableName="error_code" domainObjectName="ErrorCode">
+
+        </table>-->
+        <!--<table tableName="verification_code"/>-->
+        <!-- <table tableName="members" domainObjectName="Members">
+
+         </table>-->
+
+        <!-- <table tableName="local_auth" domainObjectName="LocalAuth"/>-->
+
+        <!--<table tableName="product" domainObjectName="Product">
+
+        </table>-->
+        <!-- <table tableName="coffee_machine"/>
+         <table tableName="activity"/>
+         <table tableName="product_to_activity"/>-->
+
+        <!--<table tableName="orders"/>
+        <table tableName="order_details"/>-->
+
+
+        <!--<table tableName="order_details"/>-->
+
+        <!-- <table tableName="o_auth" domainObjectName="Oauth">
+
+         </table>-->
+        <!--<table tableName="havecoupon" domainObjectName="HaveCoupon">
+
+        </table>-->
+
+
+        <!--生成对应表及类名-->
+        <!-- <table tableName="user" domainObjectName="User" enableCountByExample="false"
+        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false"></table>-->
+        <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
+        <!--<table tableName="activity"/>-->
+        <!--<table tableName="product_conversion_code"/>
+        &lt;!&ndash;后台用户权限管理&ndash;&gt;
+        <table tableName="sys_user"/>
+        <table tableName="sys_menu"/>
+        <table tableName="sys_role"/>
+        <table tableName="sys_permission"/>
+        <table tableName="sys_role_menu"/>
+        <table tableName="sys_role_permission"/>
+        <table tableName="sys_user_role"/>-->
+        <!-- <table tableName="sys_role"/>-->
+
+
+    </context>
+</generatorConfiguration>
