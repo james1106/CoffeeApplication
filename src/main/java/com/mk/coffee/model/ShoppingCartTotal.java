@@ -1,5 +1,7 @@
 package com.mk.coffee.model;
 
+import com.mk.coffee.utils.CommonUtils;
+
 import java.io.Serializable;
 
 /**
@@ -33,7 +35,7 @@ public class ShoppingCartTotal implements Serializable {
     }
 
     public void setDiscountMoney(float discountMoney) {
-        this.discountMoney = discountMoney;
+        this.discountMoney = CommonUtils.keepTwoDecimal(discountMoney);
     }
 
     public float getDeductionMoney() {
@@ -41,6 +43,6 @@ public class ShoppingCartTotal implements Serializable {
     }
 
     public void setDeductionMoney(float deductionMoney) {
-        this.deductionMoney = deductionMoney;
+        this.deductionMoney = CommonUtils.keepTwoDecimal(deductionMoney);
     }
 }

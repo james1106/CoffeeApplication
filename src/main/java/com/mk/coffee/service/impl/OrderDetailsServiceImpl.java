@@ -9,7 +9,7 @@ import com.mk.coffee.model.*;
 import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.service.ShoppingCartService;
 import com.mk.coffee.service.WXInfoService;
-import com.mk.coffee.utils.CollectionUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.CommonUtils;
 import com.mk.coffee.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +118,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public List<OrderDetails> getOrderDetails(long memberId, int payState) {
 
         List<OrderDetails> list = orderDetailsMapper.selectOrderDetailsByMemberIdAndPayState(memberId, payState);
-        if (CollectionUtils.isEmpty(list)) {
+        if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
 

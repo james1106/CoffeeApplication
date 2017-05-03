@@ -165,4 +165,7 @@ public interface ProductConversionCodeMapper {
 
     List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(@Param("memberId") long memberId,
                                                                                      @Param("conversionState") int conversionState);
+
+    List<ProductConversionCode> getAllProductConversionCodeByMemberId(@Param("memberId") long memberId);
+
 }

@@ -44,7 +44,10 @@ public interface ProductConversionCodeService {
 
 
     //通过会员ID和领取状态得到兑换码
-    ListResult<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId,int conversionState,int page, int size);
+    List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId,int conversionState);
+
+    //通过会员ID得到兑换码
+    List<ProductConversionCode> getAllProductConversionCodeByMemberId(long memberId);
 
 
 }

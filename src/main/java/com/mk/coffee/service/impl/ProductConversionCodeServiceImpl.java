@@ -8,10 +8,8 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.ProductConversionCodeMapper;
 import com.mk.coffee.model.*;
 import com.mk.coffee.service.ProductConversionCodeService;
-import com.mk.coffee.utils.CollectionUtils;
-import com.mk.coffee.utils.JsonUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.VerifyUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +32,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         ProductConversionCodeExample example = new ProductConversionCodeExample();
         example.createCriteria().andOrderDetailsIdEqualTo(orderDetails.getId());
         List<ProductConversionCode> productConversionCodes = productConversionCodeMapper.selectByExample(example);
-        if (!CollectionUtils.isEmpty(productConversionCodes)) {
+        if (!EmptyUtils.isEmpty(productConversionCodes)) {
             throw AppException.getException(ErrorCode.Conversion_Code_Exist.getCode());
         }
         try {
@@ -64,7 +62,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         ProductConversionCodeExample example = new ProductConversionCodeExample();
         example.createCriteria().andShoppingCartIdEqualTo(shoppingCartItemId).andOrderDetailsIdEqualTo(orderDetailsId);
         List<ProductConversionCode> productConversionCodes = productConversionCodeMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(productConversionCodes)) {
+        if (EmptyUtils.isEmpty(productConversionCodes)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return productConversionCodes;
@@ -78,7 +76,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
                 .andOrderDetailsIdEqualTo(orderDetailsId)
                 .andConversionStateEqualTo(isConversionState);
         List<ProductConversionCode> productConversionCodes = productConversionCodeMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(productConversionCodes)) {
+        if (EmptyUtils.isEmpty(productConversionCodes)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return productConversionCodes;
@@ -122,19 +120,23 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     }
 
     @Override
-    public ListResult<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId, int conversionState, int page, int size) {
-
-        //分页处理
-        PageHelper.startPage(page, size);
+    public List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId, int conversionState) {
         //查询结果
         List<ProductConversionCode> list = productConversionCodeMapper.getProductConversionCodeByMemberIdAndConversionState(memberId, conversionState);
         if (list == null || list.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
+        return list;
+    }
 
-        //获取分页信息
-        PageInfo<ProductConversionCode> info = new PageInfo<>(list);
-        return new ListResult<>(info.getList(), info.getTotal());
+    @Override
+    public List<ProductConversionCode> getAllProductConversionCodeByMemberId(long memberId) {
+        //查询结果
+        List<ProductConversionCode> list = productConversionCodeMapper.getAllProductConversionCodeByMemberId(memberId);
+        if (list == null || list.size() == 0) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+        return list;
     }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -88,6 +89,7 @@ public class CommonUtils {
         orderDetails.setMembersId(memberId);
         orderDetails.setOrderDetails(JsonUtils.toJson(shoppingCarts));
         orderDetails.setMoney(total);
+        orderDetails.setDiscountMoney(total);
         orderDetails.setTotal(count);
         orderDetails.setPayState(0);
         return orderDetails;
@@ -119,5 +121,10 @@ public class CommonUtils {
         }
     }
 
+
+    public static float keepTwoDecimal(float f) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return Float.valueOf(df.format(f));
+    }
 
 }

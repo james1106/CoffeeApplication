@@ -9,10 +9,12 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.CoffeeMachine;
 import com.mk.coffee.model.Members;
 import com.mk.coffee.model.ProductConversionCode;
+import com.mk.coffee.requestbody.RequestMakeCoffees;
 import com.mk.coffee.service.CoffeeMachineService;
 import com.mk.coffee.service.MakeCoffeesService;
 import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.DateUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.MD5Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -88,12 +90,37 @@ public class MakeCoffeesController {
 
     }
 
+    @ApiOperation(value = "获取咖啡", notes = "根据兑换码ID或兑换码、制作咖啡机器码（通过扫一扫二维码获取）、自定义配方(id,name可不填)、获取咖啡")
+    @PostMapping("/makeCoffeesByCustomConfig")
+    public RestResult<Boolean> makeCoffeesByCustomConfig(@RequestBody RequestMakeCoffees requestMakeCoffees) {
+        ProductConversionCode productConversionCode;
+        if (requestMakeCoffees.id != 0) {
+            ProductConversionCode productConversionCode1 = new ProductConversionCode();
+            productConversionCode1.setConversionCode(requestMakeCoffees.conversionCode);
+            productConversionCode1.setConversionState(0);
+            //查询
+            productConversionCode = productConversionCodeService.getProductConversionCodeByConversionCode(productConversionCode1);
+        } else if (EmptyUtils.isEmpty(requestMakeCoffees.conversionCode)) {
+            productConversionCode = productConversionCodeService.getProductConversionCodeById(requestMakeCoffees.id);
+        } else {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+
+        if (productConversionCode.getConversionState() != 0) {
+            throw AppException.getException(ErrorCode.Make_Coffees_Fail.getCode());
+        }
+        return RestResultGenerator.genSuccessResult(makeCoffeesService.makeCoffeesByCustomConfigure(productConversionCode,
+                requestMakeCoffees.vmc, requestMakeCoffees.customConfig));
+
+    }
+
+
     @ApiOperation(value = "外卖", notes = "根据兑换码ID，咖啡机器码（通过后台指定机器码）获取咖啡")
     @PostMapping("/makeCoffeesTakeOutByConversionCodeId")
     public RestResult<Boolean> makeCoffeesByConversionCodeId(@RequestParam("id") int id) {
         ProductConversionCode productConversionCode = productConversionCodeService.getProductConversionCodeById(id);
         CoffeeMachine coffeeMachine = coffeeMachineService.getCoffeeMachine(1);
-        if (productConversionCode == null||coffeeMachine==null) {
+        if (productConversionCode == null || coffeeMachine == null) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         if (productConversionCode.getConversionState() != 0) {

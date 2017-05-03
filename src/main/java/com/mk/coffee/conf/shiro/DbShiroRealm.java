@@ -1,13 +1,12 @@
 package com.mk.coffee.conf.shiro;
 
-import com.mk.coffee.mapper.SysRoleMapper;
 import com.mk.coffee.model.SysPermission;
 import com.mk.coffee.model.SysRole;
 import com.mk.coffee.model.SysUser;
 import com.mk.coffee.service.SysPermissionService;
 import com.mk.coffee.service.SysRoleService;
 import com.mk.coffee.service.SysUserService;
-import com.mk.coffee.utils.CollectionUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -53,7 +52,7 @@ public class DbShiroRealm extends AuthorizingRealm {
         //根据用户ID查询角色（role），放入到Authorization里。
         Set<String> roleSet = new HashSet<String>();
         List<SysRole> sysRoles = sysRoleService.getSysRoles(userId);
-        if (CollectionUtils.isEmpty(sysRoles)) {
+        if (EmptyUtils.isEmpty(sysRoles)) {
             throw new AuthorizationException("该用户没有所属角色");
         }
         for (SysRole role : sysRoles) {

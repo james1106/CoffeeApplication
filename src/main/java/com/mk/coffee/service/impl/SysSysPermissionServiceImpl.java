@@ -5,7 +5,7 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.SysPermissionMapper;
 import com.mk.coffee.model.SysPermission;
 import com.mk.coffee.service.SysPermissionService;
-import com.mk.coffee.utils.CollectionUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class SysSysPermissionServiceImpl implements SysPermissionService {
     @Override
     public List<SysPermission> getSysPermissionsByRoleId(int roleId) {
         List<SysPermission> sysPermissions=sysPermissionMapper.getSysPermissionsByRoleId(roleId);
-        if(CollectionUtils.isEmpty(sysPermissions)){
+        if(EmptyUtils.isEmpty(sysPermissions)){
             throw new AppException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return sysPermissions;
@@ -31,7 +31,7 @@ public class SysSysPermissionServiceImpl implements SysPermissionService {
     @Override
     public List<SysPermission> getSysPermissionsByUserId(int userId) {
         List<SysPermission> sysPermissions=sysPermissionMapper.getSysPermissionsByUserId(userId);
-        if(CollectionUtils.isEmpty(sysPermissions)){
+        if(EmptyUtils.isEmpty(sysPermissions)){
             throw new AppException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return sysPermissions;

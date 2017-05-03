@@ -1,7 +1,9 @@
 package com.mk.coffee.model;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Date;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Members {
     /**
      *
@@ -64,6 +66,7 @@ public class Members {
      *
      * @mbg.generated
      */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String password;
 
     /**

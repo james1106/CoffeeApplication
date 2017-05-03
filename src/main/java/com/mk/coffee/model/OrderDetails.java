@@ -1,6 +1,7 @@
 package com.mk.coffee.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mk.coffee.utils.CommonUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -270,7 +271,7 @@ public class OrderDetails {
      * @mbg.generated
      */
     public void setDiscountMoney(Float discountMoney) {
-        this.discountMoney = discountMoney;
+        this.discountMoney = CommonUtils.keepTwoDecimal(discountMoney);
     }
 
     /**

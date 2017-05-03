@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Created by Administrator on 2017/3/13 0013.
@@ -47,17 +49,32 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
     @Override
     @Transactional
     public boolean makeCoffees(ProductConversionCode productConversionCode, String vmc) throws IOException {
+        CustomConfig customConfig = new CustomConfig();
+        customConfig.setCoffee(2);
+        customConfig.setMilk(3);
+        customConfig.setSugar(3);
+        return makeCoffeesByCustomConfigure(productConversionCode, vmc, customConfig);
+    }
+
+    @Override
+    public boolean makeCoffeesByCustomConfigure(ProductConversionCode productConversionCode, String vmc, CustomConfig customConfig) {
         //获取商品
         Product product = productMapper.selectByPrimaryKey(productConversionCode.getProductId());
         if (product == null) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
+        if ((customConfig.getMilk() < 0 || customConfig.getMilk() > 5)
+                || (customConfig.getCoffee() < 0 || customConfig.getCoffee() > 5)
+                || (customConfig.getSugar() < 0 || customConfig.getSugar() > 5)) {
+            throw AppException.getException(ErrorCode.ILLEGAL_PARAMS.getCode());
+        }
+
         MakeCoffeesParam makeCoffeesParam = new MakeCoffeesParam();
         makeCoffeesParam.setID(productConversionCode.getOrderNum());
         makeCoffeesParam.setVMC(vmc);
         makeCoffeesParam.setPTYPE("FASTCODE");
         makeCoffeesParam.setPID(productConversionCode.getProductId() + "");
-        makeCoffeesParam.setFASTCODE("233");//默认调制的参数
+        makeCoffeesParam.setFASTCODE(customConfig.getCoffee() + "" + customConfig.getMilk() + "" + customConfig.getSugar());//自定义调制配方参数
         makeCoffeesParam.setUSERNAME(makeCoffeesProperties.getName());
         //ID=00005&USERNAME=user&PASSWORD=password&VMC=33333&PTYPE=FASTCODE&PID=810&FASTCODE=223
         StringBuffer mac = new StringBuffer();
@@ -85,7 +102,7 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
                     product.setId(product.getId());
                     productMapper.updateByProductId(product);
                     //将一个定时任务5分钟的任务用于判断领取失败的结果
-                    asyncTask.doTask(productConversionCode,vmc);
+                    asyncTask.doTask(productConversionCode, vmc);
                     //设置为待领取
                     return productConversionCodeService.updateProductConversionCodeById(productConversionCode.getId(), 2);
                 } else {

@@ -40,6 +40,8 @@ public enum ErrorCode {
     Update_ProductConversionCode_State_Fail("update_product_conversion_code_state_fail"),
     Make_Coffees_Verify_Fail("make_coffees_verify_fail"),
 
+    Cart_Id_OR_EncryptCode_IS_NULL("cart_id_or_encrypt_code_is_null"),
+
     User_Not_Exist("user_not_exist");
 
     /*

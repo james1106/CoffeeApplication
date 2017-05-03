@@ -1,8 +1,6 @@
 package com.mk.coffee.service.impl;
 
 import com.mk.coffee.common.ErrorCode;
-import com.mk.coffee.common.ListResult;
-import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.MembersMapper;
 import com.mk.coffee.mapper.ProductMapper;
@@ -10,7 +8,7 @@ import com.mk.coffee.mapper.ShoppingCartMapper;
 import com.mk.coffee.model.*;
 import com.mk.coffee.requestbody.RequestCreateOrder;
 import com.mk.coffee.service.ShoppingCartService;
-import com.mk.coffee.utils.CollectionUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,7 +125,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public List<ShoppingCart> getShoppingCart(long memberId) throws AppException {
         List<ShoppingCart> shoppingCarts = shoppingCartMapper.getShoppingCartByMemberId(memberId);
-        if (CollectionUtils.isEmpty(shoppingCarts)) {
+        if (EmptyUtils.isEmpty(shoppingCarts)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return shoppingCarts;
@@ -145,7 +143,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 shoppingCarts.add(shoppingCart);
             }
         }
-        if (CollectionUtils.isEmpty(shoppingCarts)) {
+        if (EmptyUtils.isEmpty(shoppingCarts)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return shoppingCarts;
@@ -155,9 +153,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartTotal getShoppingCartTotalByIdsOrWXCard(RequestCreateOrder createOrder) {
         ShoppingCartTotal shoppingCartTotal = new ShoppingCartTotal();
         //默认不传shoppingCartsItemIds
-        if (createOrder.shoppingCartsItemIds == null || createOrder.shoppingCartsItemIds.length == 0) {
+        if (createOrder.shoppingCartsItemIds==null) {
             List<ShoppingCart> shoppingCarts = shoppingCartMapper.getShoppingCartByMemberId(createOrder.memberId);
-            if (shoppingCarts == null || shoppingCarts.size() == 0) {
+            if (EmptyUtils.isEmpty(shoppingCarts)) {
                 throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
             }
             float total = 0; //计算总金额
@@ -168,13 +166,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 count += shoppingCart.getNum();
             }
             shoppingCartTotal.setTotalMoney(total);
+            shoppingCartTotal.setDiscountMoney(total);
+            shoppingCartTotal.setDeductionMoney(0);
             shoppingCartTotal.setCount(count);
-            if (createOrder.encryptCode != null) {//有微信卡券
+            if (!EmptyUtils.isEmpty(createOrder.encryptCode)&&!EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
                 commonUtils.computeDiscountMoney(createOrder, shoppingCartTotal);
             }
         } else {
             List<ShoppingCart> shoppingCarts = shoppingCartService.getShoppingCartByIds(createOrder.memberId, createOrder.shoppingCartsItemIds);
-            if (shoppingCarts == null || shoppingCarts.size() == 0) {
+            if (EmptyUtils.isEmpty(shoppingCarts)) {
                 throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
             }
             float total = 0; //计算总金额
@@ -185,8 +185,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 count += shoppingCart.getNum();
             }
             shoppingCartTotal.setTotalMoney(total);
+            shoppingCartTotal.setDiscountMoney(total);
+            shoppingCartTotal.setDeductionMoney(0);
             shoppingCartTotal.setCount(count);
-            if (createOrder.encryptCode != null) {//有微信卡券
+            if (!EmptyUtils.isEmpty(createOrder.encryptCode)&&!EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
                 commonUtils.computeDiscountMoney(createOrder, shoppingCartTotal);
             }
         }
@@ -206,7 +208,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCartExample example = new ShoppingCartExample();
         example.createCriteria().andMemberIdEqualTo(memberId);
         List<ShoppingCart> shoppingCartList = shoppingCartMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(shoppingCartList)) {
+        if (EmptyUtils.isEmpty(shoppingCartList)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         for (ShoppingCart shoppingCart : shoppingCartList) {

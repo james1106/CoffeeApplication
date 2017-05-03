@@ -42,9 +42,9 @@ public class AsyncTask {
     @Transactional
     public void doTask(ProductConversionCode productConversionCode, String vmc) throws InterruptedException {
         logger.info("Task1 started.");
-        Thread.sleep(1000 * 60 * 5);//休眠五分钟
-        ProductConversionCode productConversionCode1=productConversionCodeService.getProductConversionCodeById(productConversionCode.getId());
-        if(productConversionCode1.getConversionState()==2){
+        Thread.sleep(1000 * 60);//休眠1分钟
+        ProductConversionCode productConversionCode1 = productConversionCodeService.getProductConversionCodeById(productConversionCode.getId());
+        if (productConversionCode1.getConversionState() == 2) {
             //领取失败
             boolean flag = productConversionCodeService.updateProductConversionStateById(productConversionCode.getId());
             logger.info("领取状态：" + flag);
@@ -68,13 +68,14 @@ public class AsyncTask {
                     wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
                 } catch (WxErrorException e) {
                     e.printStackTrace();
+                    logger.info("Task1 error."+e.getMessage());
                 }
             }
         }
         logger.info("Task1 end.");
     }
 
-   /* //有返回值
+    //有返回值
     @Async
     public Future<String> doTask1(int productConverstionId) throws InterruptedException {
         logger.info("Task1 started.");
@@ -83,5 +84,5 @@ public class AsyncTask {
         logger.info("Task1 end.");
 
         return new AsyncResult<>("Task1 accomplished!");
-    }*/
+    }
 }

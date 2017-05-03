@@ -1,6 +1,7 @@
 server:
-  port: 8081
+  port: 8080
   context-path: /api/coffees
+
 datasource:
     url: jdbc:mysql://coffee.mysqldb.chinacloudapi.cn:3306/coffees?characterEncoding=utf8
     username: coffee%movtek

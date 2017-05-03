@@ -53,11 +53,16 @@ public class ProductConversionCodeController {
 
     @GetMapping("/getProductConversionCodeByMemberIdAndConversionState")
     @ApiOperation(value = "根据会员ID和领取的状态得到兑换码信息", notes = "conversionState:（0：未领取，1：已领取，2：待领取，3：领取失败) 页数page默认为1，size默认为10", httpMethod = "GET")
-    public RestResult<ListResult<ProductConversionCode>> getProductConversionCodeByMemberIdAndConversionState(@RequestParam("memberId") long memberId,
-                                                                                                              @RequestParam("conversionState") int conversionState,
-                                                                                                              @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                                                                              @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        return RestResultGenerator.genSuccessResult(productConversionCodeService.getProductConversionCodeByMemberIdAndConversionState(memberId, conversionState, page, size));
+    public RestResult<List<ProductConversionCode>> getProductConversionCodeByMemberIdAndConversionState(@RequestParam("memberId") long memberId,
+                                                                                                              @RequestParam("conversionState") int conversionState) {
+        return RestResultGenerator.genSuccessResult(productConversionCodeService.getProductConversionCodeByMemberIdAndConversionState(memberId, conversionState));
+    }
+
+
+    @GetMapping("/getAllProductConversionCodeByMemberId")
+    @ApiOperation(value = "根据会员ID得到所有的兑换码信息", notes = "conversionState:（0：未领取，1：已领取，2：待领取，3：领取失败) 页数page默认为1，size默认为10", httpMethod = "GET")
+    public RestResult<List<ProductConversionCode>> getAllProductConversionCodeByMemberId(@RequestParam("memberId") long memberId) {
+        return RestResultGenerator.genSuccessResult(productConversionCodeService.getAllProductConversionCodeByMemberId(memberId));
     }
 
 }

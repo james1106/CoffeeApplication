@@ -19,6 +19,7 @@ public interface MembersService {
     //手机号与open_id绑定
     boolean registerPhoneByCodeBindOpenId(String phone, String code, String openId);
 
+
     //通过关注公众号注册
     boolean registerByWxMpUser(WxMpUser wxMpUser);
 

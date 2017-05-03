@@ -5,6 +5,7 @@ import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.model.OrderDetails;
 import com.mk.coffee.requestbody.RequestCreateOrder;
 import com.mk.coffee.service.OrderDetailsService;
+import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,14 @@ public class OrderDetailsController {
             "cardId，encryptCode（可选，使用微信卡券则必须同时传入） 微信卡券生成订单")
     public RestResult<OrderDetails> order(@RequestBody RequestCreateOrder createOrder) {
         //默认不传shoppingCartsItemIds
-        if (createOrder.shoppingCartsItemIds == null || createOrder.shoppingCartsItemIds.length == 0) {
-            if (createOrder.encryptCode == null) {//没有微信卡券
+        if (createOrder.shoppingCartsItemIds==null) {
+            if (EmptyUtils.isEmpty(createOrder.encryptCode)||EmptyUtils.isEmpty(createOrder.cardId)) {//没有微信卡券
                 return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId));
             } else {//有微信卡券
                 return RestResultGenerator.genSuccessResult(orderDetailsService.orderUseEncryptCode(createOrder.memberId, createOrder.cardId, createOrder.encryptCode));
             }
         } else {
-            if (createOrder.encryptCode == null) {
+            if (EmptyUtils.isEmpty(createOrder.encryptCode)||EmptyUtils.isEmpty(createOrder.cardId)) {
                 return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId, createOrder.shoppingCartsItemIds));
             } else {
                 return RestResultGenerator.genSuccessResult(orderDetailsService.orderUseEncryptCode(createOrder.memberId, createOrder.cardId,

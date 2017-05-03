@@ -7,6 +7,7 @@ import com.mk.coffee.exception.*;
 import com.mk.coffee.model.LoginInfo;
 import com.mk.coffee.model.Members;
 import com.mk.coffee.requestbody.RequestMember;
+import com.mk.coffee.requestbody.RequestOpenIdPhone;
 import com.mk.coffee.requestbody.RequestPhoneAndCode;
 import com.mk.coffee.service.MembersService;
 import com.mk.coffee.utils.VerifyUtils;
@@ -77,11 +78,22 @@ public class MemberController {
         }
     }
 
-    @ApiOperation(notes = "通过短信验证码绑定手机号和微信openId，如果同时存在两者纪录，优先取手机的数据，丢失微信部分的数据.返回成功或失败", value = "绑定手机号与open_id", httpMethod = "POST")
+
+    @ApiOperation(notes = "通过微信ocde绑定手机号和微信openId，如果同时存在两者纪录，优先取手机的数据，丢失微信部分的数据.返回成功或失败",
+            value = "绑定手机号与open_id", httpMethod = "POST")
     @PostMapping("/registerPhoneByCodeBindOpenId")
-    public RestResult<Boolean> registerPhoneByCodeBindOpenId(@RequestBody RequestPhoneAndCode phoneAndCode, @RequestParam("openId") String openId) {
-        return RestResultGenerator.genSuccessResult(membersService.registerPhoneByCodeBindOpenId(phoneAndCode.phone, phoneAndCode.code, openId));
+    public RestResult<Boolean> registerPhoneByWXCodeBindOpenId(@RequestBody RequestOpenIdPhone requestOpenIdPhone) {
+        try {
+            WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(requestOpenIdPhone.wxCode);
+            return RestResultGenerator.genSuccessResult(membersService.registerPhoneByCodeBindOpenId(requestOpenIdPhone.phone,
+                    requestOpenIdPhone.code, wxMpOAuth2AccessToken.getOpenId()));
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Get_AccessToken_Fail.getCode(), e.getMessage());
+        }
+
     }
+
 
 
     //得到会员资料

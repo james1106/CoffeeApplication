@@ -125,6 +125,7 @@ public class MembersServiceImpl implements MembersService {
 
     }
 
+
     @Override
     public boolean registerByWxMpUser(WxMpUser userWxInfo) {
         Members members = membersMapper.getMemberByOpenId(userWxInfo.getOpenId());

@@ -4,9 +4,8 @@ import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.ActivityMapper;
 import com.mk.coffee.model.Activity;
-import com.mk.coffee.model.ActivityExample;
 import com.mk.coffee.service.ActivityService;
-import com.mk.coffee.utils.CollectionUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> getActivityList() {
         List<Activity> activityList = activityMapper.getActivityList();
-        if (CollectionUtils.isEmpty(activityList)) {
+        if (EmptyUtils.isEmpty(activityList)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return activityList;

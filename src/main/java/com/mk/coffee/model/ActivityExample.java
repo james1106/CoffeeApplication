@@ -704,6 +704,76 @@ public class ActivityExample {
             addCriterion("picture_url not between", value1, value2, "pictureUrl");
             return (Criteria) this;
         }
+
+        public Criteria andEnterUrlIsNull() {
+            addCriterion("enter_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlIsNotNull() {
+            addCriterion("enter_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlEqualTo(String value) {
+            addCriterion("enter_url =", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlNotEqualTo(String value) {
+            addCriterion("enter_url <>", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlGreaterThan(String value) {
+            addCriterion("enter_url >", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("enter_url >=", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlLessThan(String value) {
+            addCriterion("enter_url <", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlLessThanOrEqualTo(String value) {
+            addCriterion("enter_url <=", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlLike(String value) {
+            addCriterion("enter_url like", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlNotLike(String value) {
+            addCriterion("enter_url not like", value, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlIn(List<String> values) {
+            addCriterion("enter_url in", values, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlNotIn(List<String> values) {
+            addCriterion("enter_url not in", values, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlBetween(String value1, String value2) {
+            addCriterion("enter_url between", value1, value2, "enterUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterUrlNotBetween(String value1, String value2) {
+            addCriterion("enter_url not between", value1, value2, "enterUrl");
+            return (Criteria) this;
+        }
     }
 
     /**
