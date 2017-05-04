@@ -1,6 +1,5 @@
 package com.mk.coffee.mapper;
 
-import com.mk.coffee.common.ListResult;
 import com.mk.coffee.model.ProductConversionCode;
 import com.mk.coffee.model.ProductConversionCodeExample;
 
@@ -51,14 +50,14 @@ public interface ProductConversionCodeMapper {
     @Insert({
             "insert into product_conversion_code (id, conversion_code, ",
             "order_num, order_details_id, ",
-            "member_id, product_id, ",
-            "shopping_cart_id, conversion_state, ",
-            "crate_date)",
+            "shopping_cart_id, product_id, ",
+            "conversion_state, crate_date, ",
+            "update_date, member_id)",
             "values (#{id,jdbcType=INTEGER}, #{conversionCode,jdbcType=VARCHAR}, ",
             "#{orderNum,jdbcType=VARCHAR}, #{orderDetailsId,jdbcType=VARCHAR}, ",
-            "#{memberId,jdbcType=DECIMAL}, #{productId,jdbcType=INTEGER}, ",
-            "#{shoppingCartId,jdbcType=INTEGER}, #{conversionState,jdbcType=INTEGER}, ",
-            "#{crateDate,jdbcType=TIMESTAMP})"
+            "#{shoppingCartId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, ",
+            "#{conversionState,jdbcType=INTEGER}, #{crateDate,jdbcType=TIMESTAMP}, ",
+            "#{updateDate,jdbcType=TIMESTAMP}, #{memberId,jdbcType=DECIMAL})"
     })
     int insert(ProductConversionCode record);
 
@@ -86,8 +85,8 @@ public interface ProductConversionCodeMapper {
      */
     @Select({
             "select",
-            "id, conversion_code, order_num, order_details_id, member_id, product_id, shopping_cart_id, ",
-            "conversion_state, crate_date",
+            "id, conversion_code, order_num, order_details_id, shopping_cart_id, product_id, ",
+            "conversion_state, crate_date, update_date, member_id",
             "from product_conversion_code",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -129,15 +128,15 @@ public interface ProductConversionCodeMapper {
             "set conversion_code = #{conversionCode,jdbcType=VARCHAR},",
             "order_num = #{orderNum,jdbcType=VARCHAR},",
             "order_details_id = #{orderDetailsId,jdbcType=VARCHAR},",
-            "member_id = #{memberId,jdbcType=DECIMAL},",
-            "product_id = #{productId,jdbcType=INTEGER},",
             "shopping_cart_id = #{shoppingCartId,jdbcType=INTEGER},",
+            "product_id = #{productId,jdbcType=INTEGER},",
             "conversion_state = #{conversionState,jdbcType=INTEGER},",
-            "crate_date = #{crateDate,jdbcType=TIMESTAMP}",
+            "crate_date = #{crateDate,jdbcType=TIMESTAMP},",
+            "update_date = #{updateDate,jdbcType=TIMESTAMP},",
+            "member_id = #{memberId,jdbcType=DECIMAL}",
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ProductConversionCode record);
-
 
     @Update({"update product_conversion_code",
             "set conversion_state = #{conversionState}",
@@ -155,17 +154,19 @@ public interface ProductConversionCodeMapper {
 
     @Update({
             "update product_conversion_code " +
-                    "set conversion_state=1 " +
+                    "set conversion_state=1," +
+                    " update_date=now()" +
                     "where order_num like #{orderNum} and product_id=#{productId} and conversion_state=2"
     })
     int updateProductConversionState(@Param("orderNum") String orderNum, @Param("productId") int productId);
 
-    @Update({"update product_conversion_code  set conversion_state=3 where id=#{id} and conversion_state=2"})
+    @Update({"update product_conversion_code  set conversion_state=3," +
+            "update_date=now() " +
+            "where id=#{id} and conversion_state=2"})
     int updateProductConversionStateById(@Param("id") int id);
 
     List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(@Param("memberId") long memberId,
                                                                                      @Param("conversionState") int conversionState);
 
     List<ProductConversionCode> getAllProductConversionCodeByMemberId(@Param("memberId") long memberId);
-
 }

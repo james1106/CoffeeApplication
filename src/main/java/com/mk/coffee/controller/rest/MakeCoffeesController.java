@@ -90,18 +90,18 @@ public class MakeCoffeesController {
 
     }
 
-    @ApiOperation(value = "获取咖啡", notes = "根据兑换码ID或兑换码、制作咖啡机器码（通过扫一扫二维码获取）、自定义配方(id,name可不填)、获取咖啡")
+    @ApiOperation(value = "获取咖啡", notes = "根据兑换码ID或兑换码、制作咖啡机器码（通过扫一扫二维码获取）、自定义配方(id,name不填)、获取咖啡")
     @PostMapping("/makeCoffeesByCustomConfig")
     public RestResult<Boolean> makeCoffeesByCustomConfig(@RequestBody RequestMakeCoffees requestMakeCoffees) {
         ProductConversionCode productConversionCode;
-        if (requestMakeCoffees.id != 0) {
+        if (requestMakeCoffees.id != null) {
+            productConversionCode = productConversionCodeService.getProductConversionCodeById(requestMakeCoffees.id);
+        } else if (!EmptyUtils.isEmpty(requestMakeCoffees.conversionCode)) {
             ProductConversionCode productConversionCode1 = new ProductConversionCode();
             productConversionCode1.setConversionCode(requestMakeCoffees.conversionCode);
             productConversionCode1.setConversionState(0);
             //查询
             productConversionCode = productConversionCodeService.getProductConversionCodeByConversionCode(productConversionCode1);
-        } else if (EmptyUtils.isEmpty(requestMakeCoffees.conversionCode)) {
-            productConversionCode = productConversionCodeService.getProductConversionCodeById(requestMakeCoffees.id);
         } else {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }

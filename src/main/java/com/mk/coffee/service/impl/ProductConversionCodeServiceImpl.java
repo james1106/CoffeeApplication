@@ -41,6 +41,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
                 for (int i = 0; i < shoppingCart.getNum(); i++) {
                     ProductConversionCode conversionCode = new ProductConversionCode();
                     conversionCode.setCrateDate(new Date());
+                    conversionCode.setUpdateDate(new Date());
                     conversionCode.setConversionCode(VerifyUtils.getEightRandom());//随机生成8位数字为兑换码
                     conversionCode.setOrderNum(VerifyUtils.getFiveRandom());
                     conversionCode.setMemberId(orderDetails.getMembersId());
@@ -60,6 +61,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     @Override
     public List<ProductConversionCode> getProductConversionCodeByOrderDetails(String orderDetailsId, int shoppingCartItemId) {
         ProductConversionCodeExample example = new ProductConversionCodeExample();
+        example.setOrderByClause("update_date DESC");
         example.createCriteria().andShoppingCartIdEqualTo(shoppingCartItemId).andOrderDetailsIdEqualTo(orderDetailsId);
         List<ProductConversionCode> productConversionCodes = productConversionCodeMapper.selectByExample(example);
         if (EmptyUtils.isEmpty(productConversionCodes)) {
@@ -71,6 +73,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     @Override
     public List<ProductConversionCode> getProductConversionCodeByOrderDetailsAndState(String orderDetailsId, int shoppingCartItemId, int isConversionState) {
         ProductConversionCodeExample example = new ProductConversionCodeExample();
+        example.setOrderByClause("update_date DESC");
         example.createCriteria()
                 .andShoppingCartIdEqualTo(shoppingCartItemId)
                 .andOrderDetailsIdEqualTo(orderDetailsId)

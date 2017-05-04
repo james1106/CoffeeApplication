@@ -465,63 +465,63 @@ public class ProductConversionCodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdIsNull() {
-            addCriterion("member_id is null");
+        public Criteria andShoppingCartIdIsNull() {
+            addCriterion("shopping_cart_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdIsNotNull() {
-            addCriterion("member_id is not null");
+        public Criteria andShoppingCartIdIsNotNull() {
+            addCriterion("shopping_cart_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdEqualTo(Long value) {
-            addCriterion("member_id =", value, "memberId");
+        public Criteria andShoppingCartIdEqualTo(Integer value) {
+            addCriterion("shopping_cart_id =", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotEqualTo(Long value) {
-            addCriterion("member_id <>", value, "memberId");
+        public Criteria andShoppingCartIdNotEqualTo(Integer value) {
+            addCriterion("shopping_cart_id <>", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdGreaterThan(Long value) {
-            addCriterion("member_id >", value, "memberId");
+        public Criteria andShoppingCartIdGreaterThan(Integer value) {
+            addCriterion("shopping_cart_id >", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("member_id >=", value, "memberId");
+        public Criteria andShoppingCartIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("shopping_cart_id >=", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdLessThan(Long value) {
-            addCriterion("member_id <", value, "memberId");
+        public Criteria andShoppingCartIdLessThan(Integer value) {
+            addCriterion("shopping_cart_id <", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdLessThanOrEqualTo(Long value) {
-            addCriterion("member_id <=", value, "memberId");
+        public Criteria andShoppingCartIdLessThanOrEqualTo(Integer value) {
+            addCriterion("shopping_cart_id <=", value, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdIn(List<Long> values) {
-            addCriterion("member_id in", values, "memberId");
+        public Criteria andShoppingCartIdIn(List<Integer> values) {
+            addCriterion("shopping_cart_id in", values, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotIn(List<Long> values) {
-            addCriterion("member_id not in", values, "memberId");
+        public Criteria andShoppingCartIdNotIn(List<Integer> values) {
+            addCriterion("shopping_cart_id not in", values, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdBetween(Long value1, Long value2) {
-            addCriterion("member_id between", value1, value2, "memberId");
+        public Criteria andShoppingCartIdBetween(Integer value1, Integer value2) {
+            addCriterion("shopping_cart_id between", value1, value2, "shoppingCartId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberIdNotBetween(Long value1, Long value2) {
-            addCriterion("member_id not between", value1, value2, "memberId");
+        public Criteria andShoppingCartIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("shopping_cart_id not between", value1, value2, "shoppingCartId");
             return (Criteria) this;
         }
 
@@ -582,66 +582,6 @@ public class ProductConversionCodeExample {
 
         public Criteria andProductIdNotBetween(Integer value1, Integer value2) {
             addCriterion("product_id not between", value1, value2, "productId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdIsNull() {
-            addCriterion("shopping_cart_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdIsNotNull() {
-            addCriterion("shopping_cart_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdEqualTo(Integer value) {
-            addCriterion("shopping_cart_id =", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdNotEqualTo(Integer value) {
-            addCriterion("shopping_cart_id <>", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdGreaterThan(Integer value) {
-            addCriterion("shopping_cart_id >", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("shopping_cart_id >=", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdLessThan(Integer value) {
-            addCriterion("shopping_cart_id <", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdLessThanOrEqualTo(Integer value) {
-            addCriterion("shopping_cart_id <=", value, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdIn(List<Integer> values) {
-            addCriterion("shopping_cart_id in", values, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdNotIn(List<Integer> values) {
-            addCriterion("shopping_cart_id not in", values, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdBetween(Integer value1, Integer value2) {
-            addCriterion("shopping_cart_id between", value1, value2, "shoppingCartId");
-            return (Criteria) this;
-        }
-
-        public Criteria andShoppingCartIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("shopping_cart_id not between", value1, value2, "shoppingCartId");
             return (Criteria) this;
         }
 
@@ -762,6 +702,126 @@ public class ProductConversionCodeExample {
 
         public Criteria andCrateDateNotBetween(Date value1, Date value2) {
             addCriterion("crate_date not between", value1, value2, "crateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNull() {
+            addCriterion("update_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNotNull() {
+            addCriterion("update_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateEqualTo(Date value) {
+            addCriterion("update_date =", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotEqualTo(Date value) {
+            addCriterion("update_date <>", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThan(Date value) {
+            addCriterion("update_date >", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_date >=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThan(Date value) {
+            addCriterion("update_date <", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThanOrEqualTo(Date value) {
+            addCriterion("update_date <=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIn(List<Date> values) {
+            addCriterion("update_date in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotIn(List<Date> values) {
+            addCriterion("update_date not in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateBetween(Date value1, Date value2) {
+            addCriterion("update_date between", value1, value2, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotBetween(Date value1, Date value2) {
+            addCriterion("update_date not between", value1, value2, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIsNull() {
+            addCriterion("member_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIsNotNull() {
+            addCriterion("member_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdEqualTo(Long value) {
+            addCriterion("member_id =", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotEqualTo(Long value) {
+            addCriterion("member_id <>", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdGreaterThan(Long value) {
+            addCriterion("member_id >", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("member_id >=", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdLessThan(Long value) {
+            addCriterion("member_id <", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdLessThanOrEqualTo(Long value) {
+            addCriterion("member_id <=", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIn(List<Long> values) {
+            addCriterion("member_id in", values, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotIn(List<Long> values) {
+            addCriterion("member_id not in", values, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdBetween(Long value1, Long value2) {
+            addCriterion("member_id between", value1, value2, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotBetween(Long value1, Long value2) {
+            addCriterion("member_id not between", value1, value2, "memberId");
             return (Criteria) this;
         }
     }

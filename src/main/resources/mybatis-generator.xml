@@ -86,7 +86,8 @@
         enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
-        <table tableName="custom_config"/>
+        <!-- <table tableName="custom_config"/>
+         <table tableName="member_custom_config"/>-->
         <!--<table tableName="activity"/>-->
         <!--<table tableName="product_conversion_code"/>
         &lt;!&ndash;后台用户权限管理&ndash;&gt;
