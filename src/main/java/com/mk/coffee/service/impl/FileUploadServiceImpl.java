@@ -52,7 +52,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             AppException.getException(ErrorCode.Member_Not_Exist.getCode());
         }
         //原本有头像，则回收
-        if (member.getHeadportraitUrl()!=null&&!member.getHeadportraitUrl().trim().equals("")) {
+        if (member.getHeadportraitUrl() != null && !member.getHeadportraitUrl().trim().equals("")) {
             RecoveryPicture recoveryPicture = new RecoveryPicture();
             recoveryPicture.setMemberId(memberId);
             recoveryPicture.setPictureKey(member.getHeadportraitUrl());
@@ -100,6 +100,17 @@ public class FileUploadServiceImpl implements FileUploadService {
             product.setPictureUrl(key);
             productMapper.updateByPrimaryKey(product);
             return key;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Upload_File_Null.getCode());
+        }
+    }
+
+    @Override
+    public String uploadPicture(MultipartFile file) throws AppException {
+        //上传
+        try {
+            return qiNiuUtils.updateLoadFile(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
             throw AppException.getException(ErrorCode.Upload_File_Null.getCode());

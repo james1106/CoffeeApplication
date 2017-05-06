@@ -14,6 +14,9 @@ import java.util.List;
  */
 public interface ProductConversionCodeService {
 
+    //根据成员Id和商品Id生成一个兑换码
+    boolean createProductConversionCodeByMemberId(long memberId, int productId);
+
     //根据订单生成兑换码
     boolean createProductConversionCodeService(OrderDetails orderDetails);
 
@@ -44,7 +47,7 @@ public interface ProductConversionCodeService {
 
 
     //通过会员ID和领取状态得到兑换码
-    List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId,int conversionState);
+    List<ProductConversionCode> getProductConversionCodeByMemberIdAndConversionState(long memberId, int conversionState);
 
     //通过会员ID得到兑换码
     List<ProductConversionCode> getAllProductConversionCodeByMemberId(long memberId);

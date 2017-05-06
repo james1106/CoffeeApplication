@@ -994,6 +994,66 @@ public class MembersExample {
             addCriterion("sex not between", value1, value2, "sex");
             return (Criteria) this;
         }
+
+        public Criteria andIsRegistIsNull() {
+            addCriterion("is_regist is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistIsNotNull() {
+            addCriterion("is_regist is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistEqualTo(Boolean value) {
+            addCriterion("is_regist =", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistNotEqualTo(Boolean value) {
+            addCriterion("is_regist <>", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistGreaterThan(Boolean value) {
+            addCriterion("is_regist >", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_regist >=", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistLessThan(Boolean value) {
+            addCriterion("is_regist <", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_regist <=", value, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistIn(List<Boolean> values) {
+            addCriterion("is_regist in", values, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistNotIn(List<Boolean> values) {
+            addCriterion("is_regist not in", values, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_regist between", value1, value2, "isRegist");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRegistNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_regist not between", value1, value2, "isRegist");
+            return (Criteria) this;
+        }
     }
 
     /**

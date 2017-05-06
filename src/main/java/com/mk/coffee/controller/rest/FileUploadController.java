@@ -36,4 +36,10 @@ public class FileUploadController {
             @RequestParam("file") MultipartFile file) throws AppException {
         return RestResultGenerator.genSuccessResult(fileUploadService.uploadproductPicture(productId, file));
     }
+
+    @ApiOperation(value = "上传图片", notes = "上传图片")
+    @PostMapping("/uploadPicture")
+    public RestResult<String> uploadPicture(@RequestParam("file") MultipartFile file) {
+        return RestResultGenerator.genSuccessResult(fileUploadService.uploadPicture(file));
+    }
 }

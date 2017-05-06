@@ -12,4 +12,7 @@ public interface FileUploadService {
     String uploadHeadPortrait(long memberId, MultipartFile file) throws AppException;
 
     String uploadproductPicture(int productId, MultipartFile file) throws AppException;
+
+    //上传图片
+    String uploadPicture(MultipartFile file) throws AppException;
 }

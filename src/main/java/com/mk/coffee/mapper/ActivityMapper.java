@@ -2,7 +2,9 @@ package com.mk.coffee.mapper;
 
 import com.mk.coffee.model.Activity;
 import com.mk.coffee.model.ActivityExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -34,8 +36,8 @@ public interface ActivityMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from activity",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from activity",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
@@ -46,14 +48,16 @@ public interface ActivityMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into activity (id, title, ",
-        "content, type, create_date, ",
-        "start_time, end_time, ",
-        "picture_url, enter_url)",
-        "values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, ",
-        "#{content,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
-        "#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, ",
-        "#{pictureUrl,jdbcType=VARCHAR}, #{enterUrl,jdbcType=VARCHAR})"
+            "insert into activity (id, title, ",
+            "sub_title, content, ",
+            "type, create_date, ",
+            "start_time, end_time, ",
+            "picture_url, enter_url)",
+            "values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, ",
+            "#{subTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, ",
+            "#{type,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
+            "#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, ",
+            "#{pictureUrl,jdbcType=VARCHAR}, #{enterUrl,jdbcType=VARCHAR})"
     })
     int insert(Activity record);
 
@@ -80,10 +84,11 @@ public interface ActivityMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "id, title, content, type, create_date, start_time, end_time, picture_url, enter_url",
-        "from activity",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, title, sub_title, content, type, create_date, start_time, end_time, picture_url, ",
+            "enter_url",
+            "from activity",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ResultMap("com.mk.coffee.mapper.ActivityMapper.BaseResultMap")
     Activity selectByPrimaryKey(Integer id);
@@ -119,22 +124,23 @@ public interface ActivityMapper {
      * @mbg.generated
      */
     @Update({
-        "update activity",
-        "set title = #{title,jdbcType=VARCHAR},",
-          "content = #{content,jdbcType=VARCHAR},",
-          "type = #{type,jdbcType=INTEGER},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP},",
-          "start_time = #{startTime,jdbcType=TIMESTAMP},",
-          "end_time = #{endTime,jdbcType=TIMESTAMP},",
-          "picture_url = #{pictureUrl,jdbcType=VARCHAR},",
-          "enter_url = #{enterUrl,jdbcType=VARCHAR}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update activity",
+            "set title = #{title,jdbcType=VARCHAR},",
+            "sub_title = #{subTitle,jdbcType=VARCHAR},",
+            "content = #{content,jdbcType=VARCHAR},",
+            "type = #{type,jdbcType=INTEGER},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
+            "start_time = #{startTime,jdbcType=TIMESTAMP},",
+            "end_time = #{endTime,jdbcType=TIMESTAMP},",
+            "picture_url = #{pictureUrl,jdbcType=VARCHAR},",
+            "enter_url = #{enterUrl,jdbcType=VARCHAR}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Activity record);
 
     @Select({
             "select",
-            "id, title, content, type, create_date, start_time, end_time, picture_url,enter_url",
+            "id, title,sub_title, content, type, create_date, start_time, end_time, picture_url,enter_url",
             "from activity",
             "where start_time< now() and end_time>now()"
     })

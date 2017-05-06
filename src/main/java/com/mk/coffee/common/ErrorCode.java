@@ -41,7 +41,7 @@ public enum ErrorCode {
     Make_Coffees_Verify_Fail("make_coffees_verify_fail"),
 
     Cart_Id_OR_EncryptCode_IS_NULL("cart_id_or_encrypt_code_is_null"),
-
+    Phone_Or_Code_Null("phone_or_code_null"),
     User_Not_Exist("user_not_exist");
 
     /*

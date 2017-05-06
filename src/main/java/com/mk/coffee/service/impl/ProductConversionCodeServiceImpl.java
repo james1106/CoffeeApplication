@@ -25,6 +25,21 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     @Autowired
     private ProductConversionCodeMapper productConversionCodeMapper;
 
+
+    @Override
+    public boolean createProductConversionCodeByMemberId(long memberId, int productId) {
+        ProductConversionCode conversionCode = new ProductConversionCode();
+        conversionCode.setCrateDate(new Date());
+        conversionCode.setUpdateDate(new Date());
+        conversionCode.setConversionCode(VerifyUtils.getEightRandom());//随机生成8位数字为兑换码
+        conversionCode.setOrderNum(VerifyUtils.getFiveRandom());
+        conversionCode.setMemberId(memberId);
+        conversionCode.setConversionState(0);//未领取
+        conversionCode.setProductId(productId);
+        return productConversionCodeMapper.insert(conversionCode) > 0;//保存
+
+    }
+
     @Override
     @Transactional
     public boolean createProductConversionCodeService(OrderDetails orderDetails) {

@@ -44,7 +44,4 @@ public interface MembersService {
 
     boolean inertMemberByOpenId(Members members);
 
-    //通过code登录，即是将获取open_id+通过open_id登录结合
-    LoginInfo loginByCode(String code);
-
 }

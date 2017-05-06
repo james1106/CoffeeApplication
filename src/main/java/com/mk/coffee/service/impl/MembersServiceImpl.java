@@ -7,6 +7,8 @@ import com.mk.coffee.mapper.MembersMapper;
 import com.mk.coffee.mapper.VerificationCodeMapper;
 import com.mk.coffee.model.*;
 import com.mk.coffee.service.MembersService;
+import com.mk.coffee.service.ProductConversionCodeService;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.JsonUtils;
 import com.mk.coffee.utils.MD5STo16Byte;
 import com.mk.coffee.utils.VerifyUtils;
@@ -35,6 +37,8 @@ public class MembersServiceImpl implements MembersService {
     private MembersMapper membersMapper;
 
     @Autowired
+    private ProductConversionCodeService productConversionCodeService;
+    @Autowired
     private VerificationCodeMapper verificationCodeMapper;
 
     @Autowired
@@ -62,18 +66,20 @@ public class MembersServiceImpl implements MembersService {
         }
 
         int count = membersMapper.register(members);
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count > 0;
     }
 
     @Override
     @Transactional
     public boolean registerPhoneByCodeBindOpenId(String phone, String code, String openId) {
+        if (EmptyUtils.isEmpty(phone) || EmptyUtils.isEmpty(code) || EmptyUtils.isEmpty(openId)) {
+            throw AppException.getException(ErrorCode.Phone_Or_Code_Null.getCode());
+        }
         //查询手机注册的成员
         Members phoneMember = membersMapper.getMemberByPhone(phone);
+        if (phoneMember != null && phoneMember.getIsRegist()) {
+            throw AppException.getException(ErrorCode.Phone_ALREADY.getCode());
+        }
         //查询微信关注的成员纪录
         Members openIdMember = membersMapper.getMemberByOpenId(openId);
         //新的成员纪录
@@ -81,6 +87,8 @@ public class MembersServiceImpl implements MembersService {
         members.setCreateDate(new Date());
         members.setOpenId(openId);
         members.setPhone(phone);
+        members.setName(phone);
+        members.setIsRegist(true);//标示为已注册手机号码
         if (openIdMember != null) {
             members.setId(openIdMember.getId());
             if (VerifyUtils.isNotEmpty(openIdMember.getHeadportraitUrl()))
@@ -114,15 +122,10 @@ public class MembersServiceImpl implements MembersService {
         if (olderVerificationCodes != null && olderVerificationCodes.size() > 0) {
             VerifyUtils.verificationCode(members.getPhone(), code, olderVerificationCodes.get(0));
         }
-
         //重新注册
         int count = membersMapper.insert(members);
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
+        //送一杯
+        return count > 0 && productConversionCodeService.createProductConversionCodeByMemberId(members.getId(), 102);
     }
 
 
@@ -138,11 +141,9 @@ public class MembersServiceImpl implements MembersService {
         members.setOpenId(userWxInfo.getOpenId());
         members.setSex(userWxInfo.getSex());
         members.setHeadportraitUrl(userWxInfo.getHeadImgUrl());
+        members.setIsRegist(false);
         members.setCreateDate(new Date());
-        membersMapper.inertMemberByOpenId(members);
-
-
-        return false;
+        return membersMapper.inertMemberByOpenId(members) > 0;
     }
 
     /**
@@ -305,12 +306,6 @@ public class MembersServiceImpl implements MembersService {
         }
         return membersMapper.inertMemberByOpenId(members) > 0;
 
-    }
-
-    @Override
-    public LoginInfo loginByCode(String code) {
-
-        return null;
     }
 
 }

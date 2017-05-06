@@ -2,15 +2,15 @@ package com.mk.coffee.mapper;
 
 import com.mk.coffee.model.Product;
 import com.mk.coffee.model.ProductExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 
 public interface ProductMapper {
     /**
@@ -36,8 +36,8 @@ public interface ProductMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from product",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from product",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
@@ -48,14 +48,14 @@ public interface ProductMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into product (id, name, ",
-        "price, picture_url, ",
-        "sales, create_date, ",
-        "summary)",
-        "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
-        "#{price,jdbcType=REAL}, #{pictureUrl,jdbcType=VARCHAR}, ",
-        "#{sales,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
-        "#{summary,jdbcType=VARCHAR})"
+            "insert into product (id, name, ",
+            "original_price, price, ",
+            "picture_url, sales, ",
+            "create_date, summary)",
+            "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
+            "#{originalPrice,jdbcType=REAL}, #{price,jdbcType=REAL}, ",
+            "#{pictureUrl,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, ",
+            "#{createDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR})"
     })
     int insert(Product record);
 
@@ -82,10 +82,10 @@ public interface ProductMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "id, name, price, picture_url, sales, create_date, summary",
-        "from product",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, name, original_price, price, picture_url, sales, create_date, summary",
+            "from product",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ResultMap("com.mk.coffee.mapper.ProductMapper.BaseResultMap")
     Product selectByPrimaryKey(Integer id);
@@ -121,14 +121,15 @@ public interface ProductMapper {
      * @mbg.generated
      */
     @Update({
-        "update product",
-        "set name = #{name,jdbcType=VARCHAR},",
-          "price = #{price,jdbcType=REAL},",
-          "picture_url = #{pictureUrl,jdbcType=VARCHAR},",
-          "sales = #{sales,jdbcType=INTEGER},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP},",
-          "summary = #{summary,jdbcType=VARCHAR}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update product",
+            "set name = #{name,jdbcType=VARCHAR},",
+            "original_price = #{originalPrice,jdbcType=REAL},",
+            "price = #{price,jdbcType=REAL},",
+            "picture_url = #{pictureUrl,jdbcType=VARCHAR},",
+            "sales = #{sales,jdbcType=INTEGER},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
+            "summary = #{summary,jdbcType=VARCHAR}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Product record);
 

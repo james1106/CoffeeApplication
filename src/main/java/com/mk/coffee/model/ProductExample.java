@@ -325,6 +325,66 @@ public class ProductExample {
             return (Criteria) this;
         }
 
+        public Criteria andOriginalPriceIsNull() {
+            addCriterion("original_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceIsNotNull() {
+            addCriterion("original_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceEqualTo(Float value) {
+            addCriterion("original_price =", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceNotEqualTo(Float value) {
+            addCriterion("original_price <>", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceGreaterThan(Float value) {
+            addCriterion("original_price >", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceGreaterThanOrEqualTo(Float value) {
+            addCriterion("original_price >=", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceLessThan(Float value) {
+            addCriterion("original_price <", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceLessThanOrEqualTo(Float value) {
+            addCriterion("original_price <=", value, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceIn(List<Float> values) {
+            addCriterion("original_price in", values, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceNotIn(List<Float> values) {
+            addCriterion("original_price not in", values, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceBetween(Float value1, Float value2) {
+            addCriterion("original_price between", value1, value2, "originalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPriceNotBetween(Float value1, Float value2) {
+            addCriterion("original_price not between", value1, value2, "originalPrice");
+            return (Criteria) this;
+        }
+
         public Criteria andPriceIsNull() {
             addCriterion("price is null");
             return (Criteria) this;
