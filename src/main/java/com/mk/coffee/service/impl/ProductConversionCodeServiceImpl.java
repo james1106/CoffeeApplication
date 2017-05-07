@@ -1,9 +1,6 @@
 package com.mk.coffee.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.mk.coffee.common.ErrorCode;
-import com.mk.coffee.common.ListResult;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.ProductConversionCodeMapper;
 import com.mk.coffee.model.*;
@@ -27,7 +24,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
 
 
     @Override
-    public boolean createProductConversionCodeByMemberId(long memberId, int productId) {
+    public ProductConversionCode createProductConversionCodeByMemberId(long memberId, int productId) {
         ProductConversionCode conversionCode = new ProductConversionCode();
         conversionCode.setCrateDate(new Date());
         conversionCode.setUpdateDate(new Date());
@@ -36,7 +33,8 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         conversionCode.setMemberId(memberId);
         conversionCode.setConversionState(0);//未领取
         conversionCode.setProductId(productId);
-        return productConversionCodeMapper.insert(conversionCode) > 0;//保存
+        int id = productConversionCodeMapper.insert(conversionCode);//保存
+        return productConversionCodeMapper.selectByPrimaryKey(id);
 
     }
 
@@ -155,6 +153,13 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         return list;
+    }
+
+    @Override
+    public boolean giveProductConversionCode(long memberId, int productConversionId) {
+        ProductConversionCode productConversionCode = productConversionCodeMapper.selectByPrimaryKey(productConversionId);
+        productConversionCode.setMemberId(memberId);
+        return productConversionCodeMapper.updateByPrimaryKey(productConversionCode) > 0;
     }
 
 }

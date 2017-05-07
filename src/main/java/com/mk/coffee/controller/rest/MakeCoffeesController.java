@@ -9,6 +9,7 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.CoffeeMachine;
 import com.mk.coffee.model.Members;
 import com.mk.coffee.model.ProductConversionCode;
+import com.mk.coffee.requestbody.RequestCooperativePartnerMakeCoffee;
 import com.mk.coffee.requestbody.RequestMakeCoffees;
 import com.mk.coffee.service.CoffeeMachineService;
 import com.mk.coffee.service.MakeCoffeesService;
@@ -133,6 +134,13 @@ public class MakeCoffeesController {
             throw AppException.getException(ErrorCode.Make_Coffees_Fail.getCode());
         }
 
+    }
+
+
+    @PostMapping("/makeCoffeesByCooperativePartnerProductId")
+    @ApiOperation(value = "公司人员测试获取咖啡", notes = "根据合作公司的id、制作咖啡机器码（通过扫一扫二维码获取）、自定义配方(coffee,milk,sugar)、获取咖啡")
+    public RestResult<Boolean> makeCoffeesByCooperativePartnerProductId(@RequestBody RequestCooperativePartnerMakeCoffee requestMakeCoffee) {
+        return RestResultGenerator.genSuccessResult(makeCoffeesService.makeCoffeesByCooperativePartnerProduct(requestMakeCoffee));
     }
 
 

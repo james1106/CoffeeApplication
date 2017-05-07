@@ -86,6 +86,13 @@
         enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
+        <!--合作伙伴-->
+        <!--<table tableName="cooperative_partner"/>
+        <table tableName="cooperative_partner_product"/>
+        <table tableName="cooperative_partner_coffee_machine"></table>-->
+        <table tableName="ebean"></table>
+        <table tableName="ebean_record"></table>
+
         <!-- <table tableName="custom_config"/>
          <table tableName="member_custom_config"/>-->
         <!--<table tableName="product_conversion_code"/>

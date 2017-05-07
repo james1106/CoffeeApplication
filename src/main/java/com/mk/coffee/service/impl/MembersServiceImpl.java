@@ -125,7 +125,7 @@ public class MembersServiceImpl implements MembersService {
         //重新注册
         int count = membersMapper.insert(members);
         //送一杯
-        return count > 0 && productConversionCodeService.createProductConversionCodeByMemberId(members.getId(), 102);
+        return count > 0 && productConversionCodeService.createProductConversionCodeByMemberId(members.getId(), 102)!=null;
     }
 
 

@@ -5,9 +5,13 @@ import com.mk.coffee.conf.coffees.MakeCoffeesProperties;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.ProductMapper;
 import com.mk.coffee.model.*;
+import com.mk.coffee.requestbody.RequestCooperativePartnerMakeCoffee;
+import com.mk.coffee.service.CooperativePartnerProductService;
+import com.mk.coffee.service.CooperativePartnerService;
 import com.mk.coffee.service.MakeCoffeesService;
 import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.task.AsyncTask;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.JsonUtils;
 import com.mk.coffee.utils.MD5Util;
 import com.mk.coffee.utils.ParamUtils;
@@ -35,6 +39,11 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
 
     @Autowired
     private ProductConversionCodeService productConversionCodeService;
+
+    @Autowired
+    private CooperativePartnerService cooperativePartnerService;
+    @Autowired
+    private CooperativePartnerProductService cooperativePartnerProductService;
 
     @Autowired
     private WxMpService wxMpService;
@@ -117,6 +126,25 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
             throw AppException.getException(ErrorCode.Update_ProductConversionCode_State_Fail.getCode(), e.getMessage());
         }
         return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean makeCoffeesByCooperativePartnerProduct(RequestCooperativePartnerMakeCoffee requestCooperativePartnerMakeCoffee) {
+        CooperativePartner cooperativePartner = cooperativePartnerService.getItem(requestCooperativePartnerMakeCoffee.cooperativePartnerId);
+        //公司不存在
+        if (cooperativePartner == null) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+        //密码不正确
+        if (EmptyUtils.isEmpty(requestCooperativePartnerMakeCoffee.password) || !cooperativePartner.getPassword().equals(requestCooperativePartnerMakeCoffee.password)) {
+            throw AppException.getException(ErrorCode.Password_Illegal);
+        }
+
+        ProductConversionCode productConversionCode = productConversionCodeService.createProductConversionCodeByMemberId(requestCooperativePartnerMakeCoffee.memberId,
+                requestCooperativePartnerMakeCoffee.productId);
+        return makeCoffeesByCustomConfigure(productConversionCode, requestCooperativePartnerMakeCoffee.vmc, requestCooperativePartnerMakeCoffee.customConfig);
+
     }
 
 

@@ -12,6 +12,7 @@ public enum ErrorCode {
     ILLEGAL_PARAMS("illegal_params"),
     SERVER_ERROR("server_error"),
     Phone_Not_Exist("phone_not_exist"),
+    Password_Illegal("password_illegal","输入的密码不正确"),
     Phone_Illegal("phone_illegal"),
     Verification_Code_Availability("verification_code_availability"),
     Verification_Code_Invalid("verification_code_invalid"),
@@ -64,14 +65,23 @@ public enum ErrorCode {
 	send_sms_fail	发送短信失败
     * */
     private String code;
+    private String message;
+
 
     ErrorCode(String code) {
         this.code = code;
     }
 
+    ErrorCode(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public String getCode() {
         return code;
     }
 
+    public String getMessage() {
+        return message;
+    }
 }

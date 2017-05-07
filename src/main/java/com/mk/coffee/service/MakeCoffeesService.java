@@ -2,6 +2,7 @@ package com.mk.coffee.service;
 
 import com.mk.coffee.model.CustomConfig;
 import com.mk.coffee.model.ProductConversionCode;
+import com.mk.coffee.requestbody.RequestCooperativePartnerMakeCoffee;
 
 import java.io.IOException;
 
@@ -16,4 +17,7 @@ public interface MakeCoffeesService {
 
     //自定义配方制作咖啡
     boolean makeCoffeesByCustomConfigure(ProductConversionCode productConversionCode, String vmc, CustomConfig customConfig);
+
+    //公司人员测试获取咖啡
+    boolean makeCoffeesByCooperativePartnerProduct(RequestCooperativePartnerMakeCoffee requestCooperativePartnerMakeCoffee);
 }

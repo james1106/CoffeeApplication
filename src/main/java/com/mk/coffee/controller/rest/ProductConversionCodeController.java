@@ -54,7 +54,7 @@ public class ProductConversionCodeController {
     @GetMapping("/getProductConversionCodeByMemberIdAndConversionState")
     @ApiOperation(value = "根据会员ID和领取的状态得到兑换码信息", notes = "conversionState:（0：未领取，1：已领取，2：待领取，3：领取失败) 页数page默认为1，size默认为10", httpMethod = "GET")
     public RestResult<List<ProductConversionCode>> getProductConversionCodeByMemberIdAndConversionState(@RequestParam("memberId") long memberId,
-                                                                                                              @RequestParam("conversionState") int conversionState) {
+                                                                                                        @RequestParam("conversionState") int conversionState) {
         return RestResultGenerator.genSuccessResult(productConversionCodeService.getProductConversionCodeByMemberIdAndConversionState(memberId, conversionState));
     }
 
@@ -64,5 +64,14 @@ public class ProductConversionCodeController {
     public RestResult<List<ProductConversionCode>> getAllProductConversionCodeByMemberId(@RequestParam("memberId") long memberId) {
         return RestResultGenerator.genSuccessResult(productConversionCodeService.getAllProductConversionCodeByMemberId(memberId));
     }
+
+
+    @PostMapping("/giveProductConversionCode")
+    @ApiOperation(value = "赠送咖啡兑换码", notes = "实现请TA喝功能", httpMethod = "POST")
+    public RestResult<Boolean> giveProductConversionCode(long memberId, int productConversionId) {
+        return RestResultGenerator.genSuccessResult(productConversionCodeService.giveProductConversionCode(memberId, productConversionId));
+    }
+
+
 
 }

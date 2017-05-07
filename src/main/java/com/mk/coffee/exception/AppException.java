@@ -1,5 +1,6 @@
 package com.mk.coffee.exception;
 
+import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.conf.cache.AppCache;
 
 import java.text.MessageFormat;
@@ -35,6 +36,11 @@ public class AppException extends RuntimeException {
      */
     public static AppException getException(String code) {
         return new AppException(code, AppCache.errorInfoConfig.get(code));
+    }
+
+
+    public static AppException getException(ErrorCode errorCode) {
+        return new AppException(errorCode.getCode(), errorCode.getMessage());
     }
 
     public static AppException getException(String code, String errorDetails) {
