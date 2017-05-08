@@ -127,4 +127,61 @@ public class CommonUtils {
         return Float.valueOf(df.format(f));
     }
 
+
+    public static EbeanRecord createEbeanRecord(long memberId, EbeanProduct ebeanProduct) {
+        //e豆充值纪录
+        EbeanRecord ebeanRecord = new EbeanRecord();
+        ebeanRecord.setId(System.currentTimeMillis());
+        ebeanRecord.seteNum(ebeanProduct.geteNum());
+        ebeanRecord.setGivingNum(ebeanProduct.getGivingNum());
+        ebeanRecord.setTotalNum(ebeanProduct.geteNum() + ebeanProduct.getGivingNum());
+        ebeanRecord.setMoney(ebeanProduct.getMoney());
+        ebeanRecord.setPayType(0);
+        ebeanRecord.setPayState(0);//未支付
+        ebeanRecord.setCreateDate(new Date());
+        ebeanRecord.setMemberId(memberId);
+        return ebeanRecord;
+    }
+
+
+    public static EbeanRecord createEbeanRecordByMoney(long memberId, float money) {
+        //e豆充值纪录
+        EbeanRecord ebeanRecord = new EbeanRecord();
+        ebeanRecord.setId(System.currentTimeMillis());
+        ebeanRecord.seteNum((int) (money * 10));
+        ebeanRecord.setGivingNum(0);
+        ebeanRecord.setTotalNum(ebeanRecord.geteNum());
+        ebeanRecord.setMoney(money);
+        ebeanRecord.setPayType(0);
+        ebeanRecord.setPayState(0);//未支付
+        ebeanRecord.setCreateDate(new Date());
+        ebeanRecord.setMemberId(memberId);
+        return ebeanRecord;
+    }
+
+    /**
+     * 创建e豆
+     */
+    public static Ebean createEbean(EbeanRecord ebeanRecord) {
+        Ebean ebean = new Ebean();
+        ebean.setMemberId(ebeanRecord.getMemberId());
+        ebean.seteNum(ebeanRecord.geteNum());
+        ebean.setGivingNum(ebeanRecord.getGivingNum());
+        ebean.setCreateDate(new Date());
+        ebean.setUpdateDate(new Date());
+        ebean.setTotalNum(ebeanRecord.geteNum() + ebeanRecord.getGivingNum());
+        return ebean;
+    }
+
+    /**
+     * 更新e豆
+     */
+    public static Ebean updateEbean(EbeanRecord ebeanRecord, Ebean ebean) {
+        ebean.seteNum(ebeanRecord.geteNum() + ebean.geteNum());
+        ebean.setGivingNum(ebeanRecord.getGivingNum() + ebean.getGivingNum());
+        ebean.setTotalNum(ebean.geteNum() + ebean.getGivingNum());
+        ebean.setUpdateDate(new Date());
+        return ebean;
+    }
+
 }

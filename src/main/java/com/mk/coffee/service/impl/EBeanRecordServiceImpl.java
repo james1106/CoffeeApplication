@@ -4,12 +4,14 @@ import com.mk.coffee.mapper.EbeanRecordMapper;
 import com.mk.coffee.model.EbeanRecord;
 import com.mk.coffee.service.EBeanRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/5/7 0007.
  */
+@Service
 public class EBeanRecordServiceImpl implements EBeanRecordService {
     @Autowired
     private EbeanRecordMapper mapper;

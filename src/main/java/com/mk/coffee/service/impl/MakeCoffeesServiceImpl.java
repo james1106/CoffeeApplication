@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -141,8 +142,20 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
             throw AppException.getException(ErrorCode.Password_Illegal);
         }
 
+
         ProductConversionCode productConversionCode = productConversionCodeService.createProductConversionCodeByMemberId(requestCooperativePartnerMakeCoffee.memberId,
                 requestCooperativePartnerMakeCoffee.productId);
+
+
+        //插入一条公司人员喝咖啡纪录
+        CooperativePartnerProduct cooperativePartnerProduct=new CooperativePartnerProduct();
+        cooperativePartnerProduct.setMemberId(requestCooperativePartnerMakeCoffee.memberId);
+        cooperativePartnerProduct.setProductId(requestCooperativePartnerMakeCoffee.productId);
+
+        cooperativePartnerProduct.setCooperativePartnerId(requestCooperativePartnerMakeCoffee.cooperativePartnerId);
+        cooperativePartnerProduct.setProductConversionId(productConversionCode.getId());
+        cooperativePartnerProduct.setCreateDate(new Date());
+        cooperativePartnerProductService.addItem(cooperativePartnerProduct);
         return makeCoffeesByCustomConfigure(productConversionCode, requestCooperativePartnerMakeCoffee.vmc, requestCooperativePartnerMakeCoffee.customConfig);
 
     }

@@ -68,10 +68,9 @@ public class ProductConversionCodeController {
 
     @PostMapping("/giveProductConversionCode")
     @ApiOperation(value = "赠送咖啡兑换码", notes = "实现请TA喝功能", httpMethod = "POST")
-    public RestResult<Boolean> giveProductConversionCode(long memberId, int productConversionId) {
+    public RestResult<Boolean> giveProductConversionCode(@RequestParam("memberId") long memberId, @RequestParam("productConversionId") int productConversionId) {
         return RestResultGenerator.genSuccessResult(productConversionCodeService.giveProductConversionCode(memberId, productConversionId));
     }
-
 
 
 }

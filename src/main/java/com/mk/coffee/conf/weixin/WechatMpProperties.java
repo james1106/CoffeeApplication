@@ -30,18 +30,10 @@ public class WechatMpProperties {
      */
     private String aesKey;
 
-    private String notifyURL;
-
     private int intervalTime = 10;//支付失效间隔时间(分钟)
 
     private String body;//主题
 
-    //微信支付商户号
-    private String partenerId;
-    //微信支付平台商户API密钥
-    private String partenerKey;
-
-    private String certPath;//证书的路径
 
     private String paySucceedTemplateId;//支付成功模版ID
     private String paySucceedTemplateUrl;//支付成功模版跳转url
@@ -79,38 +71,6 @@ public class WechatMpProperties {
 
     public void setPaySucceedTemplateId(String paySucceedTemplateId) {
         this.paySucceedTemplateId = paySucceedTemplateId;
-    }
-
-    public String getCertPath() {
-        return certPath;
-    }
-
-    public void setCertPath(String certPath) {
-        this.certPath = certPath;
-    }
-
-    public String getPartenerId() {
-        return partenerId;
-    }
-
-    public void setPartenerId(String partenerId) {
-        this.partenerId = partenerId;
-    }
-
-    public String getPartenerKey() {
-        return partenerKey;
-    }
-
-    public void setPartenerKey(String partenerKey) {
-        this.partenerKey = partenerKey;
-    }
-
-    public String getNotifyURL() {
-        return notifyURL;
-    }
-
-    public void setNotifyURL(String notifyURL) {
-        this.notifyURL = notifyURL;
     }
 
     public int getIntervalTime() {

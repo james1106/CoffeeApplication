@@ -47,11 +47,11 @@ public interface CooperativePartnerProductMapper {
      */
     @Insert({
         "insert into cooperative_partner_product (id, product_id, ",
-        "cooperative_partner_id, member_id, ",
-        "create_date)",
+        "cooperative_partner_id, product_conversion_id, ",
+        "member_id, create_date)",
         "values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, ",
-        "#{cooperativePartnerId,jdbcType=INTEGER}, #{memberId,jdbcType=DECIMAL}, ",
-        "#{createDate,jdbcType=TIMESTAMP})"
+        "#{cooperativePartnerId,jdbcType=INTEGER}, #{productConversionId,jdbcType=INTEGER}, ",
+        "#{memberId,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP})"
     })
     int insert(CooperativePartnerProduct record);
 
@@ -79,7 +79,7 @@ public interface CooperativePartnerProductMapper {
      */
     @Select({
         "select",
-        "id, product_id, cooperative_partner_id, member_id, create_date",
+        "id, product_id, cooperative_partner_id, product_conversion_id, member_id, create_date",
         "from cooperative_partner_product",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -120,6 +120,7 @@ public interface CooperativePartnerProductMapper {
         "update cooperative_partner_product",
         "set product_id = #{productId,jdbcType=INTEGER},",
           "cooperative_partner_id = #{cooperativePartnerId,jdbcType=INTEGER},",
+          "product_conversion_id = #{productConversionId,jdbcType=INTEGER},",
           "member_id = #{memberId,jdbcType=DECIMAL},",
           "create_date = #{createDate,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"

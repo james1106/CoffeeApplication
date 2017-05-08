@@ -1,5 +1,11 @@
 package com.mk.coffee.controller.rest;
 
+import com.github.binarywang.wxpay.bean.WxPayOrderNotifyResponse;
+import com.github.binarywang.wxpay.bean.request.WxPayBaseRequest;
+import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.bean.result.WxPayBaseResult;
+import com.github.binarywang.wxpay.bean.result.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
@@ -16,13 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.pay.WxPayOrderNotifyResponse;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayBaseRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayBaseResult;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayOrderNotifyResult;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.io.IOUtils;
@@ -30,6 +30,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,9 @@ public class WeixinPayController {
 
     @Autowired
     private WxMpService wxMpService;
+
+    @Autowired
+    private WxPayService wxPayService;
 
     @Autowired
     protected WxMpConfigStorage configStorage;
@@ -90,8 +94,8 @@ public class WeixinPayController {
             orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
             //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
 
-            WxMpPayService wxMpPayService = wxMpService.getPayService();
-            Map<String, String> result = wxMpPayService.getPayInfo(orderRequest);
+
+            Map<String, String> result = wxPayService.getPayInfo(orderRequest);
             return RestResultGenerator.genSuccessResult(result);
         } catch (WxErrorException e) {
             e.printStackTrace();
@@ -126,8 +130,7 @@ public class WeixinPayController {
             orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
             //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
 
-            WxMpPayService wxMpPayService = wxMpService.getPayService();
-            Map<String, String> result = wxMpPayService.getPayInfo(orderRequest);
+            Map<String, String> result = wxPayService.getPayInfo(orderRequest);
             return RestResultGenerator.genSuccessResult(result);
         } catch (WxErrorException e) {
             e.printStackTrace();
@@ -158,8 +161,7 @@ public class WeixinPayController {
             orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
             //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
 
-            WxMpPayService wxMpPayService = wxMpService.getPayService();
-            Map<String, String> result = wxMpPayService.getPayInfo(orderRequest);
+            Map<String, String> result = wxPayService.getPayInfo(orderRequest);
             return RestResultGenerator.genSuccessResult(result);
         } catch (WxErrorException e) {
             e.printStackTrace();
@@ -175,12 +177,11 @@ public class WeixinPayController {
     @RequestMapping("/notify")
     @Transactional
     public String payNotify(HttpServletRequest request, HttpServletResponse response) {
-        WxMpPayService wxMpPayService = wxMpService.getPayService();
         OrderDetails orderDetails = null;
         String orderId = null;
         try {
             String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
-            WxPayOrderNotifyResult result = wxMpPayService.getOrderNotifyResult(xmlResult);
+            WxPayOrderNotifyResult result =wxPayService.getOrderNotifyResult(xmlResult);
             // 结果正确
             orderId = result.getOutTradeNo();
             String tradeNo = result.getTransactionId();
@@ -237,8 +238,7 @@ public class WeixinPayController {
                 orderDetails.setId(orderId);
                 orderDetailsService.updatePayState(orderDetails);
             }
-            WxPayOrderNotifyResponse.fail(e.getMessage());
-            throw AppException.getException(ErrorCode.Pay_Fail.getCode());
+            return WxPayOrderNotifyResponse.fail(e.getMessage());
         }
     }
 

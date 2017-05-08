@@ -33,8 +33,8 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         conversionCode.setMemberId(memberId);
         conversionCode.setConversionState(0);//未领取
         conversionCode.setProductId(productId);
-        int id = productConversionCodeMapper.insert(conversionCode);//保存
-        return productConversionCodeMapper.selectByPrimaryKey(id);
+        productConversionCodeMapper.insert(conversionCode);//保存
+        return getProductConversionCodeByConversionCode(conversionCode);
 
     }
 

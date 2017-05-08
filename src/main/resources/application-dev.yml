@@ -70,7 +70,17 @@ wechat:
     makeCoffeesTemplateUrl: http://huihuisuiyue.apps.mugglecoding.com/index
     body: E乐饮咖啡
 
-
+#微信支付配置
+wxpay:
+ pay:
+    appId: wxb4de448e44d78c61
+    mchId: 1410905702
+    mchKey: 7d8e9r8ufhj43huje98j8rh4kjhf9832
+    subAppId:
+    subMchId:
+    notifyUrl: http://www.elyin.com.viphk.ngrok.org/api/coffees/pay/notify
+    ebeanRechargeUrl: http://www.elyin.com.viphk.ngrok.org/api/coffees/ebeanRechargeNotify
+    tradeType: JSAPI
 
 # e乐饮咖啡配置
 make:

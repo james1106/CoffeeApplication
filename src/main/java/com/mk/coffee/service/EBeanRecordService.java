@@ -14,6 +14,7 @@ public interface EBeanRecordService {
 
     EbeanRecord getItem(long id);
 
+
     boolean updateItem(EbeanRecord ebeanRecord);
 
 

@@ -445,62 +445,52 @@ public class EbeanExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumEqualTo(String value) {
+        public Criteria andTotalNumEqualTo(Integer value) {
             addCriterion("total_num =", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumNotEqualTo(String value) {
+        public Criteria andTotalNumNotEqualTo(Integer value) {
             addCriterion("total_num <>", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumGreaterThan(String value) {
+        public Criteria andTotalNumGreaterThan(Integer value) {
             addCriterion("total_num >", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumGreaterThanOrEqualTo(String value) {
+        public Criteria andTotalNumGreaterThanOrEqualTo(Integer value) {
             addCriterion("total_num >=", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumLessThan(String value) {
+        public Criteria andTotalNumLessThan(Integer value) {
             addCriterion("total_num <", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumLessThanOrEqualTo(String value) {
+        public Criteria andTotalNumLessThanOrEqualTo(Integer value) {
             addCriterion("total_num <=", value, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumLike(String value) {
-            addCriterion("total_num like", value, "totalNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNumNotLike(String value) {
-            addCriterion("total_num not like", value, "totalNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNumIn(List<String> values) {
+        public Criteria andTotalNumIn(List<Integer> values) {
             addCriterion("total_num in", values, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumNotIn(List<String> values) {
+        public Criteria andTotalNumNotIn(List<Integer> values) {
             addCriterion("total_num not in", values, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumBetween(String value1, String value2) {
+        public Criteria andTotalNumBetween(Integer value1, Integer value2) {
             addCriterion("total_num between", value1, value2, "totalNum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalNumNotBetween(String value1, String value2) {
+        public Criteria andTotalNumNotBetween(Integer value1, Integer value2) {
             addCriterion("total_num not between", value1, value2, "totalNum");
             return (Criteria) this;
         }
@@ -562,6 +552,66 @@ public class EbeanExample {
 
         public Criteria andCreateDateNotBetween(Date value1, Date value2) {
             addCriterion("create_date not between", value1, value2, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNull() {
+            addCriterion("update_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNotNull() {
+            addCriterion("update_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateEqualTo(Date value) {
+            addCriterion("update_date =", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotEqualTo(Date value) {
+            addCriterion("update_date <>", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThan(Date value) {
+            addCriterion("update_date >", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_date >=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThan(Date value) {
+            addCriterion("update_date <", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThanOrEqualTo(Date value) {
+            addCriterion("update_date <=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIn(List<Date> values) {
+            addCriterion("update_date in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotIn(List<Date> values) {
+            addCriterion("update_date not in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateBetween(Date value1, Date value2) {
+            addCriterion("update_date between", value1, value2, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotBetween(Date value1, Date value2) {
+            addCriterion("update_date not between", value1, value2, "updateDate");
             return (Criteria) this;
         }
     }

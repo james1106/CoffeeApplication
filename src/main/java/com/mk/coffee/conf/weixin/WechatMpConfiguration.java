@@ -36,9 +36,9 @@ public class WechatMpConfiguration {
         configStorage.setSecret(this.properties.getSecret());
         configStorage.setToken(this.properties.getToken());
         configStorage.setAesKey(this.properties.getAesKey());
-        configStorage.setNotifyURL(this.properties.getNotifyURL());
+       /* configStorage.setNotifyURL(this.properties.getNotifyURL());
         configStorage.setPartnerId(this.properties.getPartenerId());
-        configStorage.setPartnerKey(this.properties.getPartenerKey());
+        configStorage.setPartnerKey(this.properties.getPartenerKey());*/
         //configStorage.setSslContextFilePath(this.properties.getCertPath());
         return configStorage;
     }

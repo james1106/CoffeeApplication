@@ -375,6 +375,66 @@ public class CooperativePartnerProductExample {
             return (Criteria) this;
         }
 
+        public Criteria andProductConversionIdIsNull() {
+            addCriterion("product_conversion_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdIsNotNull() {
+            addCriterion("product_conversion_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdEqualTo(Integer value) {
+            addCriterion("product_conversion_id =", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdNotEqualTo(Integer value) {
+            addCriterion("product_conversion_id <>", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdGreaterThan(Integer value) {
+            addCriterion("product_conversion_id >", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("product_conversion_id >=", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdLessThan(Integer value) {
+            addCriterion("product_conversion_id <", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdLessThanOrEqualTo(Integer value) {
+            addCriterion("product_conversion_id <=", value, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdIn(List<Integer> values) {
+            addCriterion("product_conversion_id in", values, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdNotIn(List<Integer> values) {
+            addCriterion("product_conversion_id not in", values, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdBetween(Integer value1, Integer value2) {
+            addCriterion("product_conversion_id between", value1, value2, "productConversionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductConversionIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("product_conversion_id not between", value1, value2, "productConversionId");
+            return (Criteria) this;
+        }
+
         public Criteria andMemberIdIsNull() {
             addCriterion("member_id is null");
             return (Criteria) this;

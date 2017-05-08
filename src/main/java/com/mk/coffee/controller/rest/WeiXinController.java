@@ -1,17 +1,12 @@
 package com.mk.coffee.controller.rest;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.Members;
 import com.mk.coffee.model.WXCard;
-import com.mk.coffee.service.MembersService;
 import com.mk.coffee.service.WXInfoService;
-import com.mk.coffee.utils.JsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
@@ -55,12 +50,35 @@ public class WeiXinController {
     public RestResult<WxMpOAuth2AccessToken> getOpenIdByCode(@RequestParam("code") String code) throws IOException {
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+            wxMpService.getAccessToken(true);
             return RestResultGenerator.genSuccessResult(wxMpOAuth2AccessToken);
         } catch (WxErrorException e) {
             e.printStackTrace();
             throw AppException.getException(ErrorCode.Get_AccessToken_Fail.getCode(), e.getMessage());
         }
 
+    }
+
+    @GetMapping("/getAccessToken")
+    @ApiOperation(value = "得到AccessToken", httpMethod = "GET")
+    public RestResult<String> getAccessToken() {
+        try {
+            return RestResultGenerator.genSuccessResult(wxMpService.getAccessToken());
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Get_AccessToken_Fail.getCode(), e.getMessage());
+        }
+    }
+
+    @PostMapping("/refreshAccessToken")
+    @ApiOperation(value = "刷新AccessToken", httpMethod = "POST")
+    public RestResult<String> refreshAccessToken() {
+        try {
+            return RestResultGenerator.genSuccessResult(wxMpService.getAccessToken(true));
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Get_AccessToken_Fail.getCode(), e.getMessage());
+        }
     }
 
 

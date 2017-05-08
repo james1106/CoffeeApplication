@@ -3,6 +3,7 @@ package com.mk.coffee.service.impl;
 import com.mk.coffee.mapper.CooperativePartnerProductMapper;
 import com.mk.coffee.model.CooperativePartnerProduct;
 import com.mk.coffee.service.CooperativePartnerProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  */
 @Service
 public class CooperativePartnerProductServiceImpl implements CooperativePartnerProductService {
+    @Autowired
     private CooperativePartnerProductMapper cooperativePartnerProductMapper;
 
     @Override

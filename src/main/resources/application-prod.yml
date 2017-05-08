@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
   context-path: /api/coffees
 
 datasource:
@@ -59,17 +59,27 @@ wechat:
     secret: d736389a0f0891ba03171ddc93e0c410
     token: elyincoffees
     aesKey: AyH7Jhdp0aVuWuR6xxMKUK6nz1lbumzEV4m4Wzlc7bv
-    partenerId: 1410905702
-    partenerKey: 7d8e9r8ufhj43huje98j8rh4kjhf9832
-    certPath: /home/mkcaffe/cert/apiclient_cert.p12
-    notifyURL: http://mkcaffee.chinaeast.cloudapp.chinacloudapi.cn/api/coffees/pay/notify
+
     intervalTime: 30
     paySucceedTemplateId: xPmvXsXJDiQE-oyLfokgerzAfJ8LTr3tMkZpDQ9L7vE
     paySucceedTemplateUrl: http://huihuisuiyue.apps.mugglecoding.com/notDraw
-
     makeCoffeesTemplateId: KgLcgcx4tODTVT9oo3ntdCF8-_46Ku2SLwJpuY7tGgU
     makeCoffeesTemplateUrl: http://huihuisuiyue.apps.mugglecoding.com/index
     body: E乐饮咖啡
+
+#微信支付配置
+wxpay:
+  pay:
+      appId: wxb4de448e44d78c61
+      mchId: 1410905702
+      mchKey: 7d8e9r8ufhj43huje98j8rh4kjhf9832
+      subAppId:
+      subMchId:
+      notifyUrl: http://mkcaffee.chinaeast.cloudapp.chinacloudapi.cn/api/coffees/pay/notify
+      ebeanRechargeUrl: http://mkcaffee.chinaeast.cloudapp.chinacloudapi.cn/api/coffees/ebeanRechargeNotify
+      tradeType: JSAPI
+      keyPath: /home/mkcaffe/cert/apiclient_cert.p12
+
 
 
 # e乐饮咖啡配置

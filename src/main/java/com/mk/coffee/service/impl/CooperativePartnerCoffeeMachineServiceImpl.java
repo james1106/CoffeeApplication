@@ -5,6 +5,7 @@ import com.mk.coffee.mapper.CooperativePartnerProductMapper;
 import com.mk.coffee.model.CooperativePartnerCoffeeMachine;
 import com.mk.coffee.model.CooperativePartnerProduct;
 import com.mk.coffee.service.IBaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class CooperativePartnerCoffeeMachineServiceImpl implements IBaseService<CooperativePartnerCoffeeMachine> {
+    @Autowired
     private CooperativePartnerCoffeeMachineMapper cooperativePartnerCoffeeMachineMapper;
 
     @Override

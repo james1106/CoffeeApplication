@@ -47,13 +47,13 @@ public interface EbeanRecordMapper {
      */
     @Insert({
         "insert into ebean_record (id, member_id, ",
-        "name, pay_type, e_num, ",
-        "giving_num, total_num, ",
-        "money, create_date)",
+        "name, pay_type, pay_state, ",
+        "e_num, giving_num, ",
+        "total_num, money, create_date)",
         "values (#{id,jdbcType=DECIMAL}, #{memberId,jdbcType=DECIMAL}, ",
-        "#{name,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{eNum,jdbcType=INTEGER}, ",
-        "#{givingNum,jdbcType=INTEGER}, #{totalNum,jdbcType=INTEGER}, ",
-        "#{money,jdbcType=REAL}, #{createDate,jdbcType=TIMESTAMP})"
+        "#{name,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{payState,jdbcType=INTEGER}, ",
+        "#{eNum,jdbcType=INTEGER}, #{givingNum,jdbcType=INTEGER}, ",
+        "#{totalNum,jdbcType=INTEGER}, #{money,jdbcType=REAL}, #{createDate,jdbcType=TIMESTAMP})"
     })
     int insert(EbeanRecord record);
 
@@ -81,7 +81,8 @@ public interface EbeanRecordMapper {
      */
     @Select({
         "select",
-        "id, member_id, name, pay_type, e_num, giving_num, total_num, money, create_date",
+        "id, member_id, name, pay_type, pay_state, e_num, giving_num, total_num, money, ",
+        "create_date",
         "from ebean_record",
         "where id = #{id,jdbcType=DECIMAL}"
     })
@@ -123,6 +124,7 @@ public interface EbeanRecordMapper {
         "set member_id = #{memberId,jdbcType=DECIMAL},",
           "name = #{name,jdbcType=VARCHAR},",
           "pay_type = #{payType,jdbcType=INTEGER},",
+          "pay_state = #{payState,jdbcType=INTEGER},",
           "e_num = #{eNum,jdbcType=INTEGER},",
           "giving_num = #{givingNum,jdbcType=INTEGER},",
           "total_num = #{totalNum,jdbcType=INTEGER},",
