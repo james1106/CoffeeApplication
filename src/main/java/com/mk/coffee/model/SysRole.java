@@ -28,7 +28,7 @@ public class SysRole {
      *
      * @mbg.generated
      */
-    private String roleType;
+    private Integer roleType;
 
     /**
      *
@@ -72,7 +72,7 @@ public class SysRole {
      *
      * @mbg.generated
      */
-    public SysRole(Integer roleId, String roleName, String roleType, String roleDescription, Integer createId, Date createDate, String remark) {
+    public SysRole(Integer roleId, String roleName, Integer roleType, String roleDescription, Integer createId, Date createDate, String remark) {
         this.roleId = roleId;
         this.roleName = roleName;
         this.roleType = roleType;
@@ -148,7 +148,7 @@ public class SysRole {
      *
      * @mbg.generated
      */
-    public String getRoleType() {
+    public Integer getRoleType() {
         return roleType;
     }
 
@@ -160,8 +160,8 @@ public class SysRole {
      *
      * @mbg.generated
      */
-    public void setRoleType(String roleType) {
-        this.roleType = roleType == null ? null : roleType.trim();
+    public void setRoleType(Integer roleType) {
+        this.roleType = roleType;
     }
 
     /**

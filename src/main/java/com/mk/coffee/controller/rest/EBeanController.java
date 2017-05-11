@@ -71,7 +71,8 @@ public class EBeanController {
     }
 
 
-    @ApiOperation(value = "e豆充值", notes = "ebeanProductId不为空，则根据ebeanProductId充值，如果money不为空,则根据money充值",
+    @ApiOperation(value = "e豆充值", notes = "ebeanProductId不为空，则根据ebeanProductId充值，如果money不为空,则根据money充值，" +
+            "返回e豆充值预支付信息",
             httpMethod = "POST")
     @PostMapping("/ebeanRecharge")
     public RestResult<Map<String, String>> ebeanRecharge(@RequestBody RequestEBeanRecharge recharge, HttpServletRequest request) {
@@ -104,7 +105,9 @@ public class EBeanController {
             WxPayOrderNotifyResult result = wxPayService.getOrderNotifyResult(xmlResult);
             // 结果正确
             ebeanRecord = eBeanRecordService.getItem(Long.valueOf(result.getOutTradeNo()));
-
+            if (ebeanRecord.getPayState() == 1) {
+                return WxPayOrderNotifyResponse.success("处理成功!");
+            }
             //得到成员的拥有的e豆
             Ebean ebean = eBeanServie.getEbeanByMemberId(ebeanRecord.getMemberId());
             if (ebean == null) {
@@ -112,9 +115,10 @@ public class EBeanController {
             } else {
                 CommonUtils.updateEbean(ebeanRecord, ebean);
             }
-
-            String totalFee = WxPayBaseResult.feeToYuan(result.getTotalFee());
-            //自己处理订单的业务逻辑，需要判断订单是否已经支付过，否则可能会重复调用
+            //更新已支付
+            ebeanRecord.setPayState(1);
+            ebeanRecord.setCreateDate(new Date());
+            eBeanRecordService.updateItem(ebeanRecord);
             return WxPayOrderNotifyResponse.success("处理成功!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +130,12 @@ public class EBeanController {
             }
             return WxPayOrderNotifyResponse.fail(e.getMessage());
         }
+    }
+
+    @GetMapping("/getEBeanByMemberId")
+    @ApiOperation(value = "得到会员E豆信息", notes = "根据memberId得到会员E豆信息", httpMethod = "GET")
+    public RestResult<Ebean> getEBeanByMemberId(@RequestParam("memberId") long memberId) {
+        return RestResultGenerator.genSuccessResult(eBeanServie.getEbeanByMemberId(memberId));
     }
 
 }

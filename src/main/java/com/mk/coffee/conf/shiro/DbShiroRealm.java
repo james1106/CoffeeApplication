@@ -50,13 +50,13 @@ public class DbShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
         //根据用户ID查询角色（role），放入到Authorization里。
-        Set<String> roleSet = new HashSet<String>();
+        Set<String> roleSet = new HashSet<>();
         List<SysRole> sysRoles = sysRoleService.getSysRoles(userId);
         if (EmptyUtils.isEmpty(sysRoles)) {
             throw new AuthorizationException("该用户没有所属角色");
         }
         for (SysRole role : sysRoles) {
-            roleSet.add(role.getRoleType());
+            roleSet.add(role.getRoleId()+"");
 
         }
         info.setRoles(roleSet);

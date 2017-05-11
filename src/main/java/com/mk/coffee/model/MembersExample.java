@@ -465,66 +465,6 @@ public class MembersExample {
             return (Criteria) this;
         }
 
-        public Criteria andEbeanIdIsNull() {
-            addCriterion("ebean_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdIsNotNull() {
-            addCriterion("ebean_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdEqualTo(Integer value) {
-            addCriterion("ebean_id =", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdNotEqualTo(Integer value) {
-            addCriterion("ebean_id <>", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdGreaterThan(Integer value) {
-            addCriterion("ebean_id >", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ebean_id >=", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdLessThan(Integer value) {
-            addCriterion("ebean_id <", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdLessThanOrEqualTo(Integer value) {
-            addCriterion("ebean_id <=", value, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdIn(List<Integer> values) {
-            addCriterion("ebean_id in", values, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdNotIn(List<Integer> values) {
-            addCriterion("ebean_id not in", values, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdBetween(Integer value1, Integer value2) {
-            addCriterion("ebean_id between", value1, value2, "ebeanId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEbeanIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("ebean_id not between", value1, value2, "ebeanId");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateDateIsNull() {
             addCriterion("create_date is null");
             return (Criteria) this;

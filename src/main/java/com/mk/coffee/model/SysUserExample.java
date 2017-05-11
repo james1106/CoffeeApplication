@@ -904,6 +904,76 @@ public class SysUserExample {
             addCriterion("salt not between", value1, value2, "salt");
             return (Criteria) this;
         }
+
+        public Criteria andHeadPortraitIsNull() {
+            addCriterion("head_portrait is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitIsNotNull() {
+            addCriterion("head_portrait is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitEqualTo(String value) {
+            addCriterion("head_portrait =", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitNotEqualTo(String value) {
+            addCriterion("head_portrait <>", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitGreaterThan(String value) {
+            addCriterion("head_portrait >", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitGreaterThanOrEqualTo(String value) {
+            addCriterion("head_portrait >=", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitLessThan(String value) {
+            addCriterion("head_portrait <", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitLessThanOrEqualTo(String value) {
+            addCriterion("head_portrait <=", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitLike(String value) {
+            addCriterion("head_portrait like", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitNotLike(String value) {
+            addCriterion("head_portrait not like", value, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitIn(List<String> values) {
+            addCriterion("head_portrait in", values, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitNotIn(List<String> values) {
+            addCriterion("head_portrait not in", values, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitBetween(String value1, String value2) {
+            addCriterion("head_portrait between", value1, value2, "headPortrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadPortraitNotBetween(String value1, String value2) {
+            addCriterion("head_portrait not between", value1, value2, "headPortrait");
+            return (Criteria) this;
+        }
     }
 
     /**

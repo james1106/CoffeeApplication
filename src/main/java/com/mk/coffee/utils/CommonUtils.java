@@ -66,12 +66,18 @@ public class CommonUtils {
                 shoppingCartTotal.setDiscountMoney(shoppingCartTotal.getTotalMoney());
             }
 
+            //e豆抵的金额
+            float eMoney = (float) (createOrder.eNum * 0.1);
+            //减免的金额
+            shoppingCartTotal.setDeductionMoney(shoppingCartTotal.getDeductionMoney() + eMoney);
+            //减免后的金额
+            shoppingCartTotal.setDiscountMoney(shoppingCartTotal.getTotalMoney() - shoppingCartTotal.getDeductionMoney());
         }
     }
 
 
     //根据购物车商品列表创建订单
-    public OrderDetails createOrder(List<ShoppingCart> shoppingCarts, long memberId) {
+    public OrderDetails createOrder(List<ShoppingCart> shoppingCarts, long memberId, int eNum) {
         //计算总金额
         float total = 0;
         //总数量
@@ -88,8 +94,10 @@ public class CommonUtils {
         orderDetails.setCreateDate(new Date());
         orderDetails.setMembersId(memberId);
         orderDetails.setOrderDetails(JsonUtils.toJson(shoppingCarts));
-        orderDetails.setMoney(total);
-        orderDetails.setDiscountMoney(total);
+        orderDetails.setBean(eNum);
+        float eMoney = (float) (eNum * 0.1);
+        orderDetails.setMoney(total - eMoney);
+        orderDetails.setDiscountMoney(total - eMoney);
         orderDetails.setTotal(count);
         orderDetails.setPayState(0);
         return orderDetails;
@@ -181,6 +189,27 @@ public class CommonUtils {
         ebean.setGivingNum(ebeanRecord.getGivingNum() + ebean.getGivingNum());
         ebean.setTotalNum(ebean.geteNum() + ebean.getGivingNum());
         ebean.setUpdateDate(new Date());
+        return ebean;
+    }
+
+    /**
+     * 更新e豆
+     */
+    public static Ebean useEbean(Ebean ebean, int num) {
+        if (ebean.getTotalNum() >= num) {
+            //赠送的豆多于花费的豆
+            if (ebean.getGivingNum() > num) {
+                ebean.setGivingNum(ebean.getGivingNum() - num);
+                ebean.setTotalNum(ebean.getGivingNum() + ebean.geteNum());
+            } else {
+                ebean.setGivingNum(0);
+                ebean.seteNum(ebean.getTotalNum() - num);
+                ebean.setTotalNum(ebean.geteNum());
+            }
+        } else {
+            throw AppException.getException(ErrorCode.EBean_Insufficient);
+        }
+
         return ebean;
     }
 

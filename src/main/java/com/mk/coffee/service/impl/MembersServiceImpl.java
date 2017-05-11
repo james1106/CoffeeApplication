@@ -1,6 +1,9 @@
 package com.mk.coffee.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mk.coffee.common.ErrorCode;
+import com.mk.coffee.common.ListResult;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.LocalAuthMapper;
 import com.mk.coffee.mapper.MembersMapper;
@@ -9,14 +12,10 @@ import com.mk.coffee.model.*;
 import com.mk.coffee.service.MembersService;
 import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.EmptyUtils;
-import com.mk.coffee.utils.JsonUtils;
 import com.mk.coffee.utils.MD5STo16Byte;
 import com.mk.coffee.utils.VerifyUtils;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,6 @@ public class MembersServiceImpl implements MembersService {
      * 注册
      */
     public boolean register(Members members, String code) throws AppException {
-
         //查询成员
         Members members1 = membersMapper.getMemberByPhone(members.getPhone());
         if (members1 != null) {
@@ -105,9 +103,9 @@ public class MembersServiceImpl implements MembersService {
             members.setId(phoneMember.getId());
             if (VerifyUtils.isNotEmpty(phoneMember.getName())) members.setName(phoneMember.getName());
             if (VerifyUtils.isNotEmpty(phoneMember.getEmail())) members.setEmail(phoneMember.getEmail());
-            if (phoneMember.getEbeanId() > 0) members.setEbeanId(phoneMember.getEbeanId());
-            if (VerifyUtils.isNotEmpty(phoneMember.getHeadportraitUrl()))
+            if (VerifyUtils.isNotEmpty(phoneMember.getHeadportraitUrl())) {
                 members.setHeadportraitUrl(phoneMember.getHeadportraitUrl());
+            }
             if (VerifyUtils.isNotEmpty(phoneMember.getPassword())) members.setPassword(phoneMember.getPassword());
 
             //删除手机注册纪录
@@ -125,7 +123,7 @@ public class MembersServiceImpl implements MembersService {
         //重新注册
         int count = membersMapper.insert(members);
         //送一杯
-        return count > 0 && productConversionCodeService.createProductConversionCodeByMemberId(members.getId(), 102)!=null;
+        return count > 0 && productConversionCodeService.createProductConversionCodeByMemberId(members.getId(), 102) != null;
     }
 
 
@@ -274,7 +272,7 @@ public class MembersServiceImpl implements MembersService {
         LocalAuth localAuth = localAuthMapper.selectLocalAuthByToken(token);
         VerifyUtils.verificationToken(token, localAuth);*/
 
-        Members members = membersMapper.selectByPrimaryKey(memberId);
+        Members members = membersMapper.getMemberById(memberId);
         if (members == null) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
@@ -305,6 +303,21 @@ public class MembersServiceImpl implements MembersService {
             return false;
         }
         return membersMapper.inertMemberByOpenId(members) > 0;
+
+    }
+
+    @Override
+    public ListResult<Members> getListByPage(int page, int size) {
+        //开始分页
+        PageHelper.startPage(page, size);
+        //查询结果
+        List<Members> list = membersMapper.selectByExample(null);
+        if (list == null || list.size() == 0) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+        //获取分页信息
+        PageInfo<Members> info = new PageInfo<>(list);
+        return new ListResult<>(list, info.getTotal());
 
     }
 

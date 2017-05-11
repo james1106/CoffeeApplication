@@ -69,7 +69,12 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
     @Override
     public boolean makeCoffeesByCustomConfigure(ProductConversionCode productConversionCode, String vmc, CustomConfig customConfig) {
         //获取商品
-        Product product = productMapper.selectByPrimaryKey(productConversionCode.getProductId());
+        Product product;
+        if (productConversionCode.getProduct() != null) {
+            product = productConversionCode.getProduct();
+        } else {
+            product = productMapper.selectByPrimaryKey(productConversionCode.getProductId());
+        }
         if (product == null) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
@@ -148,7 +153,7 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
 
 
         //插入一条公司人员喝咖啡纪录
-        CooperativePartnerProduct cooperativePartnerProduct=new CooperativePartnerProduct();
+        CooperativePartnerProduct cooperativePartnerProduct = new CooperativePartnerProduct();
         cooperativePartnerProduct.setMemberId(requestCooperativePartnerMakeCoffee.memberId);
         cooperativePartnerProduct.setProductId(requestCooperativePartnerMakeCoffee.productId);
 

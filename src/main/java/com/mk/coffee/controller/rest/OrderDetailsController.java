@@ -27,22 +27,22 @@ public class OrderDetailsController {
             "cardId，encryptCode（可选，使用微信卡券则必须同时传入） 微信卡券生成订单")
     public RestResult<OrderDetails> order(@RequestBody RequestCreateOrder createOrder) {
         //默认不传shoppingCartsItemIds
-        if (createOrder.shoppingCartsItemIds==null) {
-            if (EmptyUtils.isEmpty(createOrder.encryptCode)||EmptyUtils.isEmpty(createOrder.cardId)) {//没有微信卡券
-                return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId));
+        if (createOrder.shoppingCartsItemIds == null) {
+            if (EmptyUtils.isEmpty(createOrder.encryptCode) || EmptyUtils.isEmpty(createOrder.cardId)) {//没有微信卡券
+                return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId, createOrder.eNum));
             } else {//有微信卡券
-                return RestResultGenerator.genSuccessResult(orderDetailsService.orderUseEncryptCode(createOrder.memberId, createOrder.cardId, createOrder.encryptCode));
+                return RestResultGenerator.genSuccessResult(orderDetailsService.orderUseEncryptCode(createOrder.memberId, createOrder.cardId, createOrder.encryptCode, createOrder.eNum));
             }
         } else {
-            if (EmptyUtils.isEmpty(createOrder.encryptCode)||EmptyUtils.isEmpty(createOrder.cardId)) {
-                return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId, createOrder.shoppingCartsItemIds));
+            if (EmptyUtils.isEmpty(createOrder.encryptCode) || EmptyUtils.isEmpty(createOrder.cardId)) {
+                return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId, createOrder.shoppingCartsItemIds, createOrder.eNum));
             } else {
                 return RestResultGenerator.genSuccessResult(orderDetailsService.orderUseEncryptCode(createOrder.memberId, createOrder.cardId,
-                        createOrder.encryptCode, createOrder.shoppingCartsItemIds));
+                        createOrder.encryptCode, createOrder.shoppingCartsItemIds, createOrder.eNum));
             }
         }
-
     }
+
 
     @GetMapping("/order")
     @ApiOperation(value = "得到订单", notes = "根据订单id(orderId)得到订单")

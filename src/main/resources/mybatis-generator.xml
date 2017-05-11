@@ -86,6 +86,7 @@
         enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
+
         <!--合作伙伴-->
         <!--<table tableName="cooperative_partner"/>
         <table tableName="cooperative_partner_product"/>
@@ -93,7 +94,7 @@
         <!--<table tableName="ebean"></table>
         <table tableName="ebean_record"></table>-->
         <!--<table tableName="ebean_product"></table>-->
-        <table tableName="ebean"></table>
+        <!-- <table tableName="ebean"></table>-->
 
         <!-- <table tableName="custom_config"/>
          <table tableName="member_custom_config"/>-->
@@ -107,6 +108,8 @@
         <table tableName="sys_role_permission"/>
         <table tableName="sys_user_role"/>-->
         <!-- <table tableName="sys_role"/>-->
+       <!-- <table tableName="sys_log"/>-->
+
 
 
     </context>

@@ -1,5 +1,6 @@
 package com.mk.coffee.service.impl;
 
+import com.github.binarywang.wxpay.bean.WxPayOrderNotifyResponse;
 import com.github.binarywang.wxpay.bean.request.WxPayBaseRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -11,13 +12,10 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.EbeanRecord;
-import com.mk.coffee.model.Members;
-import com.mk.coffee.model.OrderDetails;
-import com.mk.coffee.model.WXCard;
-import com.mk.coffee.service.MembersService;
-import com.mk.coffee.service.WXInfoService;
+import com.mk.coffee.model.*;
+import com.mk.coffee.service.*;
 import com.mk.coffee.utils.CalendarUtil;
+import com.mk.coffee.utils.CommonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -26,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Map;
@@ -47,6 +46,15 @@ public class WXInfoServiceImpl implements WXInfoService {
 
     @Autowired
     private WxPayService wxPayService;
+
+    @Autowired
+    private EBeanServie eBeanServie;
+
+    @Autowired
+    private OrderDetailsService orderDetailsService;
+
+    @Autowired
+    private ProductConversionCodeService productConversionCodeService;
 
     @Override
     public WXCard getWXCart(String cardId, String encryptCode) {
@@ -105,7 +113,7 @@ public class WXInfoServiceImpl implements WXInfoService {
      * @return
      */
     @Override
-    public RestResult<Map<String,String>> getEBeanRechargeWXJsPayInfo(EbeanRecord ebeanRecord, String address) {
+    public RestResult<Map<String, String>> getEBeanRechargeWXJsPayInfo(EbeanRecord ebeanRecord, String address) {
         Members members = membersService.getMember(ebeanRecord.getMemberId());
         try {
             WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
@@ -129,5 +137,65 @@ public class WXInfoServiceImpl implements WXInfoService {
         }
     }
 
+
+    /**
+     * 测试得到e豆充值的预支付信息
+     *
+     * @param ebeanRecord e豆充值纪录
+     * @param address     IP
+     * @return
+     */
+    @Override
+    public RestResult<Map<String, String>> getEBeanRechargeWXJsPayInfoTest(EbeanRecord ebeanRecord, String address) {
+        Members members = membersService.getMember(ebeanRecord.getMemberId());
+        try {
+            WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
+            orderRequest.setBody(wechatMpProperties.getBody());
+            //订单
+            orderRequest.setOutTradeNo(ebeanRecord.getId() + "");
+            orderRequest.setTradeType("JSAPI");
+            orderRequest.setTotalFee(1);//元转成分
+            orderRequest.setNotifyURL("");
+            orderRequest.setOpenid(members.getOpenId());
+            orderRequest.setSpbillCreateIp(address);
+            orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
+            //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
+
+            Map<String, String> result = wxPayService.getPayInfo(orderRequest);
+            return RestResultGenerator.genSuccessResult(result);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            logger.error("微信支付失败！订单号：{},原因:{}", ebeanRecord.getId(), e.getMessage());
+            throw AppException.getException(ErrorCode.Pay_Fail.getCode());
+        }
+    }
+
+
+    @Override
+    @Transactional
+    public boolean orderCheckout(OrderDetails orderDetails) throws WxErrorException {
+        if (orderDetails.getPayState() == 1) {//已支付过，通知
+            throw AppException.getException(ErrorCode.Already_Pay);
+        }
+        //更新支付状态
+        orderDetails.setPayState(1);
+        orderDetails.setEndDate(new Date());
+        orderDetails.setId(orderDetails.getId());
+        orderDetailsService.updatePayState(orderDetails);
+        //更新e豆
+        if (orderDetails.getBean() != null && orderDetails.getBean() > 0) {
+            Ebean ebean = eBeanServie.getEbeanByMemberId(orderDetails.getMembersId());
+            eBeanServie.updateItem(CommonUtils.useEbean(ebean, orderDetails.getBean()));
+        }
+        //核销微信卡券
+        if (orderDetails.getWxCardCode() != null && !orderDetails.getWxCardCode().equals("")) {
+            wxMpService.getCardService().consumeCardCode(orderDetails.getWxCardCode());
+            //将所有使用该微信卡券的订单重置金额
+            orderDetailsService.updateOrderDetailsByWxCardCode(orderDetails.getWxCardCode());
+        }
+        //生成商品兑换码
+        return productConversionCodeService.createProductConversionCodeService(orderDetails);
+
+    }
 
 }

@@ -585,52 +585,52 @@ public class OrderDetailsExample {
             return (Criteria) this;
         }
 
-        public Criteria andBeanEqualTo(Short value) {
+        public Criteria andBeanEqualTo(Integer value) {
             addCriterion("bean =", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanNotEqualTo(Short value) {
+        public Criteria andBeanNotEqualTo(Integer value) {
             addCriterion("bean <>", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanGreaterThan(Short value) {
+        public Criteria andBeanGreaterThan(Integer value) {
             addCriterion("bean >", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanGreaterThanOrEqualTo(Short value) {
+        public Criteria andBeanGreaterThanOrEqualTo(Integer value) {
             addCriterion("bean >=", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanLessThan(Short value) {
+        public Criteria andBeanLessThan(Integer value) {
             addCriterion("bean <", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanLessThanOrEqualTo(Short value) {
+        public Criteria andBeanLessThanOrEqualTo(Integer value) {
             addCriterion("bean <=", value, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanIn(List<Short> values) {
+        public Criteria andBeanIn(List<Integer> values) {
             addCriterion("bean in", values, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanNotIn(List<Short> values) {
+        public Criteria andBeanNotIn(List<Integer> values) {
             addCriterion("bean not in", values, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanBetween(Short value1, Short value2) {
+        public Criteria andBeanBetween(Integer value1, Integer value2) {
             addCriterion("bean between", value1, value2, "bean");
             return (Criteria) this;
         }
 
-        public Criteria andBeanNotBetween(Short value1, Short value2) {
+        public Criteria andBeanNotBetween(Integer value1, Integer value2) {
             addCriterion("bean not between", value1, value2, "bean");
             return (Criteria) this;
         }

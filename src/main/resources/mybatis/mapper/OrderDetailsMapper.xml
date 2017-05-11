@@ -13,7 +13,7 @@
       <arg column="discount_money" javaType="java.lang.Float" jdbcType="REAL" />
       <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="wx_card_code" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="bean" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="bean" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="custom_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="notes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -34,7 +34,7 @@
       <arg column="discount_money" javaType="java.lang.Float" jdbcType="REAL" />
       <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="wx_card_code" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="bean" javaType="java.lang.Short" jdbcType="SMALLINT" />
+      <arg column="bean" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="custom_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="notes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -243,7 +243,7 @@
         #{wxCardCode,jdbcType=VARCHAR},
       </if>
       <if test="bean != null">
-        #{bean,jdbcType=SMALLINT},
+        #{bean,jdbcType=INTEGER},
       </if>
       <if test="customId != null">
         #{customId,jdbcType=INTEGER},
@@ -304,7 +304,7 @@
         wx_card_code = #{record.wxCardCode,jdbcType=VARCHAR},
       </if>
       <if test="record.bean != null">
-        bean = #{record.bean,jdbcType=SMALLINT},
+        bean = #{record.bean,jdbcType=INTEGER},
       </if>
       <if test="record.customId != null">
         custom_id = #{record.customId,jdbcType=INTEGER},
@@ -344,7 +344,7 @@
       discount_money = #{record.discountMoney,jdbcType=REAL},
       coupon_id = #{record.couponId,jdbcType=INTEGER},
       wx_card_code = #{record.wxCardCode,jdbcType=VARCHAR},
-      bean = #{record.bean,jdbcType=SMALLINT},
+      bean = #{record.bean,jdbcType=INTEGER},
       custom_id = #{record.customId,jdbcType=INTEGER},
       notes = #{record.notes,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
@@ -368,7 +368,7 @@
       discount_money = #{record.discountMoney,jdbcType=REAL},
       coupon_id = #{record.couponId,jdbcType=INTEGER},
       wx_card_code = #{record.wxCardCode,jdbcType=VARCHAR},
-      bean = #{record.bean,jdbcType=SMALLINT},
+      bean = #{record.bean,jdbcType=INTEGER},
       custom_id = #{record.customId,jdbcType=INTEGER},
       notes = #{record.notes,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
@@ -402,7 +402,7 @@
         wx_card_code = #{wxCardCode,jdbcType=VARCHAR},
       </if>
       <if test="bean != null">
-        bean = #{bean,jdbcType=SMALLINT},
+        bean = #{bean,jdbcType=INTEGER},
       </if>
       <if test="customId != null">
         custom_id = #{customId,jdbcType=INTEGER},

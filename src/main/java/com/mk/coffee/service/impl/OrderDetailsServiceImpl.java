@@ -3,9 +3,11 @@ package com.mk.coffee.service.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.exception.AppException;
+import com.mk.coffee.mapper.EbeanMapper;
 import com.mk.coffee.mapper.OrderDetailsMapper;
 import com.mk.coffee.mapper.ShoppingCartMapper;
 import com.mk.coffee.model.*;
+import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.service.ShoppingCartService;
 import com.mk.coffee.service.WXInfoService;
@@ -38,15 +40,23 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Autowired
     private CommonUtils commonUtils;
+
+    @Autowired
+    private EBeanServie eBeanServie;
+
     @Override
     @Transactional
-    public OrderDetails order(long memberId) {
+    public OrderDetails order(long memberId, int eNum) {
         List<ShoppingCart> shoppingCarts = shoppingCartMapper.getShoppingCartByMemberId(memberId);
+        Ebean ebean = eBeanServie.getEbeanByMemberId(memberId);
+        if (ebean != null && ebean.getTotalNum() < eNum) {
+            throw AppException.getException(ErrorCode.EBean_Insufficient);
+        }
         if (shoppingCarts == null || shoppingCarts.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
 
-        OrderDetails orderDetails =  commonUtils.createOrder(shoppingCarts, memberId);
+        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, eNum);
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
         commonUtils.cleanShoppingCart(memberId);
         return orderDetails;
@@ -54,12 +64,17 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     @Transactional
-    public OrderDetails order(long memberId, int[] ids) {
+    public OrderDetails order(long memberId, int[] ids, int eNum) {
         List<ShoppingCart> shoppingCarts = shoppingCartService.getShoppingCartByIds(memberId, ids);
         if (shoppingCarts == null || shoppingCarts.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
-        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId);
+        Ebean ebean = eBeanServie.getEbeanByMemberId(memberId);
+        if (ebean != null && ebean.getTotalNum() < eNum) {
+            throw AppException.getException(ErrorCode.EBean_Insufficient);
+        }
+
+        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, eNum);
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
         commonUtils.cleanShoppingCartByIds(ids);
         return orderDetails;
@@ -67,17 +82,26 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     @Transactional
-    public OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode) {
+    public OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int eNum) {
         List<ShoppingCart> shoppingCarts = shoppingCartMapper.getShoppingCartByMemberId(memberId);
         if (shoppingCarts == null || shoppingCarts.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
 
+        Ebean ebean = eBeanServie.getEbeanByMemberId(memberId);
+        if (ebean != null && ebean.getTotalNum() < eNum) {
+            throw AppException.getException(ErrorCode.EBean_Insufficient);
+        }
+
         WXCard wxCard = wxInfoService.getWXCart(cardId, encryptCode);
-        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId);
+        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, 0);
         orderDetails.setWxCardCode(wxCard.getCode());
         //计算减去优惠券的金额
         commonUtils.computeDiscountMoney(wxCard, orderDetails);
+        //减去e豆
+        orderDetails.setBean(eNum);
+        float eMoney = (float) (eNum * 0.1);
+        orderDetails.setDiscountMoney(orderDetails.getDiscountMoney() - eMoney);
         //插入数据库
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
         return orderDetails;
@@ -85,15 +109,25 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Transactional
     @Override
-    public OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int[] ids) {
+    public OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int[] ids, int eNum) {
         List<ShoppingCart> shoppingCarts = shoppingCartService.getShoppingCartByIds(memberId, ids);
         if (shoppingCarts == null || shoppingCarts.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
+        Ebean ebean = eBeanServie.getEbeanByMemberId(memberId);
+        if (ebean != null && ebean.getTotalNum() < eNum) {
+            throw AppException.getException(ErrorCode.EBean_Insufficient);
+        }
+
         WXCard wxCard = wxInfoService.getWXCart(cardId, encryptCode);
-        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId);
+        OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, 0);
         orderDetails.setWxCardCode(wxCard.getCode());
+        //计算减去优惠券的金额
         commonUtils.computeDiscountMoney(wxCard, orderDetails);
+        //减去e豆
+        orderDetails.setBean(eNum);
+        float eMoney = (float) (eNum * 0.1);
+        orderDetails.setDiscountMoney(orderDetails.getDiscountMoney() - eMoney);
         //插入数据库
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
         return orderDetails;

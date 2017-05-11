@@ -4,6 +4,7 @@ import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
+import com.mk.coffee.model.SysUser;
 import com.mk.coffee.requestbody.RequestUserAdmin;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class SysLoginController {
 
     @PostMapping("/login")
-    public RestResult login(@RequestBody RequestUserAdmin requestUserAdmin) {
+    public RestResult<SysUser> login(@RequestBody RequestUserAdmin requestUserAdmin) {
         try {
             Subject subject = SecurityUtils.getSubject();
            /* //sha256加密
@@ -32,6 +33,8 @@ public class SysLoginController {
         } catch (AuthenticationException e) {
             throw AppException.getException(ErrorCode.User_Not_Exist.getCode(), e.getMessage());
         }
-        return RestResultGenerator.genSuccessResult();
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        sysUser.setPassword(null);
+        return RestResultGenerator.genSuccessResult(sysUser);
     }
 }

@@ -2,7 +2,9 @@ package com.mk.coffee.service;
 
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.model.EbeanRecord;
+import com.mk.coffee.model.OrderDetails;
 import com.mk.coffee.model.WXCard;
+import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.util.Map;
 
@@ -11,8 +13,11 @@ import java.util.Map;
  */
 public interface WXInfoService {
     WXCard getWXCart(String cardId, String encryptCode);
-
     String getAuthorizationUrl(String url);
-
     RestResult<Map<String, String>> getEBeanRechargeWXJsPayInfo(EbeanRecord ebeanRecord, String address);
+    RestResult<Map<String, String>> getEBeanRechargeWXJsPayInfoTest(EbeanRecord ebeanRecord, String address);
+    //结账
+    boolean orderCheckout(OrderDetails orderDetails) throws WxErrorException;
+
+
 }

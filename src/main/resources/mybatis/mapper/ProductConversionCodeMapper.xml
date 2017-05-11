@@ -353,4 +353,19 @@
         INNER JOIN product p ON p.id= pcc.product_id
         WHERE member_id=#{memberId} ORDER BY pcc.update_date DESC
     </select>
+
+    <select id="getProductConversionCodeById" resultType="ProductConversionCode">
+        SELECT
+        pcc.id,
+        pcc.conversion_state,
+        pcc.conversion_code,
+        p.name "product.name",
+        p.price "product.price",
+        p.picture_url "product.pictureUrl",
+        p.sales "product.sales",
+        p.summary "product.summary"
+        FROM product_conversion_code pcc
+        INNER JOIN product p ON p.id=pcc.product_id
+        WHERE pcc.id=#{id}
+    </select>
 </mapper>

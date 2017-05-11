@@ -33,6 +33,7 @@ public interface ProductConversionCodeService {
     ProductConversionCode getProductConversionCodeByConversionCode(ProductConversionCode conversionCode);
 
 
+
     //更新兑换码状态信息
     boolean updateProductConversionCodeById(int id, int conversionState);
 

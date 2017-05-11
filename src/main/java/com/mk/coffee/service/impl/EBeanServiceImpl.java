@@ -26,7 +26,7 @@ public class EBeanServiceImpl implements EBeanServie {
     public Ebean getItem(int id) {
         EbeanKey ebeanKey = new EbeanKey();
         ebeanKey.setId(id);
-        return mapper.selectByPrimaryKey(ebeanKey);
+        return mapper.selectByOrPrimaryKey(ebeanKey);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class EBeanServiceImpl implements EBeanServie {
     public Ebean getEbeanByMemberId(long memberId) {
         EbeanKey ebeanKey = new EbeanKey();
         ebeanKey.setMemberId(memberId);
-        return mapper.selectByPrimaryKey(ebeanKey);
+        return mapper.selectByOrPrimaryKey(ebeanKey);
     }
 }

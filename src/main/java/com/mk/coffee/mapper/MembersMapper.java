@@ -47,17 +47,15 @@ public interface MembersMapper {
      */
     @Insert({
         "insert into members (id, name, ",
-        "email, phone, ebean_id, ",
-        "create_date, password, ",
-        "oauth_id, local_token, ",
-        "headportrait_url, open_id, ",
-        "sex, is_regist)",
+        "email, phone, create_date, ",
+        "password, oauth_id, ",
+        "local_token, headportrait_url, ",
+        "open_id, sex, is_regist)",
         "values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, ",
-        "#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{ebeanId,jdbcType=INTEGER}, ",
-        "#{createDate,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, ",
-        "#{oauthId,jdbcType=INTEGER}, #{localToken,jdbcType=VARCHAR}, ",
-        "#{headportraitUrl,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, ",
-        "#{sex,jdbcType=VARCHAR}, #{isRegist,jdbcType=BIT})"
+        "#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
+        "#{password,jdbcType=VARCHAR}, #{oauthId,jdbcType=INTEGER}, ",
+        "#{localToken,jdbcType=VARCHAR}, #{headportraitUrl,jdbcType=VARCHAR}, ",
+        "#{openId,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{isRegist,jdbcType=BIT})"
     })
     int insert(Members record);
 
@@ -85,8 +83,8 @@ public interface MembersMapper {
      */
     @Select({
         "select",
-        "id, name, email, phone, ebean_id, create_date, password, oauth_id, local_token, ",
-        "headportrait_url, open_id, sex, is_regist",
+        "id, name, email, phone, create_date, password, oauth_id, local_token, headportrait_url, ",
+        "open_id, sex, is_regist",
         "from members",
         "where id = #{id,jdbcType=DECIMAL}"
     })
@@ -128,7 +126,6 @@ public interface MembersMapper {
         "set name = #{name,jdbcType=VARCHAR},",
           "email = #{email,jdbcType=VARCHAR},",
           "phone = #{phone,jdbcType=VARCHAR},",
-          "ebean_id = #{ebeanId,jdbcType=INTEGER},",
           "create_date = #{createDate,jdbcType=TIMESTAMP},",
           "password = #{password,jdbcType=VARCHAR},",
           "oauth_id = #{oauthId,jdbcType=INTEGER},",
@@ -143,7 +140,7 @@ public interface MembersMapper {
 
     @Select({
             "select",
-            "id, name, email, phone, ebean_id, create_date, password, oauth_id, local_token, ",
+            "id, name, email, phone, create_date, password, oauth_id, local_token, ",
             "headportrait_url, open_id, sex,is_regist",
             "from members",
             "where phone = #{phone}"
@@ -153,7 +150,7 @@ public interface MembersMapper {
 
     @Select({
             "select",
-            "id, name, email, phone, ebean_id, create_date, password, oauth_id, local_token, ",
+            "id, name, email, phone, create_date, password, oauth_id, local_token, ",
             "headportrait_url,open_id,is_regist",
             "from members",
             "where open_id like #{openId}"
@@ -176,7 +173,7 @@ public interface MembersMapper {
 
 
     @Select({
-            "id, name, email, phone, ebean_id, create_date, password, oauth_id, local_token, ",
+            "id, name, email, phone, create_date, password, oauth_id, local_token, ",
             "headportrait_url, open_id, sex,is_regist",
             "from members",
             "where phone = #{phone,jdbcType=INTEGER}"
@@ -212,4 +209,7 @@ public interface MembersMapper {
             "set local_token = #{localToken,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}"
     })
     int updateTokenByPrimaryKey(Members record);
+
+
+    Members getMemberById(@Param("id")long id);
 }

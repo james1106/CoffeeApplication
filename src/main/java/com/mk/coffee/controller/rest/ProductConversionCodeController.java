@@ -72,5 +72,10 @@ public class ProductConversionCodeController {
         return RestResultGenerator.genSuccessResult(productConversionCodeService.giveProductConversionCode(memberId, productConversionId));
     }
 
+    @GetMapping("/getProductConversionCodeById")
+    @ApiOperation(value = "根据id得到兑换码的信息", notes = "根据id兑换码信息", httpMethod = "GET")
+    public RestResult<ProductConversionCode> getProductConversionCodeById(@RequestParam("id") int id) {
+        return RestResultGenerator.genSuccessResult(productConversionCodeService.getProductConversionCodeById(id));
+    }
 
 }

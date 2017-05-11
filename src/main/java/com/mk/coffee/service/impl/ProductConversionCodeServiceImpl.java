@@ -100,7 +100,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
 
     @Override
     public ProductConversionCode getProductConversionCodeById(int id) {
-        return productConversionCodeMapper.selectByPrimaryKey(id);
+        return productConversionCodeMapper.getProductConversionCodeById(id);
     }
 
     @Override
@@ -158,6 +158,9 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     @Override
     public boolean giveProductConversionCode(long memberId, int productConversionId) {
         ProductConversionCode productConversionCode = productConversionCodeMapper.selectByPrimaryKey(productConversionId);
+        if (memberId == productConversionCode.getMemberId()) {
+            throw AppException.getException(ErrorCode.Member_Identical);
+        }
         productConversionCode.setMemberId(memberId);
         return productConversionCodeMapper.updateByPrimaryKey(productConversionCode) > 0;
     }

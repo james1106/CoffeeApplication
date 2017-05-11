@@ -12,15 +12,15 @@ import java.util.List;
 public interface OrderDetailsService {
 
     //下单
-    OrderDetails order(long memberId) throws AppException;
+    OrderDetails order(long memberId,int eNum) throws AppException;
 
-    OrderDetails order(long memberId,int[] ids);
+    OrderDetails order(long memberId,int[] ids,int eNum);
 
     //使用微信卡券下单通过加密code
-    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode);
+    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode,int eNum);
 
     //使用微信卡券下单通过加密code和购物车商品ids
-    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode,int[] ids);
+    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode,int[] ids,int eNum);
 
     //得到订单
     OrderDetails getOrderDetail(String id) throws AppException;

@@ -1,5 +1,6 @@
 package com.mk.coffee.service;
 
+import com.mk.coffee.common.ListResult;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.LoginInfo;
 import com.mk.coffee.model.Members;
@@ -43,5 +44,8 @@ public interface MembersService {
 
 
     boolean inertMemberByOpenId(Members members);
+
+
+    ListResult<Members> getListByPage(int page, int size);
 
 }

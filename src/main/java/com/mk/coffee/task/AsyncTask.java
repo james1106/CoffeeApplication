@@ -5,6 +5,7 @@ import com.mk.coffee.model.Members;
 import com.mk.coffee.model.ProductConversionCode;
 import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.DateUtils;
+import com.mk.coffee.utils.TemplateMessageUtils;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
@@ -38,6 +39,9 @@ public class AsyncTask {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private TemplateMessageUtils templateMessageUtils;
+
     @Async("makeCoffeesAsync")
     @Transactional
     public void doTask(ProductConversionCode productConversionCode, String vmc) throws InterruptedException {
@@ -51,25 +55,8 @@ public class AsyncTask {
             if (flag) {
                 Members members = productConversionCodeService.getMembersByProductConversionCode(productConversionCode.getOrderNum(), productConversionCode.getProductId());
                 //发送模板消息到微信
-                WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                        .toUser(members.getOpenId())
-                        .templateId(wechatMpProperties.getMakeCoffeesTemplateId())
-                        .url(wechatMpProperties.getMakeCoffeesTemplateUrl())
-                        .build();
-                templateMessage.addWxMpTemplateData(
-                        new WxMpTemplateData("first", "制作咖啡失败", "#7CBC3B"));
-                templateMessage.addWxMpTemplateData(new WxMpTemplateData("keyword1", vmc));//设备编号
-                templateMessage.addWxMpTemplateData(new WxMpTemplateData("keyword2", "咖啡制作失败"));//制作结果
-                templateMessage.addWxMpTemplateData(
-                        new WxMpTemplateData("remark",
-                                String.format("您在%s领取咖啡失败，兑换码ID为%s，对此非常抱歉，请您联系咖啡机管理员电话",
-                                        DateUtils.getDate2LStr2(new Date()), productConversionCode.getOrderNum())));
-                try {
-                    wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-                } catch (WxErrorException e) {
-                    e.printStackTrace();
-                    logger.info("Task1 error."+e.getMessage());
-                }
+                templateMessageUtils.sendMakeCoffeeFail(members.getOpenId(), vmc, productConversionCode.getOrderNum());
+
             }
         }
         logger.info("Task1 end.");

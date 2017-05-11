@@ -17,6 +17,7 @@ import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.DateUtils;
 import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.MD5Util;
+import com.mk.coffee.utils.TemplateMessageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -52,6 +53,9 @@ public class MakeCoffeesController {
 
     @Autowired
     private WxMpService wxMpService;
+
+    @Autowired
+    private TemplateMessageUtils templateMessageUtils;
 
     @ApiOperation(value = "获取咖啡", notes = "根据兑换码，咖啡机器码（通过扫一扫二维码获取）获取咖啡")
     @PostMapping("/makeCoffeesByConversionCode")
@@ -165,22 +169,7 @@ public class MakeCoffeesController {
         Members members = productConversionCodeService.getMembersByProductConversionCode(ID, Integer.valueOf(PID));
         if (members != null) {
             //发送模板消息到微信
-            WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                    .toUser(members.getOpenId())
-                    .templateId(wechatMpProperties.getMakeCoffeesTemplateId())
-                    .url(wechatMpProperties.getMakeCoffeesTemplateUrl())
-                    .build();
-            templateMessage.addWxMpTemplateData(
-                    new WxMpTemplateData("first", "您制作的咖啡已完成", "#7CBC3B"));
-            templateMessage.addWxMpTemplateData(new WxMpTemplateData("keyword1", VMC));//设备编号
-            templateMessage.addWxMpTemplateData(new WxMpTemplateData("keyword2", "咖啡制作成功"));//制作结果
-            new WxMpTemplateData("remark",
-                    String.format("您在%s领取咖啡成功，兑换码ID为%s，欢迎再次使用", DateUtils.getDate2LStr2(new Date()), ID));
-            try {
-                wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-            } catch (WxErrorException e) {
-                e.printStackTrace();
-            }
+            templateMessageUtils.sendMakeCoffeeSucceed(members.getOpenId(), VMC, ID);
         }
         return RestResultGenerator.genSuccessResult(flag);
     }

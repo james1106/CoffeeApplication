@@ -7,5 +7,6 @@ public class RequestCreateOrder {
     public long memberId;
     public String cardId;
     public String encryptCode;
+    public int eNum = 0;
     public int[] shoppingCartsItemIds;
 }

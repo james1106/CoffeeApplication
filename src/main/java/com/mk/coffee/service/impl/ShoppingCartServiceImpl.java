@@ -153,7 +153,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartTotal getShoppingCartTotalByIdsOrWXCard(RequestCreateOrder createOrder) {
         ShoppingCartTotal shoppingCartTotal = new ShoppingCartTotal();
         //默认不传shoppingCartsItemIds
-        if (createOrder.shoppingCartsItemIds==null) {
+        if (createOrder.shoppingCartsItemIds == null) {
             List<ShoppingCart> shoppingCarts = shoppingCartMapper.getShoppingCartByMemberId(createOrder.memberId);
             if (EmptyUtils.isEmpty(shoppingCarts)) {
                 throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
@@ -165,11 +165,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 total += (shoppingCart.getNum() * shoppingCart.getProduct().getPrice());
                 count += shoppingCart.getNum();
             }
+
+            //e豆抵的金额
+            float eMoney = (float) (createOrder.eNum * 0.1);
+            shoppingCartTotal.setDeductionMoney(eMoney);
             shoppingCartTotal.setTotalMoney(total);
-            shoppingCartTotal.setDiscountMoney(total);
-            shoppingCartTotal.setDeductionMoney(0);
+            if (eMoney > total) {
+                shoppingCartTotal.setDiscountMoney(0);
+            } else {
+                shoppingCartTotal.setDiscountMoney(total - eMoney);
+            }
             shoppingCartTotal.setCount(count);
-            if (!EmptyUtils.isEmpty(createOrder.encryptCode)&&!EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
+            if (!EmptyUtils.isEmpty(createOrder.encryptCode) && !EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
+                shoppingCartTotal.setDiscountMoney(total);
+                shoppingCartTotal.setDeductionMoney(0);
                 commonUtils.computeDiscountMoney(createOrder, shoppingCartTotal);
             }
         } else {
@@ -184,11 +193,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 total += (shoppingCart.getNum() * shoppingCart.getProduct().getPrice());
                 count += shoppingCart.getNum();
             }
+            //e豆抵的金额
+            float eMoney = (float) (createOrder.eNum * 0.1);
+            shoppingCartTotal.setDeductionMoney(eMoney);
             shoppingCartTotal.setTotalMoney(total);
-            shoppingCartTotal.setDiscountMoney(total);
-            shoppingCartTotal.setDeductionMoney(0);
+            if (eMoney > total) {
+                shoppingCartTotal.setDiscountMoney(0);
+            } else {
+                shoppingCartTotal.setDiscountMoney(total - eMoney);
+            }
             shoppingCartTotal.setCount(count);
-            if (!EmptyUtils.isEmpty(createOrder.encryptCode)&&!EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
+            if (!EmptyUtils.isEmpty(createOrder.encryptCode) && !EmptyUtils.isEmpty(createOrder.cardId)) {//有微信卡券
+                shoppingCartTotal.setDiscountMoney(total);
+                shoppingCartTotal.setDeductionMoney(0);
                 commonUtils.computeDiscountMoney(createOrder, shoppingCartTotal);
             }
         }

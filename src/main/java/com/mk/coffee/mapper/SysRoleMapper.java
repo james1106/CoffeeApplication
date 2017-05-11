@@ -2,7 +2,9 @@ package com.mk.coffee.mapper;
 
 import com.mk.coffee.model.SysRole;
 import com.mk.coffee.model.SysRoleExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -34,8 +36,8 @@ public interface SysRoleMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from sys_role",
-        "where role_id = #{roleId,jdbcType=INTEGER}"
+            "delete from sys_role",
+            "where role_id = #{roleId,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer roleId);
 
@@ -46,14 +48,14 @@ public interface SysRoleMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into sys_role (role_id, role_name, ",
-        "role_type, role_description, ",
-        "create_id, create_date, ",
-        "remark)",
-        "values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, ",
-        "#{roleType,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, ",
-        "#{createId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
-        "#{remark,jdbcType=VARCHAR})"
+            "insert into sys_role (role_id, role_name, ",
+            "role_type, role_description, ",
+            "create_id, create_date, ",
+            "remark)",
+            "values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, ",
+            "#{roleType,jdbcType=INTEGER}, #{roleDescription,jdbcType=VARCHAR}, ",
+            "#{createId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
+            "#{remark,jdbcType=VARCHAR})"
     })
     int insert(SysRole record);
 
@@ -80,10 +82,10 @@ public interface SysRoleMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "role_id, role_name, role_type, role_description, create_id, create_date, remark",
-        "from sys_role",
-        "where role_id = #{roleId,jdbcType=INTEGER}"
+            "select",
+            "role_id, role_name, role_type, role_description, create_id, create_date, remark",
+            "from sys_role",
+            "where role_id = #{roleId,jdbcType=INTEGER}"
     })
     @ResultMap("com.mk.coffee.mapper.SysRoleMapper.BaseResultMap")
     SysRole selectByPrimaryKey(Integer roleId);
@@ -119,16 +121,16 @@ public interface SysRoleMapper {
      * @mbg.generated
      */
     @Update({
-        "update sys_role",
-        "set role_name = #{roleName,jdbcType=VARCHAR},",
-          "role_type = #{roleType,jdbcType=VARCHAR},",
-          "role_description = #{roleDescription,jdbcType=VARCHAR},",
-          "create_id = #{createId,jdbcType=INTEGER},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP},",
-          "remark = #{remark,jdbcType=VARCHAR}",
-        "where role_id = #{roleId,jdbcType=INTEGER}"
+            "update sys_role",
+            "set role_name = #{roleName,jdbcType=VARCHAR},",
+            "role_type = #{roleType,jdbcType=INTEGER},",
+            "role_description = #{roleDescription,jdbcType=VARCHAR},",
+            "create_id = #{createId,jdbcType=INTEGER},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
+            "remark = #{remark,jdbcType=VARCHAR}",
+            "where role_id = #{roleId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(SysRole record);
 
-    List<SysRole> getSysRoles(int userId);
+    List<SysRole> getSysRoles(@Param("userId") int userId);
 }
