@@ -317,7 +317,7 @@ public class MembersServiceImpl implements MembersService {
         }
         //获取分页信息
         PageInfo<Members> info = new PageInfo<>(list);
-        return new ListResult<>(list, info.getTotal());
+        return new ListResult<>(info.getList(), info.getTotal(),info.getPages());
 
     }
 

@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 /**
  * 商品服务
  */
-public interface ProductService {
+public interface ProductService extends IBaseService<Product> {
 
     //得到商品列表
     ListResult<Product> getListResultPages(int page, int size) throws AppException;

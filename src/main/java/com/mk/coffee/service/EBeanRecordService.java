@@ -1,5 +1,6 @@
 package com.mk.coffee.service;
 
+import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanRecord;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface EBeanRecordService {
 
 
     boolean updateItem(EbeanRecord ebeanRecord);
+
 
 
     boolean deleteItem(long id);

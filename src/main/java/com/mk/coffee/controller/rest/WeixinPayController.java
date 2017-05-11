@@ -144,6 +144,10 @@ public class WeixinPayController {
     }
 
 
+
+
+
+
     /**
      * 微信通知支付结果的回调地址，notify_url
      */
@@ -181,6 +185,10 @@ public class WeixinPayController {
             return WxPayOrderNotifyResponse.fail(e.getMessage());
         }
     }
+
+
+
+
 
 
 }

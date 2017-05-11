@@ -13,6 +13,7 @@ public class ListResult<T> implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<T> rows;
     private long total;//纪录总数量
+    private int pages;//页数
 
     public ListResult() {
     }
@@ -20,6 +21,12 @@ public class ListResult<T> implements Serializable {
     public ListResult(List<T> rows, long total) {
         this.rows = rows;
         this.total = total;
+    }
+
+    public ListResult(List<T> rows, long total, int pages) {
+        this.rows = rows;
+        this.total = total;
+        this.pages = pages;
     }
 
     public ListResult(List<T> rows) {
@@ -41,6 +48,14 @@ public class ListResult<T> implements Serializable {
 
     public void setRows(List<T> rows) {
         this.rows = rows;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 
     @Override

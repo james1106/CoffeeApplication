@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Administrator on 2017/3/2 0002.
  */
 @Service
-public interface CoffeeMachineService {
+public interface CoffeeMachineService extends IBaseService<CoffeeMachine> {
     //通过定位，半径得到咖啡机列表
     ListResult<CoffeeMachine> getCoffeeMachinesByLonLat(double longitude, double latitude, float radius) throws ApiException;
 

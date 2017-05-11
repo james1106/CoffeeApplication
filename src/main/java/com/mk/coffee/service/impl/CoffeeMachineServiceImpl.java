@@ -54,4 +54,29 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
         }
         return coffeeMachine;
     }
+
+    @Override
+    public List<CoffeeMachine> getList() {
+        return coffeeMachineMapper.selectByExample(null);
+    }
+
+    @Override
+    public CoffeeMachine getItem(int id) {
+        return coffeeMachineMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean updateItem(CoffeeMachine coffeeMachine) {
+        return coffeeMachineMapper.updateByPrimaryKey(coffeeMachine)>0;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        return coffeeMachineMapper.deleteByPrimaryKey(id)>0;
+    }
+
+    @Override
+    public boolean addItem(CoffeeMachine coffeeMachine) {
+        return coffeeMachineMapper.insert(coffeeMachine)>0;
+    }
 }

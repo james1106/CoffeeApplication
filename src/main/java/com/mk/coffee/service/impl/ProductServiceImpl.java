@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         //获取分页信息
         PageInfo<Product> info = new PageInfo<>(list);
 
-        return new ListResult<>(list, info.getTotal());
+        return new ListResult<>(list, info.getTotal(),info.getPages());
     }
 
     public ListResult<Product> getProductListOrderPage(OrderProperty orderProperty, OrderType orderType, int page, int size) throws AppException {
@@ -68,6 +68,31 @@ public class ProductServiceImpl implements ProductService {
         }
         //获取分页信息
         PageInfo<Product> info = new PageInfo<>(list);
-        return new ListResult<>(list, info.getTotal());
+        return new ListResult<>(list, info.getTotal(), info.getPages());
+    }
+
+    @Override
+    public List<Product> getList() {
+        return productMapper.selectByExample(null);
+    }
+
+    @Override
+    public Product getItem(int id) {
+        return productMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean updateItem(Product product) {
+        return productMapper.updateByPrimaryKey(product)>0;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        return productMapper.deleteByPrimaryKey(id)>0;
+    }
+
+    @Override
+    public boolean addItem(Product product) {
+        return productMapper.insert(product)>0;
     }
 }

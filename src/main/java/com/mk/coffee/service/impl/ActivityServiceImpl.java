@@ -27,4 +27,29 @@ public class ActivityServiceImpl implements ActivityService {
         }
         return activityList;
     }
+
+    @Override
+    public List<Activity> getList() {
+        return activityMapper.selectByExample(null);
+    }
+
+    @Override
+    public Activity getItem(int id) {
+        return activityMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean updateItem(Activity activity) {
+        return activityMapper.updateByPrimaryKey(activity)>0;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        return activityMapper.deleteByPrimaryKey(id)>0;
+    }
+
+    @Override
+    public boolean addItem(Activity activity) {
+        return activityMapper.insert(activity)>0;
+    }
 }
