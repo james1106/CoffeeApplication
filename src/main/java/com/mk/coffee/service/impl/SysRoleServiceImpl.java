@@ -20,4 +20,29 @@ public class SysRoleServiceImpl implements SysRoleService {
     public List<SysRole> getSysRoles(int userId) {
         return sysRoleMapper.getSysRoles(userId);
     }
+
+    @Override
+    public List<SysRole> getList() {
+        return sysRoleMapper.selectByExample(null);
+    }
+
+    @Override
+    public SysRole getItem(int id) {
+        return sysRoleMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean updateItem(SysRole sysRole) {
+        return sysRoleMapper.updateByPrimaryKey(sysRole) > 0;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        return sysRoleMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    @Override
+    public boolean addItem(SysRole sysRole) {
+        return sysRoleMapper.insert(sysRole) > 0;
+    }
 }

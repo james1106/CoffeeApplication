@@ -9,7 +9,7 @@ import java.util.List;
  * 下订单
  * Created by Administrator on 2017/3/8 0008.
  */
-public interface OrderDetailsService {
+public interface OrderDetailsService{
 
     //下单
     OrderDetails order(long memberId,int eNum) throws AppException;
@@ -35,5 +35,19 @@ public interface OrderDetailsService {
 
     //重置使用该张微信卡券的订单的金额
     boolean updateOrderDetailsByWxCardCode(String wxCardCode);
+
+    List<OrderDetails> getList();
+
+
+   OrderDetails getItem(String id);
+
+
+    boolean updateItem(OrderDetails orderDetails) ;
+
+
+     boolean deleteItem(String id) ;
+
+
+     boolean addItem(OrderDetails orderDetails);
 
 }

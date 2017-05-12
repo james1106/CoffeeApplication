@@ -69,7 +69,7 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
     @Override
     public boolean makeCoffeesByCustomConfigure(ProductConversionCode productConversionCode, String vmc, CustomConfig customConfig) {
         //获取商品
-        Product product;
+        Product product=null;
         if (productConversionCode.getProduct() != null) {
             product = productConversionCode.getProduct();
         } else {

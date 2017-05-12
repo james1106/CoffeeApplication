@@ -212,4 +212,7 @@ public interface MembersMapper {
 
 
     Members getMemberById(@Param("id")long id);
+
+
+    List<Members> getMemberList();
 }

@@ -311,7 +311,7 @@ public class MembersServiceImpl implements MembersService {
         //开始分页
         PageHelper.startPage(page, size);
         //查询结果
-        List<Members> list = membersMapper.selectByExample(null);
+        List<Members> list = membersMapper.getMemberList();
         if (list == null || list.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }

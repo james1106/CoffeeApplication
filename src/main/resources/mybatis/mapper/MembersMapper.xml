@@ -352,6 +352,27 @@
         FROM members m
         LEFT OUTER JOIN ebean b ON m.id=b.member_id
         WHERE m.id=#{id}
+    </select>
 
+    <select id="getMemberList" resultType="com.mk.coffee.model.Members">
+        SELECT
+        m.id,
+        m.name,
+        m.email,
+        m.phone,
+        m.create_date,
+        m.oauth_id,
+        m.local_token,
+        m.headportrait_url,
+        m.open_id,
+        m.sex,
+        m.is_regist,
+        b.id "ebean.id",
+        b.e_num "ebean.eNum",
+        b.giving_num "ebean.givingNum",
+        b.total_num "ebean.totalNum",
+        b.create_date "ebean.createDate"
+        FROM members m
+        LEFT OUTER JOIN ebean b ON m.id=b.member_id
     </select>
 </mapper>

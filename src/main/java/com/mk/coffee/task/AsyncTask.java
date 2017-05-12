@@ -34,12 +34,6 @@ public class AsyncTask {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private WechatMpProperties wechatMpProperties;
-
-    @Autowired
-    private WxMpService wxMpService;
-
-    @Autowired
     private TemplateMessageUtils templateMessageUtils;
 
     @Async("makeCoffeesAsync")
@@ -56,7 +50,6 @@ public class AsyncTask {
                 Members members = productConversionCodeService.getMembersByProductConversionCode(productConversionCode.getOrderNum(), productConversionCode.getProductId());
                 //发送模板消息到微信
                 templateMessageUtils.sendMakeCoffeeFail(members.getOpenId(), vmc, productConversionCode.getOrderNum());
-
             }
         }
         logger.info("Task1 end.");

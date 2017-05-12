@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/4/12 0012.
  */
-public interface SysRoleService {
+public interface SysRoleService extends IBaseService<SysRole> {
 
     List<SysRole> getSysRoles(int userId);
 }

@@ -182,4 +182,28 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         return orderDetailsMapper.updateOrderDetailsByWxCardCode(wxCardCode) > 0;
     }
 
+    @Override
+    public List<OrderDetails> getList() {
+        return orderDetailsMapper.selectByExample(null);
+    }
+
+    @Override
+    public OrderDetails getItem(String id) {
+        return orderDetailsMapper.selectByPrimaryKey(id + "");
+    }
+
+    @Override
+    public boolean updateItem(OrderDetails orderDetails) {
+        return orderDetailsMapper.updateByPrimaryKey(orderDetails)>0;
+    }
+
+    @Override
+    public boolean deleteItem(String id) {
+        return orderDetailsMapper.deleteByPrimaryKey(id)>0;
+    }
+
+    @Override
+    public boolean addItem(OrderDetails orderDetails) {
+        return orderDetailsMapper.insert(orderDetails)>0;
+    }
 }
