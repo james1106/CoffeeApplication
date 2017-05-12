@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/5/12 0012.
  */
-@Api("角色后台管理接口")
+@Api("后台管理角色接口")
 @RestController
 @RequestMapping(value = "/sys/role")
 public class SysRoleController {

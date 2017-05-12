@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/5/12 0012.
  */
-@Api("咖啡机后台接口")
+@Api("后台咖啡机接口")
 @RestController
 @RequestMapping("/sys/coffeeMachine")
 public class SysCoffeeMachineController {

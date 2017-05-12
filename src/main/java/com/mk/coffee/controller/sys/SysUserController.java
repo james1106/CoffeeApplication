@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Administrator on 2017/5/12 0012.
  */
 @RestController
-@Api("用户后台管理接口")
+@Api("后台管理用户接口")
 @RequestMapping(value = "/sys/user")
 public class SysUserController {
     @Autowired

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/5/12 0012.
  */
-@Api("E豆商品后台接口")
+@Api("后台E豆商品接口")
 @RestController
 @RequestMapping(value = "/sys/ebeanProduct")
 public class SysEBeanProductController {

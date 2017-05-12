@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api("E豆充值纪录后台接口")
+@Api("后台E豆充值纪录接口")
 @RestController
 @RequestMapping(value = "/sys/ebeanRecord")
 public class SysEBeanRecordController {
