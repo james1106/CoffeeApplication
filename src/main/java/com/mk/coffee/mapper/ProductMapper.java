@@ -139,4 +139,7 @@ public interface ProductMapper {
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByProductId(Product record);
+
+
+    int updateProductById(@Param("record") Product record, @Param("productId") int productId);
 }

@@ -46,12 +46,14 @@ public interface SysLogMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into sys_log (id, action, ",
-        "param, result, user_id, ",
-        "ip, create_date)",
-        "values (#{id,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, ",
-        "#{param,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, ",
-        "#{ip,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})"
+        "insert into sys_log (id, method, ",
+        "url, param, result, ",
+        "user_id, ip, spend_time, ",
+        "create_date)",
+        "values (#{id,jdbcType=INTEGER}, #{method,jdbcType=VARCHAR}, ",
+        "#{url,jdbcType=VARCHAR}, #{param,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, ",
+        "#{userId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{spendTime,jdbcType=VARCHAR}, ",
+        "#{createDate,jdbcType=TIMESTAMP})"
     })
     int insert(SysLog record);
 
@@ -79,7 +81,7 @@ public interface SysLogMapper {
      */
     @Select({
         "select",
-        "id, action, param, result, user_id, ip, create_date",
+        "id, method, url, param, result, user_id, ip, spend_time, create_date",
         "from sys_log",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -118,11 +120,13 @@ public interface SysLogMapper {
      */
     @Update({
         "update sys_log",
-        "set action = #{action,jdbcType=VARCHAR},",
+        "set method = #{method,jdbcType=VARCHAR},",
+          "url = #{url,jdbcType=VARCHAR},",
           "param = #{param,jdbcType=VARCHAR},",
           "result = #{result,jdbcType=VARCHAR},",
           "user_id = #{userId,jdbcType=INTEGER},",
           "ip = #{ip,jdbcType=VARCHAR},",
+          "spend_time = #{spendTime,jdbcType=VARCHAR},",
           "create_date = #{createDate,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"
     })

@@ -87,6 +87,7 @@
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
 
+
         <!--合作伙伴-->
         <!--<table tableName="cooperative_partner"/>
         <table tableName="cooperative_partner_product"/>
@@ -108,8 +109,7 @@
         <table tableName="sys_role_permission"/>
         <table tableName="sys_user_role"/>-->
         <!-- <table tableName="sys_role"/>-->
-       <!-- <table tableName="sys_log"/>-->
-
+        <!-- <table tableName="sys_log"/>-->
 
 
     </context>

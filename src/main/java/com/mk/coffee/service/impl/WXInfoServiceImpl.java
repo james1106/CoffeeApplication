@@ -1,23 +1,28 @@
 package com.mk.coffee.service.impl;
 
-import com.github.binarywang.wxpay.bean.WxPayOrderNotifyResponse;
 import com.github.binarywang.wxpay.bean.request.WxPayBaseRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
-import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
+import com.mk.coffee.entity.*;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.*;
+import com.mk.coffee.model.WXCard;
 import com.mk.coffee.service.*;
 import com.mk.coffee.utils.CalendarUtil;
 import com.mk.coffee.utils.CommonUtils;
+import com.mk.coffee.utils.EmptyUtils;
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.RandomUtils;
+import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import org.slf4j.Logger;
@@ -26,8 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/24 0024.
@@ -55,6 +59,7 @@ public class WXInfoServiceImpl implements WXInfoService {
 
     @Autowired
     private ProductConversionCodeService productConversionCodeService;
+
 
     @Override
     public WXCard getWXCart(String cardId, String encryptCode) {
@@ -198,4 +203,36 @@ public class WXInfoServiceImpl implements WXInfoService {
 
     }
 
+    @Override
+    public List<WxCard> getCardList(long memberId) throws WxErrorException {
+        List<WxCard> list = new ArrayList<>();
+        Members members = membersService.getMember(memberId);
+        if (members == null) {
+            throw AppException.getException(ErrorCode.Member_Not_Exist);
+        }
+
+        if (EmptyUtils.isEmpty(members.getOpenId())) {
+            throw AppException.getException(ErrorCode.Member_Unbound_WX);
+        }
+
+        StringBuilder url = new StringBuilder();
+        url.append("https://api.weixin.qq.com/card/user/getcardlist?");
+        JsonObject data = new JsonObject();
+        data.addProperty("openid", members.getOpenId());
+        String respone = wxMpService.post(url.toString(), data.toString());
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject) jsonParser.parse(respone);
+        if (jo.get("errcode").getAsInt() != 0) {
+            throw AppException.getException(ErrorCode.Get_WX_Card_Fail);
+        }
+        JsonArray card_list = jo.getAsJsonArray("card_list");
+        if (card_list == null && card_list.size() == 0) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        for (int i = 0; i < card_list.size(); i++) {
+            JsonObject card = card_list.get(i).getAsJsonObject();
+            list.add(new WxCard(card.get("card_id").getAsString(), card.get("code").getAsString()));
+        }
+        return list;
+    }
 }

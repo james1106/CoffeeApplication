@@ -525,6 +525,76 @@ public class ActivityExample {
             return (Criteria) this;
         }
 
+        public Criteria andWxCardIdIsNull() {
+            addCriterion("wx_card_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdIsNotNull() {
+            addCriterion("wx_card_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdEqualTo(String value) {
+            addCriterion("wx_card_id =", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdNotEqualTo(String value) {
+            addCriterion("wx_card_id <>", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdGreaterThan(String value) {
+            addCriterion("wx_card_id >", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_card_id >=", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdLessThan(String value) {
+            addCriterion("wx_card_id <", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdLessThanOrEqualTo(String value) {
+            addCriterion("wx_card_id <=", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdLike(String value) {
+            addCriterion("wx_card_id like", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdNotLike(String value) {
+            addCriterion("wx_card_id not like", value, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdIn(List<String> values) {
+            addCriterion("wx_card_id in", values, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdNotIn(List<String> values) {
+            addCriterion("wx_card_id not in", values, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdBetween(String value1, String value2) {
+            addCriterion("wx_card_id between", value1, value2, "wxCardId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxCardIdNotBetween(String value1, String value2) {
+            addCriterion("wx_card_id not between", value1, value2, "wxCardId");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateDateIsNull() {
             addCriterion("create_date is null");
             return (Criteria) this;

@@ -38,7 +38,6 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
     public ListResult<CoffeeMachine> getCoffeeMachinesByLonLat(double longitude, double latitude, float radius) throws ApiException {
         double[] doubles = DistanceUtils.getSquarePoint(longitude, latitude, radius);
         List<CoffeeMachine> coffeeMachines = coffeeMachineMapper.getNearbyCoffeesMachine(doubles[0], doubles[1], doubles[2], doubles[3]);
-
         if (coffeeMachines == null || coffeeMachines.size() == 0) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }

@@ -4,6 +4,7 @@ import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
+import com.mk.coffee.entity.WxCard;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.WXCard;
 import com.mk.coffee.service.WXInfoService;
@@ -11,21 +12,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.menu.WxMenu;
-import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.URIUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/8 0008.
@@ -140,6 +136,31 @@ public class WeiXinController {
     @ApiOperation(value = "得到要授权的URL地址", notes = "通过静默方式得到授权的URL")
     public RestResult<String> getWXAuthorizationUrl(@RequestParam(value = "url") String url) {
         return RestResultGenerator.genSuccessResult(wxInfoService.getAuthorizationUrl(url));
+
+    }
+
+    @GetMapping("/getCardList")
+    @ApiOperation("获取用户已领取卡券接口")
+    public RestResult<List<WxCard>> getCardList(@RequestParam("memberId") long memberId) {
+        try {
+            return RestResultGenerator.genSuccessResult(wxInfoService.getCardList(memberId));
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Get_WX_Card_Fail.getCode(), e);
+        }
+    }
+
+    @GetMapping("/createWxCardExt")
+    @ApiOperation("生成CardExt")
+    public RestResult<WxCardApiSignature> createWxCardExt(@RequestParam("cardId") String cardId) {
+
+        try {
+            WxCardApiSignature wxCardApiSignature = wxMpService.getCardService().createCardApiSignature(cardId);
+            return RestResultGenerator.genSuccessResult(wxCardApiSignature);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw new AppException(e.getError().getErrorCode() + "", e.getMessage());
+        }
 
     }
 
