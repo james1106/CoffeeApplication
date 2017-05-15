@@ -37,7 +37,7 @@ public class SysActivityController {
 
 
     @ApiOperation("更新商品")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody Activity activity) {
         return RestResultGenerator.genSuccessResult(activityService.updateItem(activity));
     }

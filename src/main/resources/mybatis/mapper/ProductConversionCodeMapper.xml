@@ -372,4 +372,29 @@
         INNER JOIN product p ON p.id=pcc.product_id
         WHERE pcc.id=#{id}
     </select>
+
+    <select id="getAllProductConversionCode" resultType="ProductConversionCode">
+        SELECT
+        pcc.id,
+        pcc.conversion_state,
+        pcc.conversion_code,
+        pcc.product_id,
+        pcc.order_num,
+        pcc.order_details_id,
+        pcc.shopping_cart_id,
+        p.name "product.name",
+        p.price "product.price",
+        p.picture_url "product.pictureUrl",
+        p.sales "product.sales",
+        p.summary "product.summary",
+        m.id "members.id",
+        m.name "members.name",
+        m.sex "members.sex",
+        m.open_id "members.openId",
+        m.phone "members.phone",
+        FROM product_conversion_code pcc
+        LEFT OUTER JOIN product p ON p.id=pcc.product_id
+        LEFT OUTER JOIN members m ON pcc.member_id=m.id
+    </select>
+
 </mapper>

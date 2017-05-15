@@ -172,4 +172,9 @@ public interface ProductConversionCodeMapper {
     List<ProductConversionCode> getAllProductConversionCodeByMemberId(@Param("memberId") long memberId);
 
     ProductConversionCode getProductConversionCodeById(@Param("id") int id);
+
+    //得到所有兑换码
+    List<ProductConversionCode> getAllProductConversionCode();
+
+
 }

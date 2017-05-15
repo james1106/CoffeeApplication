@@ -62,6 +62,8 @@ public class EBeanController {
 
     @Autowired
     private WxPayService wxPayService;
+    @Autowired
+    private CommonUtils commonUtils;
 
 
     @ApiOperation(value = "e豆充值优惠产品列表", httpMethod = "GET")
@@ -83,9 +85,9 @@ public class EBeanController {
                 throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
             }
             //插入e豆充值纪录
-            ebeanRecord = CommonUtils.createEbeanRecord(recharge.memberId, ebeanProduct);
+            ebeanRecord = commonUtils.createEbeanRecord(recharge.memberId, ebeanProduct);
         } else {
-            ebeanRecord = CommonUtils.createEbeanRecordByMoney(recharge.memberId, recharge.money);
+            ebeanRecord = commonUtils.createEbeanRecordByMoney(recharge.memberId, recharge.money);
         }
 
         eBeanRecordService.addItem(ebeanRecord);
@@ -111,9 +113,9 @@ public class EBeanController {
             //得到成员的拥有的e豆
             Ebean ebean = eBeanServie.getEbeanByMemberId(ebeanRecord.getMemberId());
             if (ebean == null) {
-                CommonUtils.createEbean(ebeanRecord);
+                commonUtils.createEbean(ebeanRecord);
             } else {
-                CommonUtils.updateEbean(ebeanRecord, ebean);
+                commonUtils.updateEbean(ebeanRecord, ebean);
             }
             //更新已支付
             ebeanRecord.setPayState(1);

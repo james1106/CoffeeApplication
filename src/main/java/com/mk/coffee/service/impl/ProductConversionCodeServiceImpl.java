@@ -165,4 +165,33 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         return productConversionCodeMapper.updateByPrimaryKey(productConversionCode) > 0;
     }
 
+    @Override
+    public List<ProductConversionCode> getList() {
+        //查询结果
+        List<ProductConversionCode> list = productConversionCodeMapper.getAllProductConversionCode();
+        if (list == null || list.size() == 0) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+        return list;
+    }
+
+    @Override
+    public ProductConversionCode getItem(int id) {
+        return productConversionCodeMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean updateItem(ProductConversionCode productConversionCode) {
+        return productConversionCodeMapper.updateByPrimaryKey(productConversionCode) > 0;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        return productConversionCodeMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    @Override
+    public boolean addItem(ProductConversionCode productConversionCode) {
+        return productConversionCodeMapper.insertSelective(productConversionCode) > 0;
+    }
 }

@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @Api("后台订单接口")
-@RequestMapping(value = "/sys/order")
+@RequestMapping(value = "/sys/orders")
 public class SysOrderDetailsController {
 
     @Autowired

@@ -155,14 +155,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
-
-        for (int i = 0; i < list.size(); i++) {
-            OrderDetails orderDetails = list.get(i);
-            List<ShoppingCart> shoppingCarts = JsonUtils.fromJsonArray(orderDetails.getOrderDetails(), new TypeReference<List<ShoppingCart>>() {
-            });
-            orderDetails.setShoppingCarts(shoppingCarts);
-            orderDetails.setOrderDetails(null);
-        }
+        commonUtils.convertShoppingCart(list);
         return list;
     }
 
@@ -184,26 +177,31 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     public List<OrderDetails> getList() {
-        return orderDetailsMapper.selectByExample(null);
+        List<OrderDetails> list = orderDetailsMapper.selectOrderDetails();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+        commonUtils.convertShoppingCart(list);
+        return list;
     }
 
     @Override
     public OrderDetails getItem(String id) {
-        return orderDetailsMapper.selectByPrimaryKey(id + "");
+        return getOrderDetail(id);
     }
 
     @Override
     public boolean updateItem(OrderDetails orderDetails) {
-        return orderDetailsMapper.updateByPrimaryKey(orderDetails)>0;
+        return orderDetailsMapper.updateByPrimaryKey(orderDetails) > 0;
     }
 
     @Override
     public boolean deleteItem(String id) {
-        return orderDetailsMapper.deleteByPrimaryKey(id)>0;
+        return orderDetailsMapper.deleteByPrimaryKey(id) > 0;
     }
 
     @Override
     public boolean addItem(OrderDetails orderDetails) {
-        return orderDetailsMapper.insert(orderDetails)>0;
+        return orderDetailsMapper.insert(orderDetails) > 0;
     }
 }

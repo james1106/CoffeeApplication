@@ -12,7 +12,7 @@ import java.util.List;
  * 商品兑换码
  * Created by Administrator on 2017/3/13 0013.
  */
-public interface ProductConversionCodeService {
+public interface ProductConversionCodeService extends IBaseService<ProductConversionCode> {
 
     //根据成员Id和商品Id生成一个兑换码
     ProductConversionCode createProductConversionCodeByMemberId(long memberId, int productId);

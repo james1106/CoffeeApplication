@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/5/12 0012.
  */
-@Api("台管理E豆后接口")
+@Api("台台管理E豆接口")
 @RestController
 @RequestMapping(value = "/sys/ebean")
 public class SysEBeanController {

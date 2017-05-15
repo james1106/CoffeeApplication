@@ -1,5 +1,6 @@
 package com.mk.coffee.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.ActivityMapper;
@@ -130,13 +131,13 @@ public class CommonUtils {
     }
 
 
-    public static float keepTwoDecimal(float f) {
+    public float keepTwoDecimal(float f) {
         DecimalFormat df = new DecimalFormat("#.00");
         return Float.valueOf(df.format(f));
     }
 
 
-    public static EbeanRecord createEbeanRecord(long memberId, EbeanProduct ebeanProduct) {
+    public EbeanRecord createEbeanRecord(long memberId, EbeanProduct ebeanProduct) {
         //e豆充值纪录
         EbeanRecord ebeanRecord = new EbeanRecord();
         ebeanRecord.setId(System.currentTimeMillis());
@@ -152,7 +153,7 @@ public class CommonUtils {
     }
 
 
-    public static EbeanRecord createEbeanRecordByMoney(long memberId, float money) {
+    public EbeanRecord createEbeanRecordByMoney(long memberId, float money) {
         //e豆充值纪录
         EbeanRecord ebeanRecord = new EbeanRecord();
         ebeanRecord.setId(System.currentTimeMillis());
@@ -170,7 +171,7 @@ public class CommonUtils {
     /**
      * 创建e豆
      */
-    public static Ebean createEbean(EbeanRecord ebeanRecord) {
+    public Ebean createEbean(EbeanRecord ebeanRecord) {
         Ebean ebean = new Ebean();
         ebean.setMemberId(ebeanRecord.getMemberId());
         ebean.seteNum(ebeanRecord.geteNum());
@@ -184,7 +185,7 @@ public class CommonUtils {
     /**
      * 更新e豆
      */
-    public static Ebean updateEbean(EbeanRecord ebeanRecord, Ebean ebean) {
+    public Ebean updateEbean(EbeanRecord ebeanRecord, Ebean ebean) {
         ebean.seteNum(ebeanRecord.geteNum() + ebean.geteNum());
         ebean.setGivingNum(ebeanRecord.getGivingNum() + ebean.getGivingNum());
         ebean.setTotalNum(ebean.geteNum() + ebean.getGivingNum());
@@ -195,7 +196,7 @@ public class CommonUtils {
     /**
      * 更新e豆
      */
-    public static Ebean useEbean(Ebean ebean, int num) {
+    public Ebean useEbean(Ebean ebean, int num) {
         if (ebean.getTotalNum() >= num) {
             //赠送的豆多于花费的豆
             if (ebean.getGivingNum() > num) {
@@ -211,6 +212,17 @@ public class CommonUtils {
         }
 
         return ebean;
+    }
+
+    public void convertShoppingCart(List<OrderDetails> list) {
+        for (int i = 0; i < list.size(); i++) {
+            OrderDetails orderDetails = list.get(i);
+            List<ShoppingCart> shoppingCarts = JsonUtils.fromJsonArray(orderDetails.getOrderDetails(), new TypeReference<List<ShoppingCart>>() {
+            });
+            orderDetails.setShoppingCarts(shoppingCarts);
+            orderDetails.setOrderDetails(null);
+        }
+
     }
 
 }

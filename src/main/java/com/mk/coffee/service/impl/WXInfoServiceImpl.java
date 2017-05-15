@@ -60,6 +60,9 @@ public class WXInfoServiceImpl implements WXInfoService {
     @Autowired
     private ProductConversionCodeService productConversionCodeService;
 
+    @Autowired
+    private CommonUtils commonUtils;
+
 
     @Override
     public WXCard getWXCart(String cardId, String encryptCode) {
@@ -190,7 +193,7 @@ public class WXInfoServiceImpl implements WXInfoService {
         //更新e豆
         if (orderDetails.getBean() != null && orderDetails.getBean() > 0) {
             Ebean ebean = eBeanServie.getEbeanByMemberId(orderDetails.getMembersId());
-            eBeanServie.updateItem(CommonUtils.useEbean(ebean, orderDetails.getBean()));
+            eBeanServie.updateItem(commonUtils.useEbean(ebean, orderDetails.getBean()));
         }
         //核销微信卡券
         if (orderDetails.getWxCardCode() != null && !orderDetails.getWxCardCode().equals("")) {
