@@ -14,14 +14,14 @@ import com.mk.coffee.entity.*;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.*;
 import com.mk.coffee.model.WXCard;
+import com.mk.coffee.requestbody.RequestCardIdList;
 import com.mk.coffee.service.*;
 import com.mk.coffee.utils.CalendarUtil;
 import com.mk.coffee.utils.CommonUtils;
 import com.mk.coffee.utils.EmptyUtils;
+import com.mk.coffee.utils.JsonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
@@ -66,43 +66,61 @@ public class WXInfoServiceImpl implements WXInfoService {
 
     @Override
     public WXCard getWXCart(String cardId, String encryptCode) {
-        WXCard wxCard = new WXCard();
+        WXCard wxCard;
         String code;
         try {
             code = wxMpService.getCardService().decryptCardCode(encryptCode);
-            wxCard.setCode(code);
             WxMpCardResult wxMpCardResult = wxMpService.getCardService().queryCardCode(cardId, code, true);
             //微信卡券不可用
             if (!wxMpCardResult.getErrorMsg().equals("ok")) {
                 throw AppException.getException(wxMpCardResult.getErrorCode(), wxMpCardResult.getErrorMsg());
             }
-            //占用
-            //wxMpService.getCardService().markCardCode(code, cardId, members.getOpenId(), true);
-            String cardDetail = wxMpService.getCardService().getCardDetail(cardId);
-
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jo = (JsonObject) jsonParser.parse(cardDetail);
-            if (jo.get("errcode").getAsInt() == 0) {
-                JsonObject card = jo.getAsJsonObject("card");
-                if (card.get("card_type").getAsString().equals("CASH")) { //代金券
-                    wxCard.setCardType("CASH");
-                    JsonObject cashJsonObject = card.getAsJsonObject("cash");
-                    JsonObject baseInfoJsonObject = cashJsonObject.getAsJsonObject("base_info");
-                    wxCard.setTitle(baseInfoJsonObject.get("title").getAsString());
-                    float reductCost = (float) (cashJsonObject.get("reduce_cost").getAsFloat() * 0.01);
-                    wxCard.setReduceCost(reductCost);
-                } else if (card.get("card_type").getAsString().equals("DISCOUNT")) {//折扣券
-                    wxCard.setCardType("DISCOUNT");
-                    JsonObject discountJsonObject = card.getAsJsonObject("discount");
-                    JsonObject baseInfoJsonObject = discountJsonObject.getAsJsonObject("base_info");
-                    wxCard.setTitle(baseInfoJsonObject.get("title").getAsString());
-                    float discount = (float) ((100 - discountJsonObject.get("discount").getAsInt()) * 0.01);
-                    wxCard.setDiscount(discount);
-                }
-            }
+            wxCard = createWXCardByCardId(cardId);
+            wxCard.setCode(code);
         } catch (WxErrorException e) {
             e.printStackTrace();
             throw new AppException(e.getError().getErrorCode() + "", e.getMessage());
+        }
+        return wxCard;
+    }
+
+
+    public WXCard createWXCardByCardId(String cardId) throws WxErrorException {
+        WXCard wxCard = new WXCard();
+        String cardDetail = wxMpService.getCardService().getCardDetail(cardId);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject) jsonParser.parse(cardDetail);
+        if (jo.get("errcode").getAsInt() == 0) {
+            JsonObject card = jo.getAsJsonObject("card");
+            if (card.get("card_type").getAsString().equals("CASH")) { //代金券
+                wxCard.setCardType("CASH");
+                JsonObject cashJsonObject = card.getAsJsonObject("cash");
+                JsonObject baseInfoJsonObject = cashJsonObject.getAsJsonObject("base_info");
+                wxCard.setTitle(baseInfoJsonObject.get("title").getAsString());
+                wxCard.setCardId(baseInfoJsonObject.get("id").getAsString());
+                //设置库存信息
+                SkuEntity skuEntity = new SkuEntity();
+                JsonObject sku = baseInfoJsonObject.get("sku").getAsJsonObject();
+                skuEntity.setQuantity(sku.get("quantity").getAsInt());
+                skuEntity.setTotal_quantity(sku.get("total_quantity").getAsInt());
+                wxCard.setSku(skuEntity);
+                float reductCost = (float) (cashJsonObject.get("reduce_cost").getAsFloat() * 0.01);
+                wxCard.setReduceCost(reductCost);
+            } else if (card.get("card_type").getAsString().equals("DISCOUNT")) {//折扣券
+                wxCard.setCardType("DISCOUNT");
+                JsonObject discountJsonObject = card.getAsJsonObject("discount");
+                JsonObject baseInfoJsonObject = discountJsonObject.getAsJsonObject("base_info");
+                wxCard.setTitle(baseInfoJsonObject.get("title").getAsString());
+                wxCard.setCardId(baseInfoJsonObject.get("id").getAsString());
+                //设置库存信息
+                SkuEntity skuEntity = new SkuEntity();
+                JsonObject sku = baseInfoJsonObject.get("sku").getAsJsonObject();
+                skuEntity.setQuantity(sku.get("quantity").getAsInt());
+                skuEntity.setTotal_quantity(sku.get("total_quantity").getAsInt());
+                wxCard.setSku(skuEntity);
+                float discount = (float) ((100 - discountJsonObject.get("discount").getAsInt()) * 0.01);
+                wxCard.setDiscount(discount);
+            }
         }
         return wxCard;
     }
@@ -238,4 +256,61 @@ public class WXInfoServiceImpl implements WXInfoService {
         }
         return list;
     }
+
+    /**
+     * 分页批量查询卡列表
+     *
+     * @param page
+     * @param size
+     * @return
+     * @throws WxErrorException
+     */
+    @Override
+    public List<WXCard> getCardIdList(int page, int size) throws WxErrorException {
+        List<WXCard> cardIdList = new ArrayList<>();
+        StringBuilder url = new StringBuilder();
+        url.append("https://api.weixin.qq.com/card/batchget?");
+        int offset = (page - 1) * size;
+        List<String> statusList = new ArrayList<>();
+        statusList.add("CARD_STATUS_VERIFY_OK");
+        statusList.add("CARD_STATUS_DISPATCH");
+        RequestCardIdList requestCardIdList = new RequestCardIdList();
+        requestCardIdList.count = size;
+        requestCardIdList.offset = offset;
+        requestCardIdList.status_list = statusList;
+        String respone = wxMpService.post(url.toString(), JsonUtils.toJson(requestCardIdList));
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject) jsonParser.parse(respone);
+        if (jo.get("errcode").getAsInt() != 0) {
+            throw AppException.getException(ErrorCode.Get_WX_Card_Fail);
+        }
+        JsonArray card_id_list = jo.getAsJsonArray("card_id_list");
+        for (int i = 0; i < card_id_list.size(); i++) {
+            cardIdList.add(createWXCardByCardId(card_id_list.get(i).getAsString()));
+        }
+        return cardIdList;
+    }
+
+
+    /**
+     * 去掉nonceStr，不去掉出现签名错误
+     *
+     * @param optionalSignParam
+     * @return
+     * @throws WxErrorException
+     */
+    @Override
+    public WxCardExt createWxCardExt(String... optionalSignParam) throws WxErrorException {
+        WxCardExt wxCardExt = new WxCardExt();
+        long timestamp = System.currentTimeMillis() / 1000L;
+        String cardApiTicket = wxMpService.getCardService().getCardApiTicket(false);
+        String[] signParam = (String[]) Arrays.copyOf(optionalSignParam, optionalSignParam.length + 2);
+        signParam[optionalSignParam.length] = String.valueOf(timestamp);
+        signParam[optionalSignParam.length + 1] = cardApiTicket;
+        String signature = SHA1.gen(signParam);
+        wxCardExt.setTimestamp(timestamp);
+        wxCardExt.setSignature(signature);
+        return wxCardExt;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.mk.coffee.model;
 
+import com.mk.coffee.entity.SkuEntity;
+
 /**
  * Created by Administrator on 2017/4/14 0014.
  */
@@ -9,6 +11,9 @@ public class WXCard {
     private float discount;
     private float reduceCost;
     private String code;
+    private String cardId;
+
+    private SkuEntity sku;
 
 
     public WXCard() {
@@ -52,5 +57,21 @@ public class WXCard {
 
     public void setReduceCost(float reduceCost) {
         this.reduceCost = reduceCost;
+    }
+
+    public SkuEntity getSku() {
+        return sku;
+    }
+
+    public void setSku(SkuEntity sku) {
+        this.sku = sku;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 }

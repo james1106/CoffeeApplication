@@ -2,6 +2,7 @@ package com.mk.coffee.service;
 
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.entity.WxCard;
+import com.mk.coffee.entity.WxCardExt;
 import com.mk.coffee.model.EbeanRecord;
 import com.mk.coffee.model.OrderDetails;
 import com.mk.coffee.model.WXCard;
@@ -27,6 +28,9 @@ public interface WXInfoService {
 
     List<WxCard> getCardList(long memberId) throws WxErrorException;
 
+    List<WXCard> getCardIdList(int page, int size) throws WxErrorException;
+
+    WxCardExt createWxCardExt(String... optionalSignParam) throws WxErrorException;
 
 
 }

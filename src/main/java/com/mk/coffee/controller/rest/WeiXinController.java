@@ -5,9 +5,11 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
 import com.mk.coffee.entity.WxCard;
+import com.mk.coffee.entity.WxCardExt;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.WXCard;
 import com.mk.coffee.service.WXInfoService;
+import com.mk.coffee.utils.JsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
@@ -150,19 +152,28 @@ public class WeiXinController {
         }
     }
 
+
     @GetMapping("/createWxCardExt")
     @ApiOperation("生成CardExt")
-    public RestResult<WxCardApiSignature> createWxCardExt(@RequestParam("cardId") String cardId) {
-
+    public RestResult<String> createWxCardExt(@RequestParam("cardId") String cardId) {
         try {
-            WxCardApiSignature wxCardApiSignature = wxMpService.getCardService().createCardApiSignature(cardId);
-            return RestResultGenerator.genSuccessResult(wxCardApiSignature);
+            return RestResultGenerator.genSuccessResult(JsonUtils.toJson(wxInfoService.createWxCardExt(cardId)).replace("\r\n", "").trim());
         } catch (WxErrorException e) {
             e.printStackTrace();
-            throw new AppException(e.getError().getErrorCode() + "", e.getMessage());
+            throw AppException.getException(ErrorCode.Get_WX_Card_Fail);
         }
-
     }
 
 
+    @GetMapping("/getCardIdList")
+    @ApiOperation("分页批量查询卡列表，size最大50")
+    public RestResult<List<WXCard>> getCardIdList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                                  @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        try {
+            return RestResultGenerator.genSuccessResult(wxInfoService.getCardIdList(page, size));
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            throw AppException.getException(ErrorCode.Get_WX_Card_Fail);
+        }
+    }
 }
