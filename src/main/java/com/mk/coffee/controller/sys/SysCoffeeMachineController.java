@@ -37,7 +37,7 @@ public class SysCoffeeMachineController {
 
 
     @ApiOperation("更新咖啡机")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody CoffeeMachine coffeeMachine) {
         return RestResultGenerator.genSuccessResult(coffeeMachineService.updateItem(coffeeMachine));
     }

@@ -4,8 +4,6 @@ import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
-import com.mk.coffee.entity.WxCard;
-import com.mk.coffee.entity.WxCardExt;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.WXCard;
 import com.mk.coffee.service.WXInfoService;
@@ -143,7 +141,7 @@ public class WeiXinController {
 
     @GetMapping("/getCardList")
     @ApiOperation("获取用户已领取卡券接口")
-    public RestResult<List<WxCard>> getCardList(@RequestParam("memberId") long memberId) {
+    public RestResult<List<WXCard>> getCardList(@RequestParam("memberId") long memberId) {
         try {
             return RestResultGenerator.genSuccessResult(wxInfoService.getCardList(memberId));
         } catch (WxErrorException e) {
@@ -166,7 +164,7 @@ public class WeiXinController {
 
 
     @GetMapping("/getCardIdList")
-    @ApiOperation("分页批量查询卡列表，size最大50")
+    @ApiOperation("分页批量查询卡券列表，size最大50")
     public RestResult<List<WXCard>> getCardIdList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                                   @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         try {

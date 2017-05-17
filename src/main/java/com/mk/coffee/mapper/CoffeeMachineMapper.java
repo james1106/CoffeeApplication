@@ -2,7 +2,9 @@ package com.mk.coffee.mapper;
 
 import com.mk.coffee.model.CoffeeMachine;
 import com.mk.coffee.model.CoffeeMachineExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -34,8 +36,8 @@ public interface CoffeeMachineMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from coffee_machine",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from coffee_machine",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
@@ -46,14 +48,14 @@ public interface CoffeeMachineMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into coffee_machine (id, user_id, ",
-        "code, create_date, ",
-        "address, longitude, ",
-        "latitude)",
-        "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
-        "#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
-        "#{address,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, ",
-        "#{latitude,jdbcType=DOUBLE})"
+            "insert into coffee_machine (id, user_id, ",
+            "code, create_date, ",
+            "address, longitude, ",
+            "latitude)",
+            "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
+            "#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
+            "#{address,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, ",
+            "#{latitude,jdbcType=DOUBLE})"
     })
     int insert(CoffeeMachine record);
 
@@ -80,10 +82,10 @@ public interface CoffeeMachineMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "id, user_id, code, create_date, address, longitude, latitude",
-        "from coffee_machine",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, user_id, code, create_date, address, longitude, latitude",
+            "from coffee_machine",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ResultMap("com.mk.coffee.mapper.CoffeeMachineMapper.BaseResultMap")
     CoffeeMachine selectByPrimaryKey(Integer id);
@@ -119,17 +121,18 @@ public interface CoffeeMachineMapper {
      * @mbg.generated
      */
     @Update({
-        "update coffee_machine",
-        "set user_id = #{userId,jdbcType=INTEGER},",
-          "code = #{code,jdbcType=VARCHAR},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP},",
-          "address = #{address,jdbcType=VARCHAR},",
-          "longitude = #{longitude,jdbcType=DOUBLE},",
-          "latitude = #{latitude,jdbcType=DOUBLE}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update coffee_machine",
+            "set user_id = #{userId,jdbcType=INTEGER},",
+            "code = #{code,jdbcType=VARCHAR},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
+            "address = #{address,jdbcType=VARCHAR},",
+            "longitude = #{longitude,jdbcType=DOUBLE},",
+            "latitude = #{latitude,jdbcType=DOUBLE}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoffeeMachine record);
 
+    List<CoffeeMachine> getAllCoffeesMachine();
 
     List<CoffeeMachine> getNearbyCoffeesMachine(@Param("minLat") double minLat, @Param("maxLat") double maxLat, @Param("minLng") double minLng, @Param("maxLng") double maxLng);
 }

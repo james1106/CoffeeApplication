@@ -225,8 +225,8 @@ public class WXInfoServiceImpl implements WXInfoService {
     }
 
     @Override
-    public List<WxCard> getCardList(long memberId) throws WxErrorException {
-        List<WxCard> list = new ArrayList<>();
+    public List<WXCard> getCardList(long memberId) throws WxErrorException {
+        List<WXCard> list = new ArrayList<>();
         Members members = membersService.getMember(memberId);
         if (members == null) {
             throw AppException.getException(ErrorCode.Member_Not_Exist);
@@ -252,7 +252,7 @@ public class WXInfoServiceImpl implements WXInfoService {
         }
         for (int i = 0; i < card_list.size(); i++) {
             JsonObject card = card_list.get(i).getAsJsonObject();
-            list.add(new WxCard(card.get("card_id").getAsString(), card.get("code").getAsString()));
+            list.add(new WXCard(card.get("code").getAsString(), card.get("card_id").getAsString()));
         }
         return list;
     }

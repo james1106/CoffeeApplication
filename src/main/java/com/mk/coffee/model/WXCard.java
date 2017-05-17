@@ -19,6 +19,11 @@ public class WXCard {
     public WXCard() {
     }
 
+    public WXCard(String code, String cardId) {
+        this.code = code;
+        this.cardId = cardId;
+    }
+
     public String getCode() {
         return code;
     }

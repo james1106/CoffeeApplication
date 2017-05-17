@@ -1,7 +1,6 @@
 package com.mk.coffee.service;
 
 import com.mk.coffee.common.RestResult;
-import com.mk.coffee.entity.WxCard;
 import com.mk.coffee.entity.WxCardExt;
 import com.mk.coffee.model.EbeanRecord;
 import com.mk.coffee.model.OrderDetails;
@@ -26,7 +25,7 @@ public interface WXInfoService {
     //结账
     boolean orderCheckout(OrderDetails orderDetails) throws WxErrorException;
 
-    List<WxCard> getCardList(long memberId) throws WxErrorException;
+    List<WXCard> getCardList(long memberId) throws WxErrorException;
 
     List<WXCard> getCardIdList(int page, int size) throws WxErrorException;
 

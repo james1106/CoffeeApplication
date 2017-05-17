@@ -56,7 +56,7 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
 
     @Override
     public List<CoffeeMachine> getList() {
-        return coffeeMachineMapper.selectByExample(null);
+        return coffeeMachineMapper.getAllCoffeesMachine();
     }
 
     @Override
@@ -66,16 +66,16 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
 
     @Override
     public boolean updateItem(CoffeeMachine coffeeMachine) {
-        return coffeeMachineMapper.updateByPrimaryKey(coffeeMachine)>0;
+        return coffeeMachineMapper.updateByPrimaryKeySelective(coffeeMachine) > 0;
     }
 
     @Override
     public boolean deleteItem(int id) {
-        return coffeeMachineMapper.deleteByPrimaryKey(id)>0;
+        return coffeeMachineMapper.deleteByPrimaryKey(id) > 0;
     }
 
     @Override
     public boolean addItem(CoffeeMachine coffeeMachine) {
-        return coffeeMachineMapper.insert(coffeeMachine)>0;
+        return coffeeMachineMapper.insert(coffeeMachine) > 0;
     }
 }

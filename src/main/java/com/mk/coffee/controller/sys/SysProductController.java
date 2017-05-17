@@ -10,6 +10,7 @@ import com.mk.coffee.model.Product;
 import com.mk.coffee.model.ProductExample;
 import com.mk.coffee.requestbody.RequestUpdateProduct;
 import com.mk.coffee.service.ProductService;
+import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Administrator on 2017/5/12 0012.
@@ -38,10 +40,12 @@ public class SysProductController {
     @ApiOperation("更新商品")
     @PutMapping("/updateById")
     public RestResult<Boolean> updateItemById(@RequestBody RequestUpdateProduct updateProduct) {
-        if (updateProduct.productId!=updateProduct.product.getId()&&productService.getItem(updateProduct.productId) != null) {
+        if (updateProduct.productId == null) {
+            updateProduct.productId = updateProduct.product.getId();
+        }
+        if (!Objects.equals(updateProduct.productId, updateProduct.product.getId()) && productService.getItem(updateProduct.productId) != null) {
             throw AppException.getException(ErrorCode.Product_Already_Exist);
         }
-
         return RestResultGenerator.genSuccessResult(productService.updateItem(updateProduct.productId, updateProduct.product));
     }
 

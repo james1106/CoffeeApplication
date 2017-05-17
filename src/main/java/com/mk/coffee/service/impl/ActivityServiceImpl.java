@@ -40,16 +40,16 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public boolean updateItem(Activity activity) {
-        return activityMapper.updateByPrimaryKey(activity)>0;
+        return activityMapper.updateByPrimaryKeySelective(activity) > 0;
     }
 
     @Override
     public boolean deleteItem(int id) {
-        return activityMapper.deleteByPrimaryKey(id)>0;
+        return activityMapper.deleteByPrimaryKey(id) > 0;
     }
 
     @Override
     public boolean addItem(Activity activity) {
-        return activityMapper.insert(activity)>0;
+        return activityMapper.insert(activity) > 0;
     }
 }

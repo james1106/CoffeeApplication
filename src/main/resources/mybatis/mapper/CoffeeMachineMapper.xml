@@ -284,4 +284,21 @@
         LEFT OUTER JOIN sys_user u ON u.user_id=cm.user_id
         WHERE latitude BETWEEN #{minLat} AND #{maxLat} AND longitude BETWEEN #{minLng} AND #{maxLng}
     </select>
+
+    <select id="getAllCoffeesMachine" resultType="com.mk.coffee.model.CoffeeMachine">
+        SELECT
+        cm.id,
+        cm.code,
+        cm.address,
+        cm.create_date,
+        cm.longitude,
+        cm.latitude,
+        u.user_id "user.userId",
+        u.username "user.username",
+        u.mobile "user.mobile",
+        u.email "user.email",
+        u.head_portrait "user.headPortrait"
+        FROM coffee_machine cm
+        LEFT OUTER JOIN sys_user u ON u.user_id=cm.user_id
+    </select>
 </mapper>

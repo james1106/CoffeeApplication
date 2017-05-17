@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class SysActivityController {
     @ApiOperation("添加活动Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody Activity activity) {
+        activity.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(activityService.addItem(activity));
     }
 

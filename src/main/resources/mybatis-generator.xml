@@ -87,7 +87,6 @@
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
 
-
         <!--合作伙伴-->
         <!--<table tableName="cooperative_partner"/>
         <table tableName="cooperative_partner_product"/>
