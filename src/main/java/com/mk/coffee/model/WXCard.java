@@ -1,10 +1,12 @@
 package com.mk.coffee.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mk.coffee.entity.SkuEntity;
 
 /**
  * Created by Administrator on 2017/4/14 0014.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WXCard {
     private String cardType;
     private String title;

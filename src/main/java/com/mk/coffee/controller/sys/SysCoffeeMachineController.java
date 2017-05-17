@@ -68,4 +68,17 @@ public class SysCoffeeMachineController {
         PageInfo<CoffeeMachine> info = new PageInfo<>(list);
         return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
     }
+
+
+    @GetMapping("/search")
+    @ApiOperation("搜索得到咖啡机列表")
+    public RestResult<ListResult<CoffeeMachine>>
+    searchProductPages(@RequestParam(name = "keyword") String keyword,
+                       @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        PageHelper.startPage(page, size);
+        List<CoffeeMachine> list = coffeeMachineService.searchCoffeeMachine(keyword);
+        PageInfo<CoffeeMachine> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
 }
