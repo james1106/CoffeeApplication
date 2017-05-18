@@ -204,4 +204,28 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public boolean addItem(OrderDetails orderDetails) {
         return orderDetailsMapper.insert(orderDetails) > 0;
     }
+
+    @Override
+    public List<OrderDetails> searchOrderDetails(String keyword) {
+       /* OrderDetailsExample example = null;
+        if (keyword != null && !keyword.equals("")) {
+            example = new OrderDetailsExample();
+            if (keyword.equals("未支付")) {
+                example.or().andPayStateEqualTo(0);
+            } else if (keyword.equals("已支付")) {
+                example.or().andPayStateEqualTo(1);
+            } else if (keyword.equals("支付失败")) {
+                example.or().andPayStateEqualTo(2);
+            } else if (keyword.equals("e豆")) {
+                example.or().andBeanIsNotNull();
+            } else if (keyword.equals("微信卡券")) {
+                example.or().andWxCardCodeIsNull();
+            } else {
+                example.or().andIdEqualTo(keyword);
+                example.or().andMembersIdEqualTo(Long.parseLong(keyword));
+            }
+        }*/
+
+        return null;
+    }
 }

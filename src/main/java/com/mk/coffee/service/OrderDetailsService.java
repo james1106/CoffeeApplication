@@ -9,18 +9,18 @@ import java.util.List;
  * 下订单
  * Created by Administrator on 2017/3/8 0008.
  */
-public interface OrderDetailsService{
+public interface OrderDetailsService {
 
     //下单
-    OrderDetails order(long memberId,int eNum) throws AppException;
+    OrderDetails order(long memberId, int eNum) throws AppException;
 
-    OrderDetails order(long memberId,int[] ids,int eNum);
+    OrderDetails order(long memberId, int[] ids, int eNum);
 
     //使用微信卡券下单通过加密code
-    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode,int eNum);
+    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int eNum);
 
     //使用微信卡券下单通过加密code和购物车商品ids
-    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode,int[] ids,int eNum);
+    OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int[] ids, int eNum);
 
     //得到订单
     OrderDetails getOrderDetail(String id) throws AppException;
@@ -39,15 +39,18 @@ public interface OrderDetailsService{
     List<OrderDetails> getList();
 
 
-   OrderDetails getItem(String id);
+    OrderDetails getItem(String id);
 
 
-    boolean updateItem(OrderDetails orderDetails) ;
+    boolean updateItem(OrderDetails orderDetails);
 
 
-     boolean deleteItem(String id) ;
+    boolean deleteItem(String id);
 
 
-     boolean addItem(OrderDetails orderDetails);
+    boolean addItem(OrderDetails orderDetails);
+
+    //搜索
+    List<OrderDetails> searchOrderDetails(String keyword);
 
 }
