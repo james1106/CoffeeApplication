@@ -27,6 +27,7 @@ public class OrderDetailsController {
             "cardId，encryptCode（可选，使用微信卡券则必须同时传入） 微信卡券生成订单")
     public RestResult<OrderDetails> order(@RequestBody RequestCreateOrder createOrder) {
         //默认不传shoppingCartsItemIds
+
         if (createOrder.shoppingCartsItemIds == null) {
             if (EmptyUtils.isEmpty(createOrder.encryptCode) || EmptyUtils.isEmpty(createOrder.cardId)) {//没有微信卡券
                 return RestResultGenerator.genSuccessResult(orderDetailsService.order(createOrder.memberId, createOrder.eNum));

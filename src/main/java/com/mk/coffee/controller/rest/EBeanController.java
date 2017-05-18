@@ -12,11 +12,9 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanProduct;
 import com.mk.coffee.model.EbeanRecord;
+import com.mk.coffee.model.Members;
 import com.mk.coffee.requestbody.RequestEBeanRecharge;
-import com.mk.coffee.service.EBeanProductService;
-import com.mk.coffee.service.EBeanRecordService;
-import com.mk.coffee.service.EBeanServie;
-import com.mk.coffee.service.WXInfoService;
+import com.mk.coffee.service.*;
 import com.mk.coffee.utils.CommonUtils;
 import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
@@ -64,6 +62,8 @@ public class EBeanController {
     private WxPayService wxPayService;
     @Autowired
     private CommonUtils commonUtils;
+    @Autowired
+    private MembersService membersService;
 
 
     @ApiOperation(value = "e豆充值优惠产品列表", httpMethod = "GET")
@@ -91,7 +91,13 @@ public class EBeanController {
         }
 
         eBeanRecordService.addItem(ebeanRecord);
-        return wxInfoService.getEBeanRechargeWXJsPayInfo(ebeanRecord, request.getRemoteAddr());
+        Members members = membersService.getMember(recharge.memberId);
+        //测试人员
+        if (members.getIsTest()) {
+            return wxInfoService.getEBeanRechargeWXJsPayInfoTest(ebeanRecord, request.getRemoteAddr());
+        } else {
+            return wxInfoService.getEBeanRechargeWXJsPayInfo(ebeanRecord, request.getRemoteAddr());
+        }
     }
 
     /**
@@ -113,9 +119,9 @@ public class EBeanController {
             //得到成员的拥有的e豆
             Ebean ebean = eBeanServie.getEbeanByMemberId(ebeanRecord.getMemberId());
             if (ebean == null) {
-                commonUtils.createEbean(ebeanRecord);
+                eBeanServie.addItem(commonUtils.createEbean(ebeanRecord));
             } else {
-                commonUtils.updateEbean(ebeanRecord, ebean);
+                eBeanServie.updateItem(commonUtils.updateEbean(ebeanRecord, ebean));
             }
             //更新已支付
             ebeanRecord.setPayState(1);

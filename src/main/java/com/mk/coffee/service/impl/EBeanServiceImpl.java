@@ -31,7 +31,7 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public boolean updateItem(Ebean ebean) {
-        return mapper.updateByPrimaryKey(ebean) > 0;
+        return mapper.updateByPrimaryKeySelective(ebean) > 0;
     }
 
     @Override

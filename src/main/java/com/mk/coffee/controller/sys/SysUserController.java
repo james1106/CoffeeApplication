@@ -33,6 +33,7 @@ public class SysUserController {
         return RestResultGenerator.genSuccessResult(userService.getItem(id));
     }
 
+
     @ApiOperation("更新用户")
     @PostMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody SysUser sysUser) {
@@ -64,6 +65,17 @@ public class SysUserController {
         }
         PageInfo<SysUser> info = new PageInfo<>(list);
         return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation("得到所有的用户列表")
+    public RestResult<List<SysUser>> getUserList() {
+
+        List<SysUser> list = userService.getList();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        return RestResultGenerator.genSuccessResult(list);
     }
 
 }

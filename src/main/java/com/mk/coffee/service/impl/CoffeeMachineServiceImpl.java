@@ -17,6 +17,7 @@ import com.taobao.api.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
     public List<CoffeeMachine> searchCoffeeMachine(String keyword) {
         CoffeeMachineExample example = null;
         if (keyword != null && !keyword.equals("")) {
-            example=new CoffeeMachineExample();
+            example = new CoffeeMachineExample();
             example.or().andCodeLike("%" + keyword + "%");
             example.or().andAddressLike("%" + keyword + "%");
         }
@@ -92,6 +93,12 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
 
     @Override
     public boolean addItem(CoffeeMachine coffeeMachine) {
-        return coffeeMachineMapper.insert(coffeeMachine) > 0;
+        CoffeeMachineExample example = new CoffeeMachineExample();
+        example.createCriteria().andCodeEqualTo(coffeeMachine.getCode());
+        if (!EmptyUtils.isEmpty(coffeeMachineMapper.selectByExample(example))) {
+            throw AppException.getException(ErrorCode.CoffeesMachine_Code_Already_Exist);
+        }
+        coffeeMachine.setCreateDate(new Date());
+        return coffeeMachineMapper.insertSelective(coffeeMachine) > 0;
     }
 }

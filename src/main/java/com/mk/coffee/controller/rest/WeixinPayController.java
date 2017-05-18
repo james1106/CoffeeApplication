@@ -121,6 +121,10 @@ public class WeixinPayController {
             OrderDetails orderDetails = orderDetailsService.getOrderDetail(orderId);
             //得到会员信息
             Members members = membersService.getMember(orderDetails.getMembersId());
+            //不是测试员
+            if (!members.getIsTest()) {
+                throw AppException.getException(ErrorCode.Test_Member_Illegal);
+            }
 
             WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
             orderRequest.setBody(wechatMpProperties.getBody());
@@ -142,10 +146,6 @@ public class WeixinPayController {
             throw AppException.getException(ErrorCode.Pay_Fail.getCode());
         }
     }
-
-
-
-
 
 
     /**
@@ -185,10 +185,6 @@ public class WeixinPayController {
             return WxPayOrderNotifyResponse.fail(e.getMessage());
         }
     }
-
-
-
-
 
 
 }

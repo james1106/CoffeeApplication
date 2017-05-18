@@ -70,8 +70,17 @@ public class SysMemberController {
         MembersExample example = null;
         if (keyword != null && !keyword.equals("")) {
             example = new MembersExample();
-            example.or().andNameLike("%" + keyword + "%");
-            example.or().andPhoneLike("%" + keyword + "%");
+            if (keyword.equals("会员")) {
+                example.or().andIsRegistEqualTo(true);
+            } else if (keyword.equals("游客")) {
+                example.or().andIsRegistEqualTo(false);
+            } else if (keyword.equals("测试")) {
+                example.or().andIsTestEqualTo(true);
+            } else {
+                example.or().andIdEqualTo(Long.parseLong(keyword));
+                example.or().andNameLike("%" + keyword + "%");
+                example.or().andPhoneLike("%" + keyword + "%");
+            }
         }
         List<Members> list = membersMapper.selectByExample(example);
         if (list == null) {

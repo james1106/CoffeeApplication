@@ -10,6 +10,7 @@ import com.mk.coffee.common.ErrorCode;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.conf.weixin.WechatMpProperties;
+import com.mk.coffee.conf.weixin.WxPayProperties;
 import com.mk.coffee.entity.*;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.*;
@@ -44,6 +45,9 @@ public class WXInfoServiceImpl implements WXInfoService {
 
     @Autowired
     private WechatMpProperties wechatMpProperties;
+
+    @Autowired
+    private WxPayProperties wxPayProperties;
 
     @Autowired
     private MembersService membersService;
@@ -148,12 +152,10 @@ public class WXInfoServiceImpl implements WXInfoService {
             orderRequest.setOutTradeNo(ebeanRecord.getId() + "");
             orderRequest.setTradeType("JSAPI");
             orderRequest.setTotalFee(WxPayBaseRequest.yuanToFee(ebeanRecord.getMoney() + ""));//元转成分
-            orderRequest.setNotifyURL("");
+            orderRequest.setNotifyURL(wxPayProperties.getEbeanRechargeUrl());
             orderRequest.setOpenid(members.getOpenId());
             orderRequest.setSpbillCreateIp(address);
             orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
-            //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
-
             Map<String, String> result = wxPayService.getPayInfo(orderRequest);
             return RestResultGenerator.genSuccessResult(result);
         } catch (WxErrorException e) {
@@ -181,12 +183,10 @@ public class WXInfoServiceImpl implements WXInfoService {
             orderRequest.setOutTradeNo(ebeanRecord.getId() + "");
             orderRequest.setTradeType("JSAPI");
             orderRequest.setTotalFee(1);//元转成分
-            orderRequest.setNotifyURL("");
+            orderRequest.setNotifyURL(wxPayProperties.getEbeanRechargeUrl());
             orderRequest.setOpenid(members.getOpenId());
             orderRequest.setSpbillCreateIp(address);
             orderRequest.setTimeStart(CalendarUtil.formatChineseYearMonthDayMinuteSecond(new Date()));
-            //orderRequest.setTimeExpire(DateUtils.getgetMinutesLaterStr(wechatMpProperties.getIntervalTime()));//设置过期时间
-
             Map<String, String> result = wxPayService.getPayInfo(orderRequest);
             return RestResultGenerator.genSuccessResult(result);
         } catch (WxErrorException e) {

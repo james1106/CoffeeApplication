@@ -994,6 +994,66 @@ public class MembersExample {
             addCriterion("is_regist not between", value1, value2, "isRegist");
             return (Criteria) this;
         }
+
+        public Criteria andIsTestIsNull() {
+            addCriterion("is_test is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestIsNotNull() {
+            addCriterion("is_test is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestEqualTo(Boolean value) {
+            addCriterion("is_test =", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestNotEqualTo(Boolean value) {
+            addCriterion("is_test <>", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestGreaterThan(Boolean value) {
+            addCriterion("is_test >", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_test >=", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestLessThan(Boolean value) {
+            addCriterion("is_test <", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_test <=", value, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestIn(List<Boolean> values) {
+            addCriterion("is_test in", values, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestNotIn(List<Boolean> values) {
+            addCriterion("is_test not in", values, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_test between", value1, value2, "isTest");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTestNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_test not between", value1, value2, "isTest");
+            return (Criteria) this;
+        }
     }
 
     /**

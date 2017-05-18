@@ -50,12 +50,14 @@ public interface MembersMapper {
         "email, phone, create_date, ",
         "password, oauth_id, ",
         "local_token, headportrait_url, ",
-        "open_id, sex, is_regist)",
+        "open_id, sex, is_regist, ",
+        "is_test)",
         "values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, ",
         "#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
         "#{password,jdbcType=VARCHAR}, #{oauthId,jdbcType=INTEGER}, ",
         "#{localToken,jdbcType=VARCHAR}, #{headportraitUrl,jdbcType=VARCHAR}, ",
-        "#{openId,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{isRegist,jdbcType=BIT})"
+        "#{openId,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{isRegist,jdbcType=BIT}, ",
+        "#{isTest,jdbcType=BIT})"
     })
     int insert(Members record);
 
@@ -84,7 +86,7 @@ public interface MembersMapper {
     @Select({
         "select",
         "id, name, email, phone, create_date, password, oauth_id, local_token, headportrait_url, ",
-        "open_id, sex, is_regist",
+        "open_id, sex, is_regist, is_test",
         "from members",
         "where id = #{id,jdbcType=DECIMAL}"
     })
@@ -133,7 +135,8 @@ public interface MembersMapper {
           "headportrait_url = #{headportraitUrl,jdbcType=VARCHAR},",
           "open_id = #{openId,jdbcType=VARCHAR},",
           "sex = #{sex,jdbcType=VARCHAR},",
-          "is_regist = #{isRegist,jdbcType=BIT}",
+          "is_regist = #{isRegist,jdbcType=BIT},",
+          "is_test = #{isTest,jdbcType=BIT}",
         "where id = #{id,jdbcType=DECIMAL}"
     })
     int updateByPrimaryKey(Members record);
@@ -141,7 +144,7 @@ public interface MembersMapper {
     @Select({
             "select",
             "id, name, email, phone, create_date, password, oauth_id, local_token, ",
-            "headportrait_url, open_id, sex,is_regist",
+            "headportrait_url, open_id, sex,is_regist,is_test",
             "from members",
             "where phone = #{phone}"
     })
@@ -151,7 +154,7 @@ public interface MembersMapper {
     @Select({
             "select",
             "id, name, email, phone, create_date, password, oauth_id, local_token, ",
-            "headportrait_url,open_id,is_regist",
+            "headportrait_url,open_id,is_regist,is_test",
             "from members",
             "where open_id like #{openId}"
     })
@@ -174,7 +177,7 @@ public interface MembersMapper {
 
     @Select({
             "id, name, email, phone, create_date, password, oauth_id, local_token, ",
-            "headportrait_url, open_id, sex,is_regist",
+            "headportrait_url, open_id, sex,is_regist,is_test",
             "from members",
             "where phone = #{phone,jdbcType=INTEGER}"
     })
@@ -198,7 +201,7 @@ public interface MembersMapper {
     //查询会员是否有open_id
     @Select({"select",
             "id, name, email, phone, create_date, password, oauth_id, local_token, ",
-            "headportrait_url, open_id,is_regist",
+            "headportrait_url, open_id,is_regist,is_test",
             "from members",
             "where open_id = #{openId}"})
     Members selectMemberByOpenId(@Param("openId") String openId);
