@@ -3,7 +3,9 @@ package com.mk.coffee.mapper;
 import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanExample;
 import com.mk.coffee.model.EbeanKey;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -35,9 +37,9 @@ public interface EbeanMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from ebean",
-        "where id = #{id,jdbcType=INTEGER}",
-          "or member_id = #{memberId,jdbcType=DECIMAL}"
+            "delete from ebean",
+            "where id = #{id,jdbcType=INTEGER}",
+            "or member_id = #{memberId,jdbcType=DECIMAL}"
     })
     int deleteByPrimaryKey(EbeanKey key);
 
@@ -48,14 +50,14 @@ public interface EbeanMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into ebean (id, member_id, ",
-        "e_num, giving_num, ",
-        "total_num, create_date, ",
-        "update_date)",
-        "values (#{id,jdbcType=INTEGER}, #{memberId,jdbcType=DECIMAL}, ",
-        "#{eNum,jdbcType=INTEGER}, #{givingNum,jdbcType=INTEGER}, ",
-        "#{totalNum,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
-        "#{updateDate,jdbcType=TIMESTAMP})"
+            "insert into ebean (id, member_id, ",
+            "e_num, giving_num, ",
+            "total_num, create_date, ",
+            "update_date)",
+            "values (#{id,jdbcType=INTEGER}, #{memberId,jdbcType=DECIMAL}, ",
+            "#{eNum,jdbcType=INTEGER}, #{givingNum,jdbcType=INTEGER}, ",
+            "#{totalNum,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
+            "#{updateDate,jdbcType=TIMESTAMP})"
     })
     int insert(Ebean record);
 
@@ -82,11 +84,11 @@ public interface EbeanMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "id, member_id, e_num, giving_num, total_num, create_date, update_date",
-        "from ebean",
-        "where id = #{id,jdbcType=INTEGER}",
-          "and member_id = #{memberId,jdbcType=DECIMAL}"
+            "select",
+            "id, member_id, e_num, giving_num, total_num, create_date, update_date",
+            "from ebean",
+            "where id = #{id,jdbcType=INTEGER}",
+            "and member_id = #{memberId,jdbcType=DECIMAL}"
     })
     @ResultMap("com.mk.coffee.mapper.EbeanMapper.BaseResultMap")
     Ebean selectByPrimaryKey(EbeanKey key);
@@ -133,14 +135,18 @@ public interface EbeanMapper {
      * @mbg.generated
      */
     @Update({
-        "update ebean",
-        "set e_num = #{eNum,jdbcType=INTEGER},",
-          "giving_num = #{givingNum,jdbcType=INTEGER},",
-          "total_num = #{totalNum,jdbcType=INTEGER},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP},",
-          "update_date = #{updateDate,jdbcType=TIMESTAMP}",
-        "where id = #{id,jdbcType=INTEGER}",
-          "and member_id = #{memberId,jdbcType=DECIMAL}"
+            "update ebean",
+            "set e_num = #{eNum,jdbcType=INTEGER},",
+            "giving_num = #{givingNum,jdbcType=INTEGER},",
+            "total_num = #{totalNum,jdbcType=INTEGER},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
+            "update_date = #{updateDate,jdbcType=TIMESTAMP}",
+            "where id = #{id,jdbcType=INTEGER}",
+            "and member_id = #{memberId,jdbcType=DECIMAL}"
     })
     int updateByPrimaryKey(Ebean record);
+
+    Ebean getEbeanByMemberId(@Param("memberId") long memberId);
+
+    List<Ebean> getAllEbean();
 }

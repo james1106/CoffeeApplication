@@ -34,6 +34,12 @@ public class SysEBeanController {
         return RestResultGenerator.genSuccessResult(ebeanService.getItem(id));
     }
 
+    @ApiOperation("根据memberId得到e豆")
+    @GetMapping("/getEBeanByMemberId")
+    public RestResult<Ebean> getEBeanByMemberId(@RequestParam("id") long memberId) {
+        return RestResultGenerator.genSuccessResult(ebeanService.getEbeanByMemberId(memberId));
+    }
+
 
     @ApiOperation("更新E豆")
     @PostMapping("/update")

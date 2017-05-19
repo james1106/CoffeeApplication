@@ -19,7 +19,7 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public List<Ebean> getList() {
-        return mapper.selectByExample(null);
+        return mapper.getAllEbean();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public boolean deleteItem(int id) {
-        EbeanKey ebeanKey=new EbeanKey();
+        EbeanKey ebeanKey = new EbeanKey();
         ebeanKey.setId(id);
         return mapper.deleteByPrimaryKey(ebeanKey) > 0;
     }
@@ -48,13 +48,7 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public Ebean getEbeanByMemberId(long memberId) {
-        EbeanKey ebeanKey = new EbeanKey();
-        ebeanKey.setMemberId(memberId);
-        return mapper.selectByOrPrimaryKey(ebeanKey);
+        return mapper.getEbeanByMemberId(memberId);
     }
 
-    @Override
-    public List<Ebean> searchEbeans(String keyword) {
-        return null;
-    }
 }
