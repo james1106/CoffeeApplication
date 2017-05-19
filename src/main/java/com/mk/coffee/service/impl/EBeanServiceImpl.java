@@ -52,4 +52,9 @@ public class EBeanServiceImpl implements EBeanServie {
         ebeanKey.setMemberId(memberId);
         return mapper.selectByOrPrimaryKey(ebeanKey);
     }
+
+    @Override
+    public List<Ebean> searchEbeans(String keyword) {
+        return null;
+    }
 }

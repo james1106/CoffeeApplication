@@ -144,7 +144,7 @@ public interface ProductConversionCodeMapper {
     int updateConversionStateById(@Param("id") int id, @Param("conversionState") int conversionState);
 
     @Select({"select id, conversion_code, order_num, order_details_id, member_id, product_id, shopping_cart_id," +
-            " conversion_state, crate_date,update_date",
+            " conversion_state, create_date,update_date",
             "from product_conversion_code",
             "where conversion_code like #{conversionCode,jdbcType=VARCHAR} and conversion_state= #{conversionState,jdbcType=INTEGER}"})
     @ResultMap({"com.mk.coffee.mapper.ProductConversionCodeMapper.BaseResultMap"})

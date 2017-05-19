@@ -43,6 +43,9 @@ public class SysMemberController {
     @PutMapping("/updateMember")
     @ApiOperation(value = "修改会员")
     public RestResult<Boolean> updateMember(@RequestBody Members members) {
+        if(!members.getIsRegist()){
+            members.setPhone(null);
+        }
         return RestResultGenerator.genSuccessResult(membersMapper.updateByPrimaryKey(members) > 0);
     }
 

@@ -256,4 +256,6 @@
     where id = #{id,jdbcType=INTEGER}
       and member_id = #{memberId,jdbcType=DECIMAL}
   </update>
+
+
 </mapper>

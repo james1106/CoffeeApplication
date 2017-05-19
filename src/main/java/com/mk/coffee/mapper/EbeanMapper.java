@@ -37,7 +37,7 @@ public interface EbeanMapper {
     @Delete({
         "delete from ebean",
         "where id = #{id,jdbcType=INTEGER}",
-          "and member_id = #{memberId,jdbcType=DECIMAL}"
+          "or member_id = #{memberId,jdbcType=DECIMAL}"
     })
     int deleteByPrimaryKey(EbeanKey key);
 
