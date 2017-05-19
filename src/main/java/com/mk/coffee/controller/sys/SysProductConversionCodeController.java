@@ -44,7 +44,6 @@ public class SysProductConversionCodeController {
         return RestResultGenerator.genSuccessResult(productConversionCodeService.updateItem(productConversionCode));
     }
 
-
     @ApiOperation("删除兑换码")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
@@ -55,7 +54,7 @@ public class SysProductConversionCodeController {
     @ApiOperation("添加兑换码Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody ProductConversionCode productConversionCode) {
-        productConversionCode.setCrateDate(new Date());
+        productConversionCode.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(productConversionCodeService.addItem(productConversionCode));
     }
 
@@ -66,6 +65,21 @@ public class SysProductConversionCodeController {
                     @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
         List<ProductConversionCode> list = productConversionCodeService.getList();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        PageInfo<ProductConversionCode> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
+    @GetMapping("/search")
+    @ApiOperation("搜索分页得到兑换码列表")
+    public RestResult<ListResult<ProductConversionCode>>
+    searchProductConversionCode(@RequestParam(name="keyword",required = false) String keyword,
+                                @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        PageHelper.startPage(page, size);
+        List<ProductConversionCode> list = productConversionCodeService.searchProductConversionCode(keyword);
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }

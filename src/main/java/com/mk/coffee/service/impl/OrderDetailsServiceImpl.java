@@ -207,7 +207,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     public List<OrderDetails> searchOrderDetails(String keyword) {
-       /* OrderDetailsExample example = null;
+        OrderDetailsExample example = null;
         if (keyword != null && !keyword.equals("")) {
             example = new OrderDetailsExample();
             if (keyword.equals("未支付")) {
@@ -217,15 +217,20 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             } else if (keyword.equals("支付失败")) {
                 example.or().andPayStateEqualTo(2);
             } else if (keyword.equals("e豆")) {
-                example.or().andBeanIsNotNull();
+                example.or().andBeanIsNotNull().andBeanNotEqualTo(0);
             } else if (keyword.equals("微信卡券")) {
-                example.or().andWxCardCodeIsNull();
+                example.or().andWxCardCodeIsNotNull();
             } else {
                 example.or().andIdEqualTo(keyword);
                 example.or().andMembersIdEqualTo(Long.parseLong(keyword));
             }
-        }*/
+        }
 
-        return null;
+        List<OrderDetails> list = orderDetailsMapper.selectByExampleWithBLOBs(example);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        commonUtils.convertShoppingCart(list);
+        return list;
     }
 }

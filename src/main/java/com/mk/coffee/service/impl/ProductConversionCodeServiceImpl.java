@@ -26,7 +26,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     @Override
     public ProductConversionCode createProductConversionCodeByMemberId(long memberId, int productId) {
         ProductConversionCode conversionCode = new ProductConversionCode();
-        conversionCode.setCrateDate(new Date());
+        conversionCode.setCreateDate(new Date());
         conversionCode.setUpdateDate(new Date());
         conversionCode.setConversionCode(VerifyUtils.getEightRandom());//随机生成8位数字为兑换码
         conversionCode.setOrderNum(VerifyUtils.getFiveRandom());
@@ -53,7 +53,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
                 //循环生成所有的兑换码
                 for (int i = 0; i < shoppingCart.getNum(); i++) {
                     ProductConversionCode conversionCode = new ProductConversionCode();
-                    conversionCode.setCrateDate(new Date());
+                    conversionCode.setCreateDate(new Date());
                     conversionCode.setUpdateDate(new Date());
                     conversionCode.setConversionCode(VerifyUtils.getEightRandom());//随机生成8位数字为兑换码
                     conversionCode.setOrderNum(VerifyUtils.getFiveRandom());
@@ -166,6 +166,32 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     }
 
     @Override
+    public List<ProductConversionCode> searchProductConversionCode(String keyword) {
+        ProductConversionCodeExample example = null;
+        if (!EmptyUtils.isEmpty(keyword)) {
+            example = new ProductConversionCodeExample();
+            if (keyword.equals("未领取")) {
+                example.or().andConversionStateEqualTo(0);
+            } else if (keyword.equals("领取中")) {
+                example.or().andConversionStateEqualTo(2);
+            } else if (keyword.equals("已领取")) {
+                example.or().andConversionStateEqualTo(1);
+            } else if (keyword.equals("领取失败")) {
+                example.or().andConversionStateEqualTo(3);
+            } else {
+                example.or().andProductIdEqualTo(Integer.parseInt(keyword));
+                example.or().andMemberIdEqualTo(Long.parseLong(keyword));
+            }
+        }
+        List<ProductConversionCode> list = productConversionCodeMapper.selectByExample(example);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+
+        return list;
+    }
+
+    @Override
     public List<ProductConversionCode> getList() {
         //查询结果
         List<ProductConversionCode> list = productConversionCodeMapper.getAllProductConversionCode();
@@ -182,7 +208,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
 
     @Override
     public boolean updateItem(ProductConversionCode productConversionCode) {
-        return productConversionCodeMapper.updateByPrimaryKey(productConversionCode) > 0;
+        return productConversionCodeMapper.updateByPrimaryKeySelective(productConversionCode) > 0;
     }
 
     @Override

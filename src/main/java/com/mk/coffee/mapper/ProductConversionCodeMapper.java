@@ -51,12 +51,12 @@ public interface ProductConversionCodeMapper {
             "insert into product_conversion_code (id, conversion_code, ",
             "order_num, order_details_id, ",
             "shopping_cart_id, product_id, ",
-            "conversion_state, crate_date, ",
+            "conversion_state, create_date, ",
             "update_date, member_id)",
             "values (#{id,jdbcType=INTEGER}, #{conversionCode,jdbcType=VARCHAR}, ",
             "#{orderNum,jdbcType=VARCHAR}, #{orderDetailsId,jdbcType=VARCHAR}, ",
             "#{shoppingCartId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, ",
-            "#{conversionState,jdbcType=INTEGER}, #{crateDate,jdbcType=TIMESTAMP}, ",
+            "#{conversionState,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
             "#{updateDate,jdbcType=TIMESTAMP}, #{memberId,jdbcType=DECIMAL})"
     })
     int insert(ProductConversionCode record);
@@ -86,7 +86,7 @@ public interface ProductConversionCodeMapper {
     @Select({
             "select",
             "id, conversion_code, order_num, order_details_id, shopping_cart_id, product_id, ",
-            "conversion_state, crate_date, update_date, member_id",
+            "conversion_state, create_date, update_date, member_id",
             "from product_conversion_code",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -131,7 +131,7 @@ public interface ProductConversionCodeMapper {
             "shopping_cart_id = #{shoppingCartId,jdbcType=INTEGER},",
             "product_id = #{productId,jdbcType=INTEGER},",
             "conversion_state = #{conversionState,jdbcType=INTEGER},",
-            "crate_date = #{crateDate,jdbcType=TIMESTAMP},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP},",
             "update_date = #{updateDate,jdbcType=TIMESTAMP},",
             "member_id = #{memberId,jdbcType=DECIMAL}",
             "where id = #{id,jdbcType=INTEGER}"
@@ -175,6 +175,4 @@ public interface ProductConversionCodeMapper {
 
     //得到所有兑换码
     List<ProductConversionCode> getAllProductConversionCode();
-
-
 }

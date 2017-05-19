@@ -33,7 +33,6 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
     ProductConversionCode getProductConversionCodeByConversionCode(ProductConversionCode conversionCode);
 
 
-
     //更新兑换码状态信息
     boolean updateProductConversionCodeById(int id, int conversionState);
 
@@ -55,5 +54,8 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
 
     //送咖啡兑换码,赠送的成员id
     boolean giveProductConversionCode(long memberId, int productConversionId);
+
+    //搜索兑换码
+    List<ProductConversionCode> searchProductConversionCode(String keyword);
 
 }

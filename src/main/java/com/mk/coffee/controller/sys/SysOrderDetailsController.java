@@ -8,6 +8,7 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.OrderDetails;
+import com.mk.coffee.model.Product;
 import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
@@ -67,5 +68,19 @@ public class SysOrderDetailsController {
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody OrderDetails orderDetails) {
         return RestResultGenerator.genSuccessResult(orderDetailsService.addItem(orderDetails));
+    }
+
+
+    @ApiOperation("搜索订单")
+    @GetMapping("/search")
+    public RestResult<ListResult<OrderDetails>>
+    searchOrderDetails(@RequestParam(name = "keyword", required = false) String keyword,
+                       @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "size", required = false, defaultValue = "10") int size
+    ) {
+        PageHelper.startPage(page, size);
+        List<OrderDetails> list = orderDetailsService.searchOrderDetails(keyword);
+        PageInfo<OrderDetails> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
     }
 }
