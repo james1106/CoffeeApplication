@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Administrator on 2017/5/6 0006.
  */
 public class ConversionCodeTest extends BaseTestService {
-    Logger logger= LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ProductConversionCodeService service;
 
     @Test
     public void test() {
-        Members members = service.getMembersByProductConversionCode("57892", 701);
-        logger.info(members.getOpenId());
+        service.updateProductConversionCodeById(185, "10296", 2);
     }
 }

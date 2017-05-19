@@ -109,8 +109,8 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     }
 
     @Override
-    public boolean updateProductConversionCodeById(int id, int conversionState) {
-        return productConversionCodeMapper.updateConversionStateById(id, conversionState) > 0;
+    public boolean updateProductConversionCodeById(int id, String vmc, int conversionState) {
+        return productConversionCodeMapper.updateConversionStateById(id, vmc, conversionState) > 0;
     }
 
 
@@ -179,8 +179,8 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
             } else if (keyword.equals("领取失败")) {
                 example.or().andConversionStateEqualTo(3);
             } else {
-                example.or().andProductIdEqualTo(Integer.parseInt(keyword));
                 example.or().andMemberIdEqualTo(Long.parseLong(keyword));
+                example.or().andProductIdEqualTo((int) Long.parseLong(keyword));
             }
         }
         List<ProductConversionCode> list = productConversionCodeMapper.selectByExample(example);

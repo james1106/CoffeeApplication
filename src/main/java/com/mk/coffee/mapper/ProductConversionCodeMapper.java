@@ -52,12 +52,14 @@ public interface ProductConversionCodeMapper {
             "order_num, order_details_id, ",
             "shopping_cart_id, product_id, ",
             "conversion_state, create_date, ",
-            "update_date, member_id)",
+            "update_date, member_id, ",
+            "coffee_machine_code)",
             "values (#{id,jdbcType=INTEGER}, #{conversionCode,jdbcType=VARCHAR}, ",
             "#{orderNum,jdbcType=VARCHAR}, #{orderDetailsId,jdbcType=VARCHAR}, ",
             "#{shoppingCartId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, ",
             "#{conversionState,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, ",
-            "#{updateDate,jdbcType=TIMESTAMP}, #{memberId,jdbcType=DECIMAL})"
+            "#{updateDate,jdbcType=TIMESTAMP}, #{memberId,jdbcType=DECIMAL}, ",
+            "#{coffeeMachineCode,jdbcType=VARCHAR})"
     })
     int insert(ProductConversionCode record);
 
@@ -86,7 +88,7 @@ public interface ProductConversionCodeMapper {
     @Select({
             "select",
             "id, conversion_code, order_num, order_details_id, shopping_cart_id, product_id, ",
-            "conversion_state, create_date, update_date, member_id",
+            "conversion_state, create_date, update_date, member_id, coffee_machine_code",
             "from product_conversion_code",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -133,18 +135,20 @@ public interface ProductConversionCodeMapper {
             "conversion_state = #{conversionState,jdbcType=INTEGER},",
             "create_date = #{createDate,jdbcType=TIMESTAMP},",
             "update_date = #{updateDate,jdbcType=TIMESTAMP},",
-            "member_id = #{memberId,jdbcType=DECIMAL}",
+            "member_id = #{memberId,jdbcType=DECIMAL},",
+            "coffee_machine_code = #{coffeeMachineCode,jdbcType=VARCHAR}",
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ProductConversionCode record);
 
     @Update({"update product_conversion_code",
-            "set conversion_state = #{conversionState}",
+            "set conversion_state = #{conversionState},",
+            "coffee_machine_code = #{vmc}",
             "where id = #{id,jdbcType=INTEGER}"})
-    int updateConversionStateById(@Param("id") int id, @Param("conversionState") int conversionState);
+    int updateConversionStateById(@Param("id") int id, @Param("vmc") String vmc, @Param("conversionState") int conversionState);
 
     @Select({"select id, conversion_code, order_num, order_details_id, member_id, product_id, shopping_cart_id," +
-            " conversion_state, create_date,update_date",
+            " conversion_state, create_date,update_date,coffee_machine_code",
             "from product_conversion_code",
             "where conversion_code like #{conversionCode,jdbcType=VARCHAR} and conversion_state= #{conversionState,jdbcType=INTEGER}"})
     @ResultMap({"com.mk.coffee.mapper.ProductConversionCodeMapper.BaseResultMap"})

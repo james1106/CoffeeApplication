@@ -69,7 +69,7 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
     @Override
     public boolean makeCoffeesByCustomConfigure(ProductConversionCode productConversionCode, String vmc, CustomConfig customConfig) {
         //获取商品
-        Product product=null;
+        Product product = null;
         if (productConversionCode.getProduct() != null) {
             product = productConversionCode.getProduct();
         } else {
@@ -118,8 +118,8 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
                     productMapper.updateByProductId(product);
                     //将一个定时任务5分钟的任务用于判断领取失败的结果
                     asyncTask.doTask(productConversionCode, vmc);
-                    //设置为待领取
-                    return productConversionCodeService.updateProductConversionCodeById(productConversionCode.getId(), 2);
+                    //设置为待领取,纪录咖啡机ID
+                    return productConversionCodeService.updateProductConversionCodeById(productConversionCode.getId(), vmc, 2);
                 } else {
                     throw AppException.getException(ErrorCode.Make_Coffees_Fail.getCode());
                 }
@@ -143,14 +143,14 @@ public class MakeCoffeesServiceImpl implements MakeCoffeesService {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         //密码不正确
-        if (EmptyUtils.isEmpty(requestCooperativePartnerMakeCoffee.password) || !cooperativePartner.getPassword().equals(requestCooperativePartnerMakeCoffee.password)) {
+        if (EmptyUtils.isEmpty(requestCooperativePartnerMakeCoffee.password)
+                || !cooperativePartner.getPassword().equals(requestCooperativePartnerMakeCoffee.password)) {
             throw AppException.getException(ErrorCode.Password_Illegal);
         }
 
-
-        ProductConversionCode productConversionCode = productConversionCodeService.createProductConversionCodeByMemberId(requestCooperativePartnerMakeCoffee.memberId,
-                requestCooperativePartnerMakeCoffee.productId);
-
+        ProductConversionCode productConversionCode = productConversionCodeService
+                .createProductConversionCodeByMemberId(requestCooperativePartnerMakeCoffee.memberId,
+                        requestCooperativePartnerMakeCoffee.productId);
 
         //插入一条公司人员喝咖啡纪录
         CooperativePartnerProduct cooperativePartnerProduct = new CooperativePartnerProduct();

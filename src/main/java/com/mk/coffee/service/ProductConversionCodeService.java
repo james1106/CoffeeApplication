@@ -34,7 +34,7 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
 
 
     //更新兑换码状态信息
-    boolean updateProductConversionCodeById(int id, int conversionState);
+    boolean updateProductConversionCodeById(int id, String vmc, int conversionState);
 
     //通过订单号、商品ID查询会员信息
     Members getMembersByProductConversionCode(String orderNum, int productId);

@@ -824,6 +824,76 @@ public class ProductConversionCodeExample {
             addCriterion("member_id not between", value1, value2, "memberId");
             return (Criteria) this;
         }
+
+        public Criteria andCoffeeMachineCodeIsNull() {
+            addCriterion("coffee_machine_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeIsNotNull() {
+            addCriterion("coffee_machine_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeEqualTo(String value) {
+            addCriterion("coffee_machine_code =", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeNotEqualTo(String value) {
+            addCriterion("coffee_machine_code <>", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeGreaterThan(String value) {
+            addCriterion("coffee_machine_code >", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("coffee_machine_code >=", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeLessThan(String value) {
+            addCriterion("coffee_machine_code <", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeLessThanOrEqualTo(String value) {
+            addCriterion("coffee_machine_code <=", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeLike(String value) {
+            addCriterion("coffee_machine_code like", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeNotLike(String value) {
+            addCriterion("coffee_machine_code not like", value, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeIn(List<String> values) {
+            addCriterion("coffee_machine_code in", values, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeNotIn(List<String> values) {
+            addCriterion("coffee_machine_code not in", values, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeBetween(String value1, String value2) {
+            addCriterion("coffee_machine_code between", value1, value2, "coffeeMachineCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeMachineCodeNotBetween(String value1, String value2) {
+            addCriterion("coffee_machine_code not between", value1, value2, "coffeeMachineCode");
+            return (Criteria) this;
+        }
     }
 
     /**
