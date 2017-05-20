@@ -159,4 +159,8 @@ public class VerifyUtils {
     }
 
 
+    // 判断一个字符串是否都为数字
+    public static boolean isDigit(String strNum) {
+        return strNum.matches("\\d*");
+    }
 }

@@ -49,6 +49,7 @@ public enum ErrorCode {
     Cart_Id_OR_EncryptCode_IS_NULL("cart_id_or_encrypt_code_is_null", "手机号码或验证码为空"),
     Phone_Or_Code_Null("phone_or_code_null", "手机或code为空"),
     Test_Member_Illegal("test_member_illegal","该用户不是测试员"),
+    Keyword_Illegal_Number("keyword_illegal_number","你输入的不是数字"),
     CoffeesMachine_Code_Already_Exist("coffeesMachine_code_already_exist","咖啡机编号已存在"),
     User_Not_Exist("user_not_exist", "用户不存在");
     private String code;

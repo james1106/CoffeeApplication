@@ -149,4 +149,6 @@ public interface EbeanMapper {
     Ebean getEbeanByMemberId(@Param("memberId") long memberId);
 
     List<Ebean> getAllEbean();
+
+    List<Ebean> searchEbean(@Param("keyword") String keyword);
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface EBeanServie extends IBaseService<Ebean> {
     Ebean getEbeanByMemberId(long memberId);
 
+    List<Ebean> searchEbean(String keyword);
+
 }

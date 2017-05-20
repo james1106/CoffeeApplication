@@ -292,5 +292,26 @@
         LEFT OUTER JOIN members m ON b.member_id=m.id
     </select>
 
+    <select id="searchEbean" resultType="com.mk.coffee.model.Ebean">
+        SELECT
+        b.id,
+        b.e_num,
+        b.giving_num,
+        b.total_num,
+        b.update_date,
+        m.id "members.id",
+        m.name "members.name",
+        m.sex "members.sex",
+        m.open_id "members.openId",
+        m.phone "members.phone"
+        FROM ebean b
+        LEFT OUTER JOIN members m ON b.member_id=m.id
+        <where>
+            <if test="keyword!=null">
+                b.member_id = #{keyword} OR m.phone LIKE CONCAT('%','${keyword}','%' )
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

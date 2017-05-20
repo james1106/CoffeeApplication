@@ -43,7 +43,7 @@ public class SysMemberController {
     @PutMapping("/updateMember")
     @ApiOperation(value = "修改会员")
     public RestResult<Boolean> updateMember(@RequestBody Members members) {
-        if(!members.getIsRegist()){
+        if (!members.getIsRegist()) {
             members.setPhone("");
         }
         return RestResultGenerator.genSuccessResult(membersMapper.updateByPrimaryKeySelective(members) > 0);
@@ -83,6 +83,7 @@ public class SysMemberController {
                 example.or().andIdEqualTo(Long.parseLong(keyword));
                 example.or().andNameLike("%" + keyword + "%");
                 example.or().andPhoneLike("%" + keyword + "%");
+                example.or().andOpenIdEqualTo("%" + keyword + "%");
             }
         }
         List<Members> list = membersMapper.selectByExample(example);

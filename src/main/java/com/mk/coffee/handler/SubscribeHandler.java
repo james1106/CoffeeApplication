@@ -54,7 +54,8 @@ public class SubscribeHandler extends AbstractHandler {
         }
 
         try {
-            return new TextBuilder().build("Hi,欢迎关注E乐饮微信公众号，小E恭候您多时了!\n\r\n\r立刻成为会员享受福利吧！点击链接即可领取你的微信会员卡", wxMessage, weixinService);
+            return new TextBuilder().build("Hi,欢迎关注E乐饮微信公众号，小E恭候您多时了!" +
+                    "\n\r\n\r立刻成为会员享受福利吧！点击链接即可领取你的微信会员卡", wxMessage, weixinService);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }

@@ -11,6 +11,7 @@ import com.mk.coffee.model.Activity;
 import com.mk.coffee.model.Ebean;
 import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.utils.EmptyUtils;
+import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class SysEBeanController {
         return RestResultGenerator.genSuccessResult(ebeanService.addItem(ebean));
     }
 
+
     @GetMapping("/list")
     @ApiOperation("分页得到E豆列表")
     public RestResult<ListResult<Ebean>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
@@ -73,5 +75,25 @@ public class SysEBeanController {
         PageInfo<Ebean> info = new PageInfo<>(list);
         return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
     }
+
+    @GetMapping("/search")
+    @ApiOperation("根据会员ID，手机号码搜索分页得到E豆列表")
+    public RestResult<ListResult<Ebean>>
+    serachProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+                       @RequestParam(name = "keyword", required = false) String keyword) {
+        List<Ebean> list = null;
+        PageHelper.startPage(page, size);
+        if (!EmptyUtils.isEmpty(keyword) && !VerifyUtils.isDigit(keyword)) {
+            throw AppException.getException(ErrorCode.Keyword_Illegal_Number);
+        }
+        list = ebeanService.searchEbean(keyword);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        PageInfo<Ebean> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
 
 }

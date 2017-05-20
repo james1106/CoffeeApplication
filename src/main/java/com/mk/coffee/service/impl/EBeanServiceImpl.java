@@ -51,4 +51,9 @@ public class EBeanServiceImpl implements EBeanServie {
         return mapper.getEbeanByMemberId(memberId);
     }
 
+    @Override
+    public List<Ebean> searchEbean(String keyword) {
+        return mapper.searchEbean(keyword);
+    }
+
 }
