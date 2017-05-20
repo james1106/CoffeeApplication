@@ -43,7 +43,7 @@ public class SysEBeanController {
 
 
     @ApiOperation("更新E豆")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody Ebean ebean) {
         return RestResultGenerator.genSuccessResult(ebeanService.updateItem(ebean));
     }

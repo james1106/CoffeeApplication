@@ -11,6 +11,7 @@ import com.mk.coffee.mapper.MembersMapper;
 import com.mk.coffee.model.Members;
 import com.mk.coffee.model.MembersExample;
 import com.mk.coffee.service.MembersService;
+import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,10 +81,12 @@ public class SysMemberController {
             } else if (keyword.equals("测试")) {
                 example.or().andIsTestEqualTo(true);
             } else {
-                example.or().andIdEqualTo(Long.parseLong(keyword));
-                example.or().andNameLike("%" + keyword + "%");
-                example.or().andPhoneLike("%" + keyword + "%");
-                example.or().andOpenIdEqualTo("%" + keyword + "%");
+                if (VerifyUtils.isDigit(keyword)) {
+                    example.or().andIdEqualTo(Long.parseLong(keyword));
+                    example.or().andNameLike("%" + keyword + "%");
+                    example.or().andPhoneLike("%" + keyword + "%");
+                }
+                example.or().andOpenIdLike("%" + keyword + "%");
             }
         }
         List<Members> list = membersMapper.selectByExample(example);

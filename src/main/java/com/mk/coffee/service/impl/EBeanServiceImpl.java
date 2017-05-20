@@ -3,10 +3,14 @@ package com.mk.coffee.service.impl;
 import com.mk.coffee.mapper.EbeanMapper;
 import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanKey;
+import com.mk.coffee.model.EbeanProduct;
+import com.mk.coffee.model.EbeanProductExample;
 import com.mk.coffee.service.EBeanServie;
+import com.mk.coffee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,6 +20,9 @@ import java.util.List;
 public class EBeanServiceImpl implements EBeanServie {
     @Autowired
     private EbeanMapper mapper;
+
+    @Autowired
+    private CommonUtils commonUtils;
 
     @Override
     public List<Ebean> getList() {
@@ -31,6 +38,10 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public boolean updateItem(Ebean ebean) {
+        Ebean oldEBean = getItem(ebean.getId());
+        ebean.seteNum(null);
+        //计算总数
+        ebean.setTotalNum(oldEBean.geteNum() + ebean.getGivingNum());
         return mapper.updateByPrimaryKeySelective(ebean) > 0;
     }
 
