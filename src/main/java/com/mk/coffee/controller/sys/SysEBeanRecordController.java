@@ -29,7 +29,7 @@ public class SysEBeanRecordController {
 
     @ApiOperation("得到E豆充值纪录Item")
     @GetMapping("/item")
-    public RestResult<EbeanRecord> getItem(@RequestParam("id") int id) {
+    public RestResult<EbeanRecord> getItem(@RequestParam("id") long id) {
         return RestResultGenerator.genSuccessResult(ebeanRecordService.getItem(id));
     }
 
@@ -43,7 +43,7 @@ public class SysEBeanRecordController {
 
     @ApiOperation("删除E豆充值纪录")
     @DeleteMapping("/delete")
-    public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+    public RestResult<Boolean> deleteItem(@RequestParam("id") long id) {
         return RestResultGenerator.genSuccessResult(ebeanRecordService.deleteItem(id));
     }
 
