@@ -1,6 +1,5 @@
 package com.mk.coffee.service;
 
-import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanRecord;
 
 import java.util.List;
@@ -19,9 +18,11 @@ public interface EBeanRecordService {
     boolean updateItem(EbeanRecord ebeanRecord);
 
 
-
     boolean deleteItem(long id);
 
 
     boolean addItem(EbeanRecord ebeanRecord);
+
+    //搜索e豆充值纪录
+    List<EbeanRecord> searchEbeanRecord(String keyword, Integer payState);
 }

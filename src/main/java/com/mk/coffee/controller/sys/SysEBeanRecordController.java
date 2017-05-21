@@ -12,6 +12,7 @@ import com.mk.coffee.model.EbeanRecord;
 import com.mk.coffee.service.EBeanRecordService;
 import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.utils.EmptyUtils;
+import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,4 +66,27 @@ public class SysEBeanRecordController {
         PageInfo<EbeanRecord> info = new PageInfo<>(list);
         return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
     }
+
+    @GetMapping("/search")
+    @ApiOperation("根据会员ID，手机号码关键字和支付状态搜索分页得到E豆充值纪录列表")
+    public RestResult<ListResult<EbeanRecord>>
+    serachProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+                       @RequestParam(name = "keyword", required = false) String keyword,
+                       @RequestParam(value = "payState", required = false) Integer payState) {
+        List<EbeanRecord> list = null;
+        PageHelper.startPage(page, size);
+        if (!EmptyUtils.isEmpty(keyword) && !VerifyUtils.isDigit(keyword)) {
+            throw AppException.getException(ErrorCode.Keyword_Illegal_Number);
+        }
+
+        list = ebeanRecordService.searchEbeanRecord(keyword, payState);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        PageInfo<EbeanRecord> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
+
 }

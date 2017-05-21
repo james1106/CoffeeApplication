@@ -140,6 +140,7 @@ public class CommonUtils {
     public EbeanRecord createEbeanRecord(long memberId, EbeanProduct ebeanProduct) {
         //e豆充值纪录
         EbeanRecord ebeanRecord = new EbeanRecord();
+        ebeanRecord.setName(ebeanProduct.getTitle());
         ebeanRecord.setId(System.currentTimeMillis());
         ebeanRecord.seteNum(ebeanProduct.geteNum());
         ebeanRecord.setGivingNum(ebeanProduct.getGivingNum());

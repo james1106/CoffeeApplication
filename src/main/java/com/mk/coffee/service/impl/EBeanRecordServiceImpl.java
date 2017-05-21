@@ -33,11 +33,16 @@ public class EBeanRecordServiceImpl implements EBeanRecordService {
 
     @Override
     public boolean deleteItem(long id) {
-        return mapper.deleteByPrimaryKey(id)>0;
+        return mapper.deleteByPrimaryKey(id) > 0;
     }
 
     @Override
     public boolean addItem(EbeanRecord ebeanRecord) {
         return mapper.insert(ebeanRecord) > 0;
+    }
+
+    @Override
+    public List<EbeanRecord> searchEbeanRecord(String keyword, Integer payState) {
+        return mapper.searchEbeanRecord(keyword, payState);
     }
 }
