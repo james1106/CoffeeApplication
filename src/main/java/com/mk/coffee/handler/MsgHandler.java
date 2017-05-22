@@ -1,10 +1,18 @@
 package com.mk.coffee.handler;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.mk.coffee.builder.TextBuilder;
+import com.mk.coffee.model.WxKeyword;
+import com.mk.coffee.model.WxMessage;
+import com.mk.coffee.service.WXKeywordService;
+import com.mk.coffee.service.WXMessageService;
+import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import me.chanjar.weixin.common.api.WxConsts;
@@ -19,6 +27,11 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
  */
 @Component
 public class MsgHandler extends AbstractHandler {
+    @Autowired
+    private WXMessageService wxMessageService;
+
+    @Autowired
+    private WXKeywordService wxKeywordService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -27,6 +40,17 @@ public class MsgHandler extends AbstractHandler {
 
         if (!wxMessage.getMsgType().equals(WxConsts.XML_MSG_EVENT)) {
             //TODO 可以选择将消息保存到本地
+            List<WxKeyword> wxKeywords = wxKeywordService.getWxKeywordByKeyword(wxMessage.getContent());
+            if (!EmptyUtils.isEmpty(wxKeywords)) {
+                //保存消息
+                WxMessage localWxMessage = new WxMessage();
+                localWxMessage.setCreateDate(new Date(wxMessage.getCreateTime()));
+                localWxMessage.setContent(wxMessage.getContent());
+                localWxMessage.setMsgType(wxMessage.getMsgType());
+                localWxMessage.setFromUser(wxMessage.getFromUser());
+                localWxMessage.setToUser(wxMessage.getToUser());
+                wxMessageService.addItem(localWxMessage);
+            }
 
         }
 

@@ -109,7 +109,8 @@
         <table tableName="sys_user_role"/>-->
         <!-- <table tableName="sys_role"/>-->
         <!-- <table tableName="sys_log"/>-->
-
+       <!-- <table tableName="wx_message"></table>
+        <table tableName="wx_keyword"></table>-->
 
     </context>
 </generatorConfiguration>
