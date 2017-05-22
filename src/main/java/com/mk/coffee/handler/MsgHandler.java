@@ -40,8 +40,16 @@ public class MsgHandler extends AbstractHandler {
 
         if (!wxMessage.getMsgType().equals(WxConsts.XML_MSG_EVENT)) {
             //TODO 可以选择将消息保存到本地
-            List<WxKeyword> wxKeywords = wxKeywordService.getWxKeywordByKeyword(wxMessage.getContent());
-            if (!EmptyUtils.isEmpty(wxKeywords)) {
+            //匹配关键字
+            boolean isExt = false;
+            List<WxKeyword> allWxKeywords = wxKeywordService.getList();
+            for (WxKeyword keyword : allWxKeywords) {
+                if (wxMessage.getContent().contains(keyword.getKeyword())) {
+                    isExt = true;
+                    break;
+                }
+            }
+            if (isExt) {
                 //保存消息
                 WxMessage localWxMessage = new WxMessage();
                 localWxMessage.setCreateDate(new Date(wxMessage.getCreateTime()));
