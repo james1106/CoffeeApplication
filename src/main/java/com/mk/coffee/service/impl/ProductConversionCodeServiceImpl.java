@@ -166,6 +166,15 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
     }
 
     @Override
+    public List<ProductConversionCode> searchProductConversionCode(String keyword, Integer conversionState) {
+        List<ProductConversionCode> list = productConversionCodeMapper.searchProductConversionCode(keyword, conversionState);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        return list;
+    }
+
+    /*@Override
     public List<ProductConversionCode> searchProductConversionCode(String keyword) {
         ProductConversionCodeExample example = null;
         if (!EmptyUtils.isEmpty(keyword)) {
@@ -189,7 +198,7 @@ public class ProductConversionCodeServiceImpl implements ProductConversionCodeSe
         }
 
         return list;
-    }
+    }*/
 
     @Override
     public List<ProductConversionCode> getList() {

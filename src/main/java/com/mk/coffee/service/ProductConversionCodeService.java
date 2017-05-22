@@ -56,6 +56,6 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
     boolean giveProductConversionCode(long memberId, int productConversionId);
 
     //搜索兑换码
-    List<ProductConversionCode> searchProductConversionCode(String keyword);
+    List<ProductConversionCode> searchProductConversionCode(String keyword,Integer conversionState);
 
 }

@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +38,9 @@ public class SysEBeanProductController {
 
 
     @ApiOperation("更新E豆商品")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody EbeanProduct ebeanProduct) {
+        ebeanProduct.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(ebeanProductService.updateItem(ebeanProduct));
     }
 
@@ -53,13 +55,14 @@ public class SysEBeanProductController {
     @ApiOperation("添加E豆商品Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody EbeanProduct ebeanProduct) {
+        ebeanProduct.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(ebeanProductService.addItem(ebeanProduct));
     }
 
     @GetMapping("/list")
     @ApiOperation("分页得到E豆商品列表")
     public RestResult<ListResult<EbeanProduct>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                         @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+                                                                @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
         List<EbeanProduct> list = ebeanProductService.getList();
         if (EmptyUtils.isEmpty(list)) {

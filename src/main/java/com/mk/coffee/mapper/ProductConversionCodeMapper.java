@@ -179,4 +179,8 @@ public interface ProductConversionCodeMapper {
 
     //得到所有兑换码
     List<ProductConversionCode> getAllProductConversionCode();
+
+    //搜索
+    List<ProductConversionCode> searchProductConversionCode(@Param("keyword") String keyword,
+                                                            @Param("conversionState") Integer conversionState);
 }

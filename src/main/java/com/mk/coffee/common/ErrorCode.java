@@ -7,7 +7,7 @@ package com.mk.coffee.common;
 public enum ErrorCode {
 
     NOT_FOUND_DATA("not_found_data", "暂时没有数据"),
-    Phone_ALREADY("phone_already", "手机号码已注册"),
+    Phone_ALREADY("phone_already", "手机号码已注册会员"),
     Member_Already_Exist("member_already_exist", "用户已存在"),
     Member_Unbound_WX("member_unbound_wx", "该用户未绑定微信"),
     ILLEGAL_PARAMS("illegal_params", "非法的请求参数"),
@@ -48,9 +48,9 @@ public enum ErrorCode {
 
     Cart_Id_OR_EncryptCode_IS_NULL("cart_id_or_encrypt_code_is_null", "手机号码或验证码为空"),
     Phone_Or_Code_Null("phone_or_code_null", "手机或code为空"),
-    Test_Member_Illegal("test_member_illegal","该用户不是测试员"),
-    Keyword_Illegal_Number("keyword_illegal_number","你输入的不是数字"),
-    CoffeesMachine_Code_Already_Exist("coffeesMachine_code_already_exist","咖啡机编号已存在"),
+    Test_Member_Illegal("test_member_illegal", "该用户不是测试员"),
+    Keyword_Illegal_Number("keyword_illegal_number", "你输入的不是数字"),
+    CoffeesMachine_Code_Already_Exist("coffeesMachine_code_already_exist", "咖啡机编号已存在"),
     User_Not_Exist("user_not_exist", "用户不存在");
     private String code;
     private String message;

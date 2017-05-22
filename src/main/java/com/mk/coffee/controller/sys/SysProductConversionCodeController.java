@@ -15,6 +15,7 @@ import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,14 +76,12 @@ public class SysProductConversionCodeController {
     @GetMapping("/search")
     @ApiOperation("搜索分页得到兑换码列表")
     public RestResult<ListResult<ProductConversionCode>>
-    searchProductConversionCode(@RequestParam(name="keyword",required = false) String keyword,
+    searchProductConversionCode(@RequestParam(name = "keyword", required = false) String keyword,
+                                @RequestParam(name = "conversionState", required = false) Integer conversionState,
                                 @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                 @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
-        List<ProductConversionCode> list = productConversionCodeService.searchProductConversionCode(keyword);
-        if (EmptyUtils.isEmpty(list)) {
-            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
-        }
+        List<ProductConversionCode> list = productConversionCodeService.searchProductConversionCode(keyword, conversionState);
         PageInfo<ProductConversionCode> info = new PageInfo<>(list);
         return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
     }

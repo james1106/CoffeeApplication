@@ -28,7 +28,7 @@ public class EBeanProductServiceImpl implements EBeanProductService {
 
     @Override
     public boolean updateItem(EbeanProduct ebeanProduct) {
-        return mapper.updateByPrimaryKey(ebeanProduct) > 0;
+        return mapper.updateByPrimaryKeySelective(ebeanProduct) > 0;
     }
 
     @Override
