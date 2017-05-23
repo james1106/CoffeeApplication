@@ -12,4 +12,6 @@ public interface SysUserService extends IBaseService<SysUser> {
 
     boolean updateById(SysUser user);
 
+    List<SysUser> searchSysUser(String keyword);
+
 }

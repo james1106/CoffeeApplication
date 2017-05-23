@@ -12,6 +12,8 @@ import com.mk.coffee.service.SysUserService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,10 +58,26 @@ public class SysUserController {
 
     @GetMapping("/list")
     @ApiOperation("分页得到用户列表")
-    public RestResult<ListResult<SysUser>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<SysUser>> getUserPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
         List<SysUser> list = userService.getList();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        PageInfo<SysUser> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
+
+    @GetMapping("/search")
+    @ApiOperation("搜索分页得到用户列表")
+    public RestResult<ListResult<SysUser>>
+    searchUserPages(@RequestParam(name = "keyword", required = false) String keyword,
+                    @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        PageHelper.startPage(page, size);
+        List<SysUser> list = userService.searchSysUser(keyword);
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }

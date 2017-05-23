@@ -8,6 +8,8 @@ import com.mk.coffee.mapper.LocalAuthMapper;
 import com.mk.coffee.mapper.OauthMapper;
 import com.mk.coffee.model.LocalAuth;
 import com.mk.coffee.model.VerificationCode;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
@@ -163,4 +165,5 @@ public class VerifyUtils {
     public static boolean isDigit(String strNum) {
         return strNum.matches("\\d*");
     }
+
 }

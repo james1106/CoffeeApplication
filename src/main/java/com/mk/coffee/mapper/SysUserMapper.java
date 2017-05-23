@@ -181,4 +181,6 @@ public interface SysUserMapper {
             "from sys_user"
     })
     List<SysUser> getSysUsers();
+
+    List<SysUser> searchSysUser(@Param("keyword") String keyword);
 }

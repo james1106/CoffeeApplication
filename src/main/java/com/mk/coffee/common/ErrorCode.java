@@ -51,7 +51,8 @@ public enum ErrorCode {
     Test_Member_Illegal("test_member_illegal", "该用户不是测试员"),
     Keyword_Illegal_Number("keyword_illegal_number", "你输入的不是数字"),
     CoffeesMachine_Code_Already_Exist("coffeesMachine_code_already_exist", "咖啡机编号已存在"),
-    User_Not_Exist("user_not_exist", "用户不存在");
+    User_Not_Exist("user_not_exist", "用户不存在"),
+    UserId_Is_Null("userId_is_null", "您还没有登录，不能进行相关操作");
     private String code;
     private String message;
 

@@ -4,9 +4,11 @@ import com.mk.coffee.mapper.SysUserMapper;
 import com.mk.coffee.model.SysUser;
 import com.mk.coffee.model.SysUserKey;
 import com.mk.coffee.service.SysUserService;
+import com.mk.coffee.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean updateById(SysUser user) {
         return sysUserMapper.updateByPrimaryKey(user) > 0;
+    }
+
+    @Override
+    public List<SysUser> searchSysUser(String keyword) {
+        return sysUserMapper.searchSysUser(keyword);
     }
 
     @Override
@@ -53,6 +60,10 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean addItem(SysUser sysUser) {
+        sysUser.setCreateDate(new Date());
+        sysUser.setUpdateDate(new Date());
+        //验证字段
+        sysUser.setSalt(MD5Util.md5Encode(sysUser.getMobile() + sysUser.getPassword(), null));
         return sysUserMapper.insert(sysUser) > 0;
     }
 }
