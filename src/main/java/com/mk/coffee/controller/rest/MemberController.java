@@ -42,7 +42,7 @@ public class MemberController {
     public RestResult<Boolean> register(@RequestBody RequestPhoneAndCode phoneAndCode) throws AppException {
         VerifyUtils.verifyPhoneNum(phoneAndCode.phone);
         Members members = new Members();
-        members.setId(System.currentTimeMillis());
+        members.setId(new Date().getTime());
         members.setPhone(phoneAndCode.phone);
         members.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(membersService.register(members, phoneAndCode.code));

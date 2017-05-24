@@ -17,6 +17,7 @@ public enum ErrorCode {
     Phone_Illegal("phone_illegal", "该号码不是手机号码"),
     Verification_Code_Availability("verification_code_availability", "上一条验证码未失效，请稍后再试"),
     Verification_Code_Invalid("verification_code_invalid", "验证码已失效，请重新发送"),
+    Verification_Already_Use("verification_already_use", "验证码已使用"),
     Verification_Code_Not_Exist("verification_code_not_exist", "验证码不存在，请重试"),
     Verification_Code_Error("verification_code_error", "验证码不正确"),
     EBean_NULL("ebean_null", "您还没有充值过e豆"),

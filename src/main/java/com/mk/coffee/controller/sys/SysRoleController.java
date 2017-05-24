@@ -55,10 +55,21 @@ public class SysRoleController {
         return RestResultGenerator.genSuccessResult(sysRoleService.addItem(sysRole));
     }
 
+    @GetMapping("/all")
+    @ApiOperation("得到所有角色列表")
+    public RestResult<ListResult<SysRole>> getList() {
+        List<SysRole> list = sysRoleService.getList();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        PageInfo<SysRole> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+    }
+
     @GetMapping("/list")
     @ApiOperation("分页得到角色列表")
-    public RestResult<ListResult<SysRole>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<SysRole>> getListPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
         List<SysRole> list = sysRoleService.getList();
         if (EmptyUtils.isEmpty(list)) {

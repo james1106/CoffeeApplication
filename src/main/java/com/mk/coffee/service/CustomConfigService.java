@@ -8,7 +8,7 @@ import java.util.List;
  * 自定义配方
  * Created by Administrator on 2017/5/4 0004.
  */
-public interface CustomConfigService {
+public interface CustomConfigService extends IBaseService<CustomConfig> {
     //得到系统推荐配制
     List<CustomConfig> getCustomConfigListByRecommend();
 

@@ -6,6 +6,7 @@ import com.mk.coffee.mapper.VerificationCodeMapper;
 import com.mk.coffee.model.VerificationCode;
 import com.mk.coffee.service.VerificationCodeService;
 import com.mk.coffee.utils.DaYuUtils;
+import com.mk.coffee.utils.DateUtils;
 import com.mk.coffee.utils.VerifyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,9 @@ public class VerificationCodeServieImpl implements VerificationCodeService {
             VerificationCode olderVerificationCode = olderVerificationCodes.get(0);
             if (olderVerificationCode != null) {
                 //验证码可用
-                if (System.currentTimeMillis() - olderVerificationCode.getCreateDate().getTime() <= olderVerificationCode.getValidityMinute() * 1000 * 60) {
+                logger.info("当前时间：" + DateUtils.getDate2LStr(DateUtils.getGMT8Time()));
+                if (DateUtils.getGMT8Time().getTime() - olderVerificationCode.getCreateDate().getTime() <= olderVerificationCode.getValidityMinute() * 1000 * 60
+                        && !olderVerificationCode.getVerifyState()) {
                     throw AppException.getException(ErrorCode.Verification_Code_Availability.getCode());
                 }
             }
@@ -53,6 +56,7 @@ public class VerificationCodeServieImpl implements VerificationCodeService {
 
         //验证不可用，重新发送
         VerificationCode verificationCode = new VerificationCode();
+        verificationCode.setVerifyState(false);
         verificationCode.setCode(code);
         verificationCode.setPhone(phone);
         verificationCode.setCreateDate(new Date());
@@ -66,5 +70,10 @@ public class VerificationCodeServieImpl implements VerificationCodeService {
 
     public boolean verificationByCode(int code) {
         return false;
+    }
+
+    @Override
+    public boolean updateVerification(VerificationCode verificationCode) {
+        return verificationCodeMapper.updateByPrimaryKeySelective(verificationCode) > 0;
     }
 }

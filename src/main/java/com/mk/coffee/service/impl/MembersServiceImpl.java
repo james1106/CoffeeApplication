@@ -33,6 +33,8 @@ import java.util.List;
 public class MembersServiceImpl implements MembersService {
     Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
+    private VerifyUtils verifyUtils;
+    @Autowired
     private MembersMapper membersMapper;
 
     @Autowired
@@ -60,7 +62,7 @@ public class MembersServiceImpl implements MembersService {
         List<VerificationCode> olderVerificationCodes = verificationCodeMapper.selectCodesByPhoneOrderCreateDate(members.getPhone());
         //验证
         if (olderVerificationCodes != null && olderVerificationCodes.size() > 0) {
-            VerifyUtils.verificationCode(members.getPhone(), code, olderVerificationCodes.get(0));
+            verifyUtils.verificationCode(members.getPhone(), code, olderVerificationCodes.get(0));
         }
 
         int count = membersMapper.register(members);
@@ -118,7 +120,7 @@ public class MembersServiceImpl implements MembersService {
         List<VerificationCode> olderVerificationCodes = verificationCodeMapper.selectCodesByPhoneOrderCreateDate(members.getPhone());
         //验证
         if (olderVerificationCodes != null && olderVerificationCodes.size() > 0) {
-            VerifyUtils.verificationCode(members.getPhone(), code, olderVerificationCodes.get(0));
+            verifyUtils.verificationCode(members.getPhone(), code, olderVerificationCodes.get(0));
         }
         //重新注册
         int count = membersMapper.insert(members);
@@ -161,7 +163,7 @@ public class MembersServiceImpl implements MembersService {
         List<VerificationCode> olderVerificationCodes = verificationCodeMapper.selectCodesByPhoneOrderCreateDate(phone);
         //验证
         if (olderVerificationCodes != null && olderVerificationCodes.size() > 0) {
-            VerifyUtils.verificationCode(phone, code, olderVerificationCodes.get(0));
+            verifyUtils.verificationCode(phone, code, olderVerificationCodes.get(0));
         } else {
             throw AppException.getException(ErrorCode.Verification_Code_Error.getCode());
 
@@ -212,7 +214,7 @@ public class MembersServiceImpl implements MembersService {
         List<VerificationCode> olderVerificationCodes = verificationCodeMapper.selectCodesByPhoneOrderCreateDate(phone);
         //验证
         if (olderVerificationCodes != null && olderVerificationCodes.size() > 0) {
-            VerifyUtils.verificationCode(phone, code, olderVerificationCodes.get(0));
+            verifyUtils.verificationCode(phone, code, olderVerificationCodes.get(0));
         } else {
             throw AppException.getException(ErrorCode.Verification_Code_Error.getCode());
         }
@@ -317,7 +319,7 @@ public class MembersServiceImpl implements MembersService {
         }
         //获取分页信息
         PageInfo<Members> info = new PageInfo<>(list);
-        return new ListResult<>(info.getList(), info.getTotal(),info.getPages());
+        return new ListResult<>(info.getList(), info.getTotal(), info.getPages());
 
     }
 

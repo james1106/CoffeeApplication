@@ -446,7 +446,7 @@
         LEFT OUTER JOIN product p ON p.id=pcc.product_id
         LEFT OUTER JOIN members m ON pcc.member_id=m.id
         <where>
-            <if test="keyword!=null">
+            <if test="keyword!=null and keyword!=''">
                 pcc.member_id =#{keyword} OR pcc.product_id =#{keyword}
             </if>
             <if test="conversionState!=null">

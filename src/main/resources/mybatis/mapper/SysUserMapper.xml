@@ -359,7 +359,6 @@
                 u.mobile LIKE CONCAT('%','${keyword}','%' )
                 OR u.username LIKE CONCAT('%','${keyword}','%' )
                 OR sr.role_name LIKE CONCAT('%','${keyword}','%' )
-
             </if>
         </where>
 

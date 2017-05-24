@@ -1,16 +1,29 @@
 package com.mk.coffee.utils;
 
+import java.net.URL;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class DateUtils {
     private static Date date;
     private static Calendar CALENDAR = Calendar.getInstance();
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
+    public static Date getGMT8Time() {
+        Date gmt8 = null;
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"), Locale.CHINESE);
+        Calendar day = Calendar.getInstance();
+        day.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+        day.set(Calendar.MONTH, cal.get(Calendar.MONTH));
+        day.set(Calendar.DATE, cal.get(Calendar.DATE));
+        day.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+        day.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
+        day.set(Calendar.SECOND, cal.get(Calendar.SECOND));
+        gmt8 = day.getTime();
+        return gmt8;
+    }
 
     /**
      * 取得当前时间
@@ -482,13 +495,13 @@ public class DateUtils {
 
     public static long getMinutesLaterTimestamp(int continuousTime) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE,continuousTime);
+        calendar.add(Calendar.MINUTE, continuousTime);
         return calendar.getTimeInMillis();
     }
 
-    public static String getgetMinutesLaterStr(int continuousTime){
+    public static String getgetMinutesLaterStr(int continuousTime) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE,continuousTime);
+        calendar.add(Calendar.MINUTE, continuousTime);
         return CalendarUtil.formatChineseYearMonthDayMinuteSecond(calendar.getTime());
     }
 }

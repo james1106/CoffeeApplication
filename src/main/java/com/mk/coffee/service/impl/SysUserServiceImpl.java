@@ -43,6 +43,7 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUser getItem(int id) {
         SysUserKey sysUserKey = new SysUser();
         sysUserKey.setUserId(id);
+
         return sysUserMapper.selectByOrPrimaryKey(sysUserKey);
     }
 

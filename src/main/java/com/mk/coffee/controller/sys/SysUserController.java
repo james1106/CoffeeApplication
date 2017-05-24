@@ -8,6 +8,8 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.SysUser;
+import com.mk.coffee.model.SysUserRole;
+import com.mk.coffee.service.SysUserRoleService;
 import com.mk.coffee.service.SysUserService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
@@ -28,6 +30,9 @@ import java.util.List;
 public class SysUserController {
     @Autowired
     SysUserService userService;
+
+    @Autowired
+    SysUserRoleService userRoleService;
 
     @ApiOperation("得到用户Item")
     @GetMapping("/item")
@@ -52,8 +57,10 @@ public class SysUserController {
 
     @ApiOperation("添加用户")
     @PostMapping("/add")
-    public RestResult<Boolean> addItem(@RequestBody SysUser sysUser) {
-        return RestResultGenerator.genSuccessResult(userService.addItem(sysUser));
+    public RestResult<Boolean> addItem(@RequestBody SysUserRole sysUserRole) {
+
+        userRoleService.addItem(sysUserRole);
+        return RestResultGenerator.genSuccessResult(userService.addItem(sysUserRole.getSysUser()));
     }
 
     @GetMapping("/list")
@@ -71,7 +78,7 @@ public class SysUserController {
 
 
     @GetMapping("/search")
-    @ApiOperation("搜索分页得到用户列表")
+    @ApiOperation("根据手机号码，用户名，角色名搜索分页得到用户列表")
     public RestResult<ListResult<SysUser>>
     searchUserPages(@RequestParam(name = "keyword", required = false) String keyword,
                     @RequestParam(name = "page", required = false, defaultValue = "1") int page,

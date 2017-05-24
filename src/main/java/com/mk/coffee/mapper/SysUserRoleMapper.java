@@ -2,7 +2,9 @@ package com.mk.coffee.mapper;
 
 import com.mk.coffee.model.SysUserRole;
 import com.mk.coffee.model.SysUserRoleExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -34,8 +36,8 @@ public interface SysUserRoleMapper {
      * @mbg.generated
      */
     @Delete({
-        "delete from sys_user_role",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from sys_user_role",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
@@ -46,10 +48,10 @@ public interface SysUserRoleMapper {
      * @mbg.generated
      */
     @Insert({
-        "insert into sys_user_role (id, user_id, ",
-        "role_id, create_date)",
-        "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
-        "#{roleId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP})"
+            "insert into sys_user_role (id, user_id, ",
+            "role_id, create_date)",
+            "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
+            "#{roleId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP})"
     })
     int insert(SysUserRole record);
 
@@ -76,10 +78,10 @@ public interface SysUserRoleMapper {
      * @mbg.generated
      */
     @Select({
-        "select",
-        "id, user_id, role_id, create_date",
-        "from sys_user_role",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, user_id, role_id, create_date",
+            "from sys_user_role",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ResultMap("com.mk.coffee.mapper.SysUserRoleMapper.BaseResultMap")
     SysUserRole selectByPrimaryKey(Integer id);
@@ -115,11 +117,13 @@ public interface SysUserRoleMapper {
      * @mbg.generated
      */
     @Update({
-        "update sys_user_role",
-        "set user_id = #{userId,jdbcType=INTEGER},",
-          "role_id = #{roleId,jdbcType=INTEGER},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update sys_user_role",
+            "set user_id = #{userId,jdbcType=INTEGER},",
+            "role_id = #{roleId,jdbcType=INTEGER},",
+            "create_date = #{createDate,jdbcType=TIMESTAMP}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(SysUserRole record);
+
+    List<SysUserRole> getUserRoleList();
 }

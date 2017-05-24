@@ -8,17 +8,24 @@ import com.mk.coffee.mapper.LocalAuthMapper;
 import com.mk.coffee.mapper.OauthMapper;
 import com.mk.coffee.model.LocalAuth;
 import com.mk.coffee.model.VerificationCode;
+import com.mk.coffee.service.VerificationCodeService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2017/2/27 0027.
  */
+@Component
 public class VerifyUtils {
+
+    @Autowired
+    VerificationCodeService verificationCodeService;
 
     public static boolean verifyPhoneNum(String phone) throws AppException {
         Pattern p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号
@@ -87,7 +94,7 @@ public class VerifyUtils {
      * @param olderVerificationCode
      * @return
      */
-    public static boolean verificationCode(String phone, String code, VerificationCode olderVerificationCode) {
+    public boolean verificationCode(String phone, String code, VerificationCode olderVerificationCode) {
         //验证码不存在
         if (olderVerificationCode == null) {
             throw AppException.getException(ErrorCode.Verification_Code_Not_Exist.getCode());
@@ -97,11 +104,17 @@ public class VerifyUtils {
             throw AppException.getException(ErrorCode.Verification_Code_Error.getCode());
         }
         //验证码已失效
-        if (System.currentTimeMillis() - olderVerificationCode.getCreateDate().getTime() > olderVerificationCode.getValidityMinute() * 1000 * 60) {
+        if (new Date().getTime() - olderVerificationCode.getCreateDate().getTime() > olderVerificationCode.getValidityMinute() * 1000 * 60) {
             throw AppException.getException(ErrorCode.Verification_Code_Invalid.getCode());
         }
+        //验证码已使用
+        if (olderVerificationCode.getVerifyState()) {
+            throw AppException.getException(ErrorCode.Verification_Already_Use.getCode());
+        }
 
-        return true;
+        //设置为已使用
+        olderVerificationCode.setVerifyState(true);
+        return verificationCodeService.updateVerification(olderVerificationCode);
     }
 
 

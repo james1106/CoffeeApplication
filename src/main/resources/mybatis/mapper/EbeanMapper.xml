@@ -310,7 +310,7 @@
         FROM ebean b
         LEFT OUTER JOIN members m ON b.member_id=m.id
         <where>
-            <if test="keyword!=null">
+            <if test="keyword!=null and keyword!=''">
                 b.member_id = #{keyword} OR m.phone LIKE CONCAT('%','${keyword}','%' )
             </if>
         </where>
