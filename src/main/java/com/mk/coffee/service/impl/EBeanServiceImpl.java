@@ -21,8 +21,7 @@ public class EBeanServiceImpl implements EBeanServie {
     @Autowired
     private EbeanMapper mapper;
 
-    @Autowired
-    private CommonUtils commonUtils;
+
 
     @Override
     public List<Ebean> getList() {
@@ -38,10 +37,6 @@ public class EBeanServiceImpl implements EBeanServie {
 
     @Override
     public boolean updateItem(Ebean ebean) {
-        Ebean oldEBean = getItem(ebean.getId());
-        ebean.seteNum(null);
-        //计算总数
-        ebean.setTotalNum(oldEBean.geteNum() + ebean.getGivingNum());
         return mapper.updateByPrimaryKeySelective(ebean) > 0;
     }
 
@@ -66,5 +61,6 @@ public class EBeanServiceImpl implements EBeanServie {
     public List<Ebean> searchEbean(String keyword) {
         return mapper.searchEbean(keyword);
     }
+
 
 }

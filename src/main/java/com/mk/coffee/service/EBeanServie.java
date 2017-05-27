@@ -12,4 +12,5 @@ public interface EBeanServie extends IBaseService<Ebean> {
 
     List<Ebean> searchEbean(String keyword);
 
+
 }

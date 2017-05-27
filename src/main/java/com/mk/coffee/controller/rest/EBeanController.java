@@ -53,9 +53,6 @@ public class EBeanController {
     private EBeanServie eBeanServie;
 
     @Autowired
-    private WxMpService wxMpService;
-
-    @Autowired
     private WXInfoService wxInfoService;
 
     @Autowired

@@ -2,6 +2,7 @@ package com.mk.coffee.service.impl;
 
 import com.mk.coffee.mapper.SysUserRoleMapper;
 import com.mk.coffee.model.SysUserRole;
+import com.mk.coffee.model.SysUserRoleExample;
 import com.mk.coffee.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,12 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     @Override
     public boolean addItem(SysUserRole sysUserRole) {
         return sysUserRoleMapper.insert(sysUserRole) > 0;
+    }
+
+    @Override
+    public boolean existSysUserRole(int userId, int roleId) {
+        SysUserRoleExample example = new SysUserRoleExample();
+        example.createCriteria().andUserIdEqualTo(userId).andRoleIdEqualTo(roleId);
+        return sysUserRoleMapper.countByExample(example) > 0;
     }
 }

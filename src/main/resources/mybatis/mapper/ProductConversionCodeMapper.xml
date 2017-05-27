@@ -345,11 +345,13 @@
       pcc.conversion_state,
       pcc.conversion_code,
       pcc.coffee_machine_code,
+      p.id "product.id",
       p.name "product.name",
       p.price "product.price",
       p.picture_url "product.pictureUrl",
       p.sales "product.sales",
-      p.summary "product.summary"
+      p.summary "product.summary",
+      p.config_id "product.configId"
     FROM product_conversion_code pcc
     INNER JOIN product p ON p.id= pcc.product_id
     WHERE member_id=#{memberId} AND conversion_state =#{conversionState}
@@ -362,11 +364,13 @@
         pcc.conversion_state,
         pcc.conversion_code,
         pcc.coffee_machine_code,
+        p.id "product.id",
         p.name "product.name",
         p.price "product.price",
         p.picture_url "product.pictureUrl",
         p.sales "product.sales",
-        p.summary "product.summary"
+        p.summary "product.summary",
+        p.config_id "product.configId"
         FROM product_conversion_code pcc
         INNER JOIN product p ON p.id= pcc.product_id
         WHERE member_id=#{memberId} ORDER BY pcc.update_date DESC
@@ -382,11 +386,13 @@
         pcc.order_details_id,
         pcc.shopping_cart_id,
         pcc.coffee_machine_code,
+        p.id "product.id",
         p.name "product.name",
         p.price "product.price",
         p.picture_url "product.pictureUrl",
         p.sales "product.sales",
-        p.summary "product.summary"
+        p.summary "product.summary",
+        p.config_id "product.configId"
         FROM product_conversion_code pcc
         INNER JOIN product p ON p.id=pcc.product_id
         WHERE pcc.id=#{id}
@@ -404,11 +410,13 @@
         pcc.shopping_cart_id,
         pcc.coffee_machine_code,
         pcc.create_date,
+        p.id "product.id",
         p.name "product.name",
         p.price "product.price",
         p.picture_url "product.pictureUrl",
         p.sales "product.sales",
         p.summary "product.summary",
+        p.config_id "product.configId",
         m.id "members.id",
         m.name "members.name",
         m.sex "members.sex",
@@ -432,11 +440,13 @@
         pcc.coffee_machine_code,
         pcc.create_date,
         pcc.update_date,
+        p.id "product.id",
         p.name "product.name",
         p.price "product.price",
         p.picture_url "product.pictureUrl",
         p.sales "product.sales",
         p.summary "product.summary",
+        p.config_id "product.configId",
         m.id "members.id",
         m.name "members.name",
         m.sex "members.sex",

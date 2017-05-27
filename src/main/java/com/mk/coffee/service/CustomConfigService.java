@@ -21,4 +21,9 @@ public interface CustomConfigService extends IBaseService<CustomConfig> {
 
     //更新配制
     boolean updateCustomConfig(CustomConfig customConfig);
+
+    //得到产品配方
+    CustomConfig getProductConfigByProductId(int productId);
+
+
 }

@@ -42,7 +42,7 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
     //更新待领取的兑换码为已领取
     boolean updateProductConversionState(String orderNum, String productId);
 
-    //更新待领取的兑换码为已领取通过ID
+    //更新待领取的兑换码为领取失败通过ID
     boolean updateProductConversionStateById(int id);
 
 
@@ -56,6 +56,6 @@ public interface ProductConversionCodeService extends IBaseService<ProductConver
     boolean giveProductConversionCode(long memberId, int productConversionId);
 
     //搜索兑换码
-    List<ProductConversionCode> searchProductConversionCode(String keyword,Integer conversionState);
+    List<ProductConversionCode> searchProductConversionCode(String keyword, Integer conversionState);
 
 }

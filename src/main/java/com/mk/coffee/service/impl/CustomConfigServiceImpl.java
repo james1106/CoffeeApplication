@@ -51,6 +51,18 @@ public class CustomConfigServiceImpl implements CustomConfigService {
     }
 
     @Override
+    public CustomConfig getProductConfigByProductId(int productId) {
+
+        CustomConfig customConfig = customConfigMapper.getProductConfigByProductId(productId);
+        if (customConfig == null) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        return customConfig;
+
+    }
+
+
+    @Override
     public List<CustomConfig> getList() {
         return customConfigMapper.selectByExample(null);
     }

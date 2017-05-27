@@ -7,4 +7,11 @@ import com.mk.coffee.model.SysUserRole;
  */
 public interface SysUserRoleService extends IBaseService<SysUserRole> {
 
+    /**
+     * 判断该用户是否已属于该角色
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    boolean existSysUserRole(int userId, int roleId);
 }

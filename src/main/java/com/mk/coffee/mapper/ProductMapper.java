@@ -51,11 +51,13 @@ public interface ProductMapper {
             "insert into product (id, name, ",
             "original_price, price, ",
             "picture_url, sales, ",
-            "create_date, summary)",
+            "create_date, summary, ",
+            "config_id)",
             "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
             "#{originalPrice,jdbcType=REAL}, #{price,jdbcType=REAL}, ",
             "#{pictureUrl,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, ",
-            "#{createDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR})"
+            "#{createDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, ",
+            "#{configId,jdbcType=INTEGER})"
     })
     int insert(Product record);
 
@@ -83,7 +85,7 @@ public interface ProductMapper {
      */
     @Select({
             "select",
-            "id, name, original_price, price, picture_url, sales, create_date, summary",
+            "id, name, original_price, price, picture_url, sales, create_date, summary, config_id",
             "from product",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -128,7 +130,8 @@ public interface ProductMapper {
             "picture_url = #{pictureUrl,jdbcType=VARCHAR},",
             "sales = #{sales,jdbcType=INTEGER},",
             "create_date = #{createDate,jdbcType=TIMESTAMP},",
-            "summary = #{summary,jdbcType=VARCHAR}",
+            "summary = #{summary,jdbcType=VARCHAR},",
+            "config_id = #{configId,jdbcType=INTEGER}",
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Product record);
@@ -142,4 +145,5 @@ public interface ProductMapper {
 
 
     int updateProductById(@Param("record") Product record, @Param("productId") int productId);
+
 }

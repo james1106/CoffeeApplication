@@ -624,6 +624,216 @@ public class CustomConfigExample {
             addCriterion("create_date not between", value1, value2, "createDate");
             return (Criteria) this;
         }
+
+        public Criteria andCoffeeNameIsNull() {
+            addCriterion("coffee_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameIsNotNull() {
+            addCriterion("coffee_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameEqualTo(String value) {
+            addCriterion("coffee_name =", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameNotEqualTo(String value) {
+            addCriterion("coffee_name <>", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameGreaterThan(String value) {
+            addCriterion("coffee_name >", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("coffee_name >=", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameLessThan(String value) {
+            addCriterion("coffee_name <", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameLessThanOrEqualTo(String value) {
+            addCriterion("coffee_name <=", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameLike(String value) {
+            addCriterion("coffee_name like", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameNotLike(String value) {
+            addCriterion("coffee_name not like", value, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameIn(List<String> values) {
+            addCriterion("coffee_name in", values, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameNotIn(List<String> values) {
+            addCriterion("coffee_name not in", values, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameBetween(String value1, String value2) {
+            addCriterion("coffee_name between", value1, value2, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoffeeNameNotBetween(String value1, String value2) {
+            addCriterion("coffee_name not between", value1, value2, "coffeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameIsNull() {
+            addCriterion("milk_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameIsNotNull() {
+            addCriterion("milk_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameEqualTo(String value) {
+            addCriterion("milk_name =", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameNotEqualTo(String value) {
+            addCriterion("milk_name <>", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameGreaterThan(String value) {
+            addCriterion("milk_name >", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameGreaterThanOrEqualTo(String value) {
+            addCriterion("milk_name >=", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameLessThan(String value) {
+            addCriterion("milk_name <", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameLessThanOrEqualTo(String value) {
+            addCriterion("milk_name <=", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameLike(String value) {
+            addCriterion("milk_name like", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameNotLike(String value) {
+            addCriterion("milk_name not like", value, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameIn(List<String> values) {
+            addCriterion("milk_name in", values, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameNotIn(List<String> values) {
+            addCriterion("milk_name not in", values, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameBetween(String value1, String value2) {
+            addCriterion("milk_name between", value1, value2, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMilkNameNotBetween(String value1, String value2) {
+            addCriterion("milk_name not between", value1, value2, "milkName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameIsNull() {
+            addCriterion("sugar_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameIsNotNull() {
+            addCriterion("sugar_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameEqualTo(String value) {
+            addCriterion("sugar_name =", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameNotEqualTo(String value) {
+            addCriterion("sugar_name <>", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameGreaterThan(String value) {
+            addCriterion("sugar_name >", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameGreaterThanOrEqualTo(String value) {
+            addCriterion("sugar_name >=", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameLessThan(String value) {
+            addCriterion("sugar_name <", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameLessThanOrEqualTo(String value) {
+            addCriterion("sugar_name <=", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameLike(String value) {
+            addCriterion("sugar_name like", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameNotLike(String value) {
+            addCriterion("sugar_name not like", value, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameIn(List<String> values) {
+            addCriterion("sugar_name in", values, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameNotIn(List<String> values) {
+            addCriterion("sugar_name not in", values, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameBetween(String value1, String value2) {
+            addCriterion("sugar_name between", value1, value2, "sugarName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSugarNameNotBetween(String value1, String value2) {
+            addCriterion("sugar_name not between", value1, value2, "sugarName");
+            return (Criteria) this;
+        }
     }
 
     /**

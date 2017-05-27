@@ -165,7 +165,7 @@ public interface ProductConversionCodeMapper {
     })
     int updateProductConversionState(@Param("orderNum") String orderNum, @Param("productId") int productId);
 
-    @Update({"update product_conversion_code  set conversion_state=3," +
+    @Update({"update product_conversion_code  set conversion_state=0," +
             "update_date=now() " +
             "where id=#{id} and conversion_state=2"})
     int updateProductConversionStateById(@Param("id") int id);
@@ -183,4 +183,6 @@ public interface ProductConversionCodeMapper {
     //搜索
     List<ProductConversionCode> searchProductConversionCode(@Param("keyword") String keyword,
                                                             @Param("conversionState") Integer conversionState);
+
+
 }

@@ -80,4 +80,12 @@ public class CustomConfigController {
                                                         @RequestParam("customConfigId") int customConfigId) {
         return RestResultGenerator.genSuccessResult(memberCustomConfigService.deleteMemberCustomConfig(memberId, customConfigId));
     }
+
+    @GetMapping("/getProductConfig")
+    @ApiOperation("根据产品id得到产品配方")
+    public RestResult<CustomConfig> getProductConfig(@RequestParam("productId") int productId) {
+        return RestResultGenerator.genSuccessResult(customConfigService.getProductConfigByProductId(productId));
+    }
+
+
 }

@@ -22,11 +22,12 @@ public class ConversionCodeTest extends BaseTestService {
     @Test
     public void test() {
 
-        try {
+        /*try {
             asyncTask.doTask1(111111111);
             Thread.sleep(1000 * 90);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
+        service.updateProductConversionStateById(99);
     }
 }

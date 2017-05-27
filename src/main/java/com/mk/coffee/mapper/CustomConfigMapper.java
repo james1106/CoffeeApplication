@@ -48,10 +48,14 @@ public interface CustomConfigMapper {
     @Insert({
         "insert into custom_config (id, name, ",
         "coffee, milk, sugar, ",
-        "is_recommend, create_date)",
+        "is_recommend, create_date, ",
+        "coffee_name, milk_name, ",
+        "sugar_name)",
         "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
         "#{coffee,jdbcType=INTEGER}, #{milk,jdbcType=INTEGER}, #{sugar,jdbcType=INTEGER}, ",
-        "#{isRecommend,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP})"
+        "#{isRecommend,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, ",
+        "#{coffeeName,jdbcType=VARCHAR}, #{milkName,jdbcType=VARCHAR}, ",
+        "#{sugarName,jdbcType=VARCHAR})"
     })
     int insert(CustomConfig record);
 
@@ -79,7 +83,8 @@ public interface CustomConfigMapper {
      */
     @Select({
         "select",
-        "id, name, coffee, milk, sugar, is_recommend, create_date",
+        "id, name, coffee, milk, sugar, is_recommend, create_date, coffee_name, milk_name, ",
+        "sugar_name",
         "from custom_config",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -123,8 +128,14 @@ public interface CustomConfigMapper {
           "milk = #{milk,jdbcType=INTEGER},",
           "sugar = #{sugar,jdbcType=INTEGER},",
           "is_recommend = #{isRecommend,jdbcType=BIT},",
-          "create_date = #{createDate,jdbcType=TIMESTAMP}",
+          "create_date = #{createDate,jdbcType=TIMESTAMP},",
+          "coffee_name = #{coffeeName,jdbcType=VARCHAR},",
+          "milk_name = #{milkName,jdbcType=VARCHAR},",
+          "sugar_name = #{sugarName,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CustomConfig record);
+
+
+    CustomConfig getProductConfigByProductId(@Param("productId") int productId);
 }

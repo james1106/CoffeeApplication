@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,10 +58,12 @@ public class SysUserController {
 
     @ApiOperation("添加用户")
     @PostMapping("/add")
+    @Transactional
     public RestResult<Boolean> addItem(@RequestBody SysUserRole sysUserRole) {
-
-        userRoleService.addItem(sysUserRole);
-        return RestResultGenerator.genSuccessResult(userService.addItem(sysUserRole.getSysUser()));
+        if (userRoleService.existSysUserRole(sysUserRole.getUserId(), sysUserRole.getRoleId())) {
+            throw AppException.getException(ErrorCode.User_Role_Already);
+        }
+        return RestResultGenerator.genSuccessResult(userRoleService.addItem(sysUserRole)&&userService.addItem(sysUserRole.getSysUser()));
     }
 
     @GetMapping("/list")
