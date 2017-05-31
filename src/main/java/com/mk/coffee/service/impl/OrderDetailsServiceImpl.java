@@ -58,7 +58,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
         OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, eNum);
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
-        commonUtils.cleanShoppingCart(memberId);
+        //commonUtils.cleanShoppingCart(memberId);
         return orderDetails;
     }
 
@@ -76,7 +76,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
         OrderDetails orderDetails = commonUtils.createOrder(shoppingCarts, memberId, eNum);
         commonUtils.recodeOrderDetails(orderDetails, shoppingCarts);
-        commonUtils.cleanShoppingCartByIds(ids);
+        //commonUtils.cleanShoppingCartByIds(ids);
         return orderDetails;
     }
 

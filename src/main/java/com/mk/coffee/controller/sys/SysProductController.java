@@ -70,6 +70,9 @@ public class SysProductController {
             throw AppException.getException(ErrorCode.Product_Already_Exist);
         }
         product.setCreateDate(new Date());
+        if (product.getConfigId() == null) {
+            product.setConfigId(1);//默认配方
+        }
         return RestResultGenerator.genSuccessResult(productService.addItem(product));
     }
 

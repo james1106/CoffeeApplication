@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean updateItem(Product product) {
-        return productMapper.updateByPrimaryKey(product) > 0;
+        return productMapper.updateByPrimaryKeySelective(product) > 0;
     }
 
     @Override

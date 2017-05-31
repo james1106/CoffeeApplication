@@ -5,7 +5,9 @@ import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.model.ShoppingCart;
 import com.mk.coffee.model.ShoppingCartTotal;
 import com.mk.coffee.requestbody.RequestCreateOrder;
+import com.mk.coffee.requestbody.RequestIds;
 import com.mk.coffee.service.ShoppingCartService;
+import com.mk.coffee.utils.CommonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import java.util.List;
 public class ShoppingCartController {
     @Autowired
     private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private CommonUtils commonUtils;
 
     @ApiOperation(value = "设置购物车", notes = "设置购物车,memberId, productId（商品ID）, num（设置个数，不是累加）设置num为0,则删除订单纪录")
     @PostMapping("/setShoppingCart/{memberId}/{productId}")
@@ -57,6 +62,12 @@ public class ShoppingCartController {
     @GetMapping("/shoppingCartProductCount")
     public RestResult<Integer> getProductCount(@RequestParam("memberId") long memberId) {
         return RestResultGenerator.genSuccessResult(shoppingCartService.getProductCount(memberId));
+    }
+
+    @ApiOperation(value = "清除购物车商品", notes = "根据购物车item ids清除选中的购物商品", httpMethod = "POST")
+    @PostMapping("/shoppingCarts/clearByIds")
+    public RestResult<Boolean> clearShoppingCartIds(@RequestBody RequestIds requestIds) {
+        return RestResultGenerator.genSuccessResult(commonUtils.cleanShoppingCartByIds(requestIds.ids));
     }
 
 

@@ -123,11 +123,13 @@ public class CommonUtils {
         shoppingCartMapper.deleteByExample(example);
     }
 
-    public void cleanShoppingCartByIds(int[] ids) {
+    public boolean cleanShoppingCartByIds(int[] ids) {
         //清除购物车的商品
+        boolean flag=false;
         for (int id : ids) {
-            shoppingCartMapper.deleteByPrimaryKey(id);
+            flag=shoppingCartMapper.deleteByPrimaryKey(id)>0;
         }
+        return flag;
     }
 
 
