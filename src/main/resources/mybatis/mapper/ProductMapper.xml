@@ -296,6 +296,7 @@
         price = #{record.price,jdbcType=REAL},
         picture_url = #{record.pictureUrl,jdbcType=VARCHAR},
         sales = #{record.sales,jdbcType=INTEGER},
+        config_id = #{record.configId,jdbcType=INTEGER},
         summary = #{record.summary,jdbcType=VARCHAR}
         WHERE id=#{record.id}
     </update>

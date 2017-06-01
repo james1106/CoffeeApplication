@@ -54,6 +54,19 @@ public class SysCustomConfigController {
     }
 
 
+    @ApiOperation("搜索分页得到个性调制列表")
+    @GetMapping("/search")
+    public RestResult<ListResult<CustomConfig>> search(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                                       @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+                                                       @RequestParam(name = "keyword", required = false) String keyword) {
+        PageHelper.startPage(page, size);
+        List<CustomConfig> list = customConfigService.searchCustomConfig(keyword);
+        PageInfo<CustomConfig> info = new PageInfo<>(list);
+        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()
+        ));
+    }
+
+
     @ApiOperation("得到个性调制item")
     @GetMapping("/item")
     public RestResult<CustomConfig> getItem(@RequestParam("id") int id) {
@@ -62,20 +75,20 @@ public class SysCustomConfigController {
 
     @ApiOperation("更新个性调制")
     @PutMapping("/update")
-    public RestResult<Boolean> updateItem(CustomConfig customConfig) {
+    public RestResult<Boolean> updateItem(@RequestBody CustomConfig customConfig) {
         return RestResultGenerator.genSuccessResult(customConfigService.updateItem(customConfig));
     }
 
 
     @ApiOperation("删除个性调制")
     @DeleteMapping("/delete")
-    public RestResult<Boolean> deleteItem(int id) {
+    public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
         return RestResultGenerator.genSuccessResult(customConfigService.deleteItem(id));
     }
 
     @ApiOperation("添加个性调制")
     @PostMapping("/add")
-    public RestResult<Boolean> addItem(CustomConfig customConfig) {
+    public RestResult<Boolean> addItem(@RequestBody CustomConfig customConfig) {
         return RestResultGenerator.genSuccessResult(customConfigService.addItem(customConfig));
     }
 }

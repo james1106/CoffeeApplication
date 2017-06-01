@@ -10,6 +10,7 @@ import com.mk.coffee.utils.EmptyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class CustomConfigServiceImpl implements CustomConfigService {
 
     @Override
     public boolean addCustomConfig(CustomConfig customConfig) {
+        customConfig.setCreateDate(new Date());
         return customConfigMapper.insert(customConfig) > 0;
     }
 
@@ -59,6 +61,20 @@ public class CustomConfigServiceImpl implements CustomConfigService {
         }
         return customConfig;
 
+    }
+
+    @Override
+    public List<CustomConfig> searchCustomConfig(String keyword) {
+        CustomConfigExample example = null;
+        if (keyword != null && !keyword.equals("")) {
+            example = new CustomConfigExample();
+            example.createCriteria().andNameLike("%" + keyword + "%");
+        }
+        List<CustomConfig> list = customConfigMapper.selectByExample(example);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        return list;
     }
 
 

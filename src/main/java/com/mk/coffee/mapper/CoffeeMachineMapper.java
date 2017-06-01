@@ -134,5 +134,7 @@ public interface CoffeeMachineMapper {
 
     List<CoffeeMachine> getAllCoffeesMachine();
 
+    List<CoffeeMachine> searchCoffeesMachine(@Param("keyword") String keyword);
+
     List<CoffeeMachine> getNearbyCoffeesMachine(@Param("minLat") double minLat, @Param("maxLat") double maxLat, @Param("minLng") double minLng, @Param("maxLng") double maxLng);
 }

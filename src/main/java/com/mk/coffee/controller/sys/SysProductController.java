@@ -43,7 +43,8 @@ public class SysProductController {
         if (updateProduct.productId == null) {
             updateProduct.productId = updateProduct.product.getId();
         }
-        if (!Objects.equals(updateProduct.productId, updateProduct.product.getId()) && productService.getItem(updateProduct.productId) != null) {
+        if (!Objects.equals(updateProduct.productId, updateProduct.product.getId())
+                && productService.getItem(updateProduct.productId) != null) {
             throw AppException.getException(ErrorCode.Product_Already_Exist);
         }
         return RestResultGenerator.genSuccessResult(productService.updateItem(updateProduct.productId, updateProduct.product));

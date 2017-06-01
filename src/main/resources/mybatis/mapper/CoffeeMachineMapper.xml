@@ -301,4 +301,25 @@
         FROM coffee_machine cm
         LEFT OUTER JOIN sys_user u ON u.user_id=cm.user_id
     </select>
+    <select id="searchCoffeesMachine" resultType="com.mk.coffee.model.CoffeeMachine">
+        SELECT
+        cm.id,
+        cm.code,
+        cm.address,
+        cm.create_date,
+        cm.longitude,
+        cm.latitude,
+        u.user_id "user.userId",
+        u.username "user.username",
+        u.mobile "user.mobile",
+        u.email "user.email",
+        u.head_portrait "user.headPortrait"
+        FROM coffee_machine cm
+        LEFT OUTER JOIN sys_user u ON u.user_id=cm.user_id
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                cm.code LIKE CONCAT('%','${keyword}','%' ) OR cm.address LIKE CONCAT('%','${keyword}','%' )
+            </if>
+        </where>
+    </select>
 </mapper>

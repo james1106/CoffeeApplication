@@ -57,13 +57,12 @@ public class SysRoleController {
 
     @GetMapping("/all")
     @ApiOperation("得到所有角色列表")
-    public RestResult<ListResult<SysRole>> getList() {
+    public RestResult<List<SysRole>> getList() {
         List<SysRole> list = sysRoleService.getList();
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }
-        PageInfo<SysRole> info = new PageInfo<>(list);
-        return RestResultGenerator.genSuccessResult(new ListResult<>(info.getList(), info.getTotal(), info.getPages()));
+        return RestResultGenerator.genSuccessResult(list);
     }
 
     @GetMapping("/list")

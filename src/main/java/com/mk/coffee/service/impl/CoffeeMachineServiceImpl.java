@@ -58,13 +58,7 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
 
     @Override
     public List<CoffeeMachine> searchCoffeeMachine(String keyword) {
-        CoffeeMachineExample example = null;
-        if (keyword != null && !keyword.equals("")) {
-            example = new CoffeeMachineExample();
-            example.or().andCodeLike("%" + keyword + "%");
-            example.or().andAddressLike("%" + keyword + "%");
-        }
-        List<CoffeeMachine> list = coffeeMachineMapper.selectByExample(example);
+        List<CoffeeMachine> list = coffeeMachineMapper.searchCoffeesMachine(keyword);
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }

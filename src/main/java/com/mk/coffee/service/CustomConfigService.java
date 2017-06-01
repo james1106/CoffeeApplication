@@ -25,5 +25,8 @@ public interface CustomConfigService extends IBaseService<CustomConfig> {
     //得到产品配方
     CustomConfig getProductConfigByProductId(int productId);
 
+    //搜索
+    List<CustomConfig> searchCustomConfig(String keyword);
+
 
 }
