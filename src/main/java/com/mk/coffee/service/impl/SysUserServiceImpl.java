@@ -26,12 +26,17 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean updateById(SysUser user) {
-        return sysUserMapper.updateByPrimaryKey(user) > 0;
+        return sysUserMapper.updateByPrimaryKeySelective(user) > 0;
     }
 
     @Override
     public List<SysUser> searchSysUser(String keyword) {
         return sysUserMapper.searchSysUser(keyword);
+    }
+
+    @Override
+    public long count() {
+        return sysUserMapper.countByExample(null);
     }
 
     @Override
@@ -41,10 +46,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser getItem(int id) {
-        SysUserKey sysUserKey = new SysUser();
-        sysUserKey.setUserId(id);
 
-        return sysUserMapper.selectByOrPrimaryKey(sysUserKey);
+        return sysUserMapper.getSysUserById(id);
     }
 
     @Override
@@ -54,9 +57,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean deleteItem(int id) {
-        SysUserKey sysUserKey = new SysUser();
-        sysUserKey.setUserId(id);
-        return sysUserMapper.deleteByOrPrimaryKey(sysUserKey) > 0;
+        return sysUserMapper.deleteByPrimaryKey(id)>0;
     }
 
     @Override

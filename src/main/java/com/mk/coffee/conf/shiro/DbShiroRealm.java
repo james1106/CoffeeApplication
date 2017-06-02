@@ -56,7 +56,7 @@ public class DbShiroRealm extends AuthorizingRealm {
             throw new AuthorizationException("该用户没有所属角色");
         }
         for (SysRole role : sysRoles) {
-            roleSet.add(role.getRoleId()+"");
+            roleSet.add(role.getRoleId() + "");
 
         }
         info.setRoles(roleSet);
@@ -88,7 +88,6 @@ public class DbShiroRealm extends AuthorizingRealm {
 
         //查询用户信息
         SysUser user = sysUserService.loginAdmin(username, password);
-
         //账号不存在
         if (user == null) {
             throw new UnknownAccountException("账号或密码不正确");

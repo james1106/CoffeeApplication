@@ -8,7 +8,7 @@
         -->
         <constructor>
             <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <idArg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -295,6 +295,9 @@
         -->
         update sys_user
         <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
             <if test="mobile != null">
                 mobile = #{mobile,jdbcType=VARCHAR},
             </if>
@@ -327,7 +330,6 @@
             </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
-        and username = #{username,jdbcType=VARCHAR}
     </update>
 
     <select id="searchSysUser" resultType="com.mk.coffee.model.SysUser">
@@ -336,7 +338,6 @@
         u.username,
         u.mobile,
         u.email,
-        u.password,
         u.status,
         u.create_id,
         u.create_date,
@@ -344,6 +345,7 @@
         u.update_date,
         u.salt,
         u.head_portrait,
+        sur.id "sysUserRoleId",
         sr.role_id "sysRole.roleId",
         sr.role_name "sysRole.roleName",
         sr.role_type "sysRole.roleType",
@@ -362,6 +364,60 @@
             </if>
         </where>
 
+    </select>
+
+    <select id="getSysUserById" resultType="com.mk.coffee.model.SysUser">
+    SELECT
+        u.user_id,
+        u.username,
+        u.mobile,
+        u.email,
+        u.status,
+        u.create_id,
+        u.create_date,
+        u.update_id,
+        u.update_date,
+        u.salt,
+        u.head_portrait,
+        sur.id "sysUserRoleId",
+        sr.role_id "sysRole.roleId",
+        sr.role_name "sysRole.roleName",
+        sr.role_type "sysRole.roleType",
+        sr.role_description "sysRole.roleDescription",
+        sr.create_id "sysRole.createId",
+        sr.create_date "sysRole.createDate",
+        sr.remark "sysRole.remark"
+        FROM sys_user u
+        LEFT OUTER JOIN sys_user_role sur ON sur.user_id=u.user_id
+        LEFT OUTER JOIN sys_role sr ON sur.role_id=sr.role_id
+        WHERE u.user_id=#{userId}
+  </select>
+
+    <select id="loginAdmin" resultType="com.mk.coffee.model.SysUser">
+        SELECT
+        u.user_id,
+        u.username,
+        u.mobile,
+        u.email,
+        u.status,
+        u.create_id,
+        u.create_date,
+        u.update_id,
+        u.update_date,
+        u.salt,
+        u.head_portrait,
+        sur.id "sysUserRoleId",
+        sr.role_id "sysRole.roleId",
+        sr.role_name "sysRole.roleName",
+        sr.role_type "sysRole.roleType",
+        sr.role_description "sysRole.roleDescription",
+        sr.create_id "sysRole.createId",
+        sr.create_date "sysRole.createDate",
+        sr.remark "sysRole.remark"
+        FROM sys_user u
+        LEFT OUTER JOIN sys_user_role sur ON sur.user_id=u.user_id
+        LEFT OUTER JOIN sys_role sr ON sur.role_id=sr.role_id
+        WHERE u.mobile LIKE #{userName} AND u.password LIKE #{password}
     </select>
 
 

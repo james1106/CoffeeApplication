@@ -29,7 +29,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 
     @Override
     public boolean updateItem(SysUserRole sysUserRole) {
-        return sysUserRoleMapper.updateByPrimaryKey(sysUserRole) > 0;
+        return sysUserRoleMapper.updateByPrimaryKeySelective(sysUserRole) > 0;
     }
 
     @Override

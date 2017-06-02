@@ -9,6 +9,7 @@ import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.SysUser;
 import com.mk.coffee.model.SysUserRole;
+import com.mk.coffee.requestbody.RequestAddSysUser;
 import com.mk.coffee.service.SysUserRoleService;
 import com.mk.coffee.service.SysUserService;
 import com.mk.coffee.utils.EmptyUtils;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,8 +45,12 @@ public class SysUserController {
 
 
     @ApiOperation("更新用户")
-    @PostMapping("/update")
+    @PutMapping("/update")
+    @Transactional
     public RestResult<Boolean> updateItem(@RequestBody SysUser sysUser) {
+        SysUserRole sysUserRole = new SysUserRole(sysUser.getSysUserRoleId(), sysUser.getUserId(),
+                sysUser.getSysRole().getRoleId(), null);
+        userRoleService.updateItem(sysUserRole);
         return RestResultGenerator.genSuccessResult(userService.updateItem(sysUser));
     }
 
@@ -59,17 +65,28 @@ public class SysUserController {
     @ApiOperation("添加用户")
     @PostMapping("/add")
     @Transactional
-    public RestResult<Boolean> addItem(@RequestBody SysUserRole sysUserRole) {
-        if (userRoleService.existSysUserRole(sysUserRole.getUserId(), sysUserRole.getRoleId())) {
-            throw AppException.getException(ErrorCode.User_Role_Already);
-        }
-        return RestResultGenerator.genSuccessResult(userRoleService.addItem(sysUserRole)&&userService.addItem(sysUserRole.getSysUser()));
+    public RestResult<Boolean> addItem(@RequestBody RequestAddSysUser requestAddSysUser) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId((int) (userService.count() + 1));
+        sysUser.setUsername(requestAddSysUser.username);
+        sysUser.setStatus(0);
+        sysUser.setPassword(requestAddSysUser.password);
+        sysUser.setMobile(requestAddSysUser.mobile);
+        sysUser.setEmail(requestAddSysUser.email);
+
+        SysUserRole sysUserRole = new SysUserRole();
+        sysUserRole.setUserId(sysUser.getUserId());
+        sysUserRole.setRoleId(requestAddSysUser.sysRoleId);
+        sysUserRole.setCreateDate(new Date());
+        return RestResultGenerator.genSuccessResult(userService.addItem(sysUser)
+                && userRoleService.addItem(sysUserRole));
     }
 
     @GetMapping("/list")
     @ApiOperation("分页得到用户列表")
-    public RestResult<ListResult<SysUser>> getUserPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<SysUser>>
+    getUserPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                 @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         PageHelper.startPage(page, size);
         List<SysUser> list = userService.getList();
         if (EmptyUtils.isEmpty(list)) {

@@ -1,8 +1,11 @@
 package com.mk.coffee.aspect;
 
 import com.mk.coffee.model.SysLog;
+import com.mk.coffee.model.SysUser;
 import com.mk.coffee.service.SysLogService;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -45,8 +48,9 @@ public class SysLogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         // 记录下请求内容
-        if (request.getHeader("userId") != null) {
-            sysLog.setUserId(Integer.parseInt(request.getHeader("userId")));
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        if (sysUser != null) {
+            sysLog.setUserId(sysUser.getUserId());
         }
         sysLog.setCreateDate(new Date());
         sysLog.setMethod(request.getMethod());
