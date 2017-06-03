@@ -53,6 +53,7 @@ public enum ErrorCode {
     Keyword_Illegal_Number("keyword_illegal_number", "你输入的不是数字"),
     CoffeesMachine_Code_Already_Exist("coffeesMachine_code_already_exist", "咖啡机编号已存在"),
     User_Not_Exist("user_not_exist", "用户不存在"),
+    Mobile_Already_Exist("mobile_already_exist","手机号码已存在"),
     Current_User_Not_Exist("current_user_not_exist","当前用户已退出"),
     User_Role_Already("user_role_already", "此用户已属于该角色"),
     UserId_Is_Null("userId_is_null", "您还没有登录，不能进行相关操作");

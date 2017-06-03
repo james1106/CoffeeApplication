@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -7,7 +7,6 @@ import com.mk.coffee.common.ListResult;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.WxKeyword;
 import com.mk.coffee.model.WxMessage;
 import com.mk.coffee.service.WXMessageService;
 import com.mk.coffee.utils.EmptyUtils;

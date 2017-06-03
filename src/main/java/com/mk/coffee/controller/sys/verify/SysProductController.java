@@ -1,16 +1,16 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mk.coffee.common.*;
+import com.mk.coffee.common.ErrorCode;
+import com.mk.coffee.common.ListResult;
+import com.mk.coffee.common.RestResult;
+import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.Members;
-import com.mk.coffee.model.MembersExample;
 import com.mk.coffee.model.Product;
 import com.mk.coffee.model.ProductExample;
 import com.mk.coffee.requestbody.RequestUpdateProduct;
 import com.mk.coffee.service.ProductService;
-import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

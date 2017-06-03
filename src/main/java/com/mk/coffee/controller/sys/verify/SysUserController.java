@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,8 +15,6 @@ import com.mk.coffee.service.SysUserService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -57,8 +55,11 @@ public class SysUserController {
 
     @ApiOperation("删除用户")
     @DeleteMapping("/delete")
+    @Transactional
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
-        return RestResultGenerator.genSuccessResult(userService.deleteItem(id));
+        SysUser sysUser = userService.getItem(id);
+        return RestResultGenerator.genSuccessResult(userRoleService.deleteItem(sysUser.getSysUserRoleId())
+                && userService.deleteItem(id));
     }
 
 
@@ -67,19 +68,21 @@ public class SysUserController {
     @Transactional
     public RestResult<Boolean> addItem(@RequestBody RequestAddSysUser requestAddSysUser) {
         SysUser sysUser = new SysUser();
-        sysUser.setUserId((int) (userService.count() + 1));
         sysUser.setUsername(requestAddSysUser.username);
         sysUser.setStatus(0);
         sysUser.setPassword(requestAddSysUser.password);
         sysUser.setMobile(requestAddSysUser.mobile);
         sysUser.setEmail(requestAddSysUser.email);
+        if (userService.existSysUserByMobile(requestAddSysUser.username)) {
+            throw AppException.getException(ErrorCode.Mobile_Already_Exist);
+        }
+        userService.addItem(sysUser);
 
         SysUserRole sysUserRole = new SysUserRole();
         sysUserRole.setUserId(sysUser.getUserId());
         sysUserRole.setRoleId(requestAddSysUser.sysRoleId);
         sysUserRole.setCreateDate(new Date());
-        return RestResultGenerator.genSuccessResult(userService.addItem(sysUser)
-                && userRoleService.addItem(sysUserRole));
+        return RestResultGenerator.genSuccessResult(userRoleService.addItem(sysUserRole));
     }
 
     @GetMapping("/list")

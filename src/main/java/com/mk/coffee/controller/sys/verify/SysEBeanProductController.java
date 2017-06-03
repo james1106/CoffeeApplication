@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -7,10 +7,8 @@ import com.mk.coffee.common.ListResult;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.Ebean;
 import com.mk.coffee.model.EbeanProduct;
 import com.mk.coffee.service.EBeanProductService;
-import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

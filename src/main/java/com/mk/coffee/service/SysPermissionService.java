@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/4/12 0012.
  */
-public interface SysPermissionService {
+public interface SysPermissionService extends IBaseService<SysPermission> {
 
 
     List<SysPermission> getSysPermissionsByRoleId(int roleId);

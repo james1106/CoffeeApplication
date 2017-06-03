@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -7,7 +7,6 @@ import com.mk.coffee.common.ListResult;
 import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.model.Activity;
 import com.mk.coffee.model.SysRole;
 import com.mk.coffee.service.SysRoleService;
 import com.mk.coffee.utils.EmptyUtils;
@@ -36,7 +35,7 @@ public class SysRoleController {
 
 
     @ApiOperation("更新角色")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody SysRole sysRole) {
         return RestResultGenerator.genSuccessResult(sysRoleService.updateItem(sysRole));
     }

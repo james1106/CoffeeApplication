@@ -94,7 +94,7 @@ public class DbShiroRealm extends AuthorizingRealm {
         }
 
         //账号锁定
-        if (user.getStatus() == 1) {
+        if (user.getStatus()!=null&&user.getStatus() == 1) {
             throw new LockedAccountException("账号已被锁定,请联系管理员");
         }
         //登录成功,更新登录时间 last login time

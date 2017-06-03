@@ -5,12 +5,7 @@ import com.mk.coffee.model.SysUserExample;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 public interface SysUserMapper {
     /**
@@ -61,6 +56,7 @@ public interface SysUserMapper {
             "#{updateDate,jdbcType=TIMESTAMP}, #{salt,jdbcType=VARCHAR}, ",
             "#{headPortrait,jdbcType=VARCHAR})"
     })
+    @Options(useGeneratedKeys = true, keyProperty = "userId")
     int insert(SysUser record);
 
     /**
@@ -69,6 +65,7 @@ public interface SysUserMapper {
      *
      * @mbg.generated
      */
+    @Options(useGeneratedKeys = true, keyProperty = "record.userId")
     int insertSelective(SysUser record);
 
     /**

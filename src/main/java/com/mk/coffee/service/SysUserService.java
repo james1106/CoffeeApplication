@@ -16,4 +16,7 @@ public interface SysUserService extends IBaseService<SysUser> {
 
     long count();
 
+    boolean existSysUserByMobile(String mobile);
+
+
 }

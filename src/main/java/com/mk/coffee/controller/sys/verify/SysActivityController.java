@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -8,8 +8,6 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.Activity;
-import com.mk.coffee.model.OrderDetails;
-import com.mk.coffee.model.Product;
 import com.mk.coffee.service.ActivityService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;

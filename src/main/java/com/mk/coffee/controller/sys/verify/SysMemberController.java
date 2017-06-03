@@ -1,4 +1,4 @@
-package com.mk.coffee.controller.sys;
+package com.mk.coffee.controller.sys.verify;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -70,6 +70,7 @@ public class SysMemberController {
     searchMemberByKeyword(@RequestParam("keyword") String keyword,
                           @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+
         PageHelper.startPage(page, size);
         MembersExample example = null;
         if (keyword != null && !keyword.equals("")) {
