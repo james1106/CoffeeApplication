@@ -40,7 +40,6 @@ public class SysVerifyAspect {
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         if (sysUser == null) {
             throw AppException.getException(ErrorCode.Current_User_Not_Exist);

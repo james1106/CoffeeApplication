@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,17 @@ public class SysPermissionController {
     }
 
 
+    @GetMapping("/all")
+    @ApiOperation("得到所有权限")
+    public RestResult<List<SysPermission>> getAllPermission() {
+        List<SysPermission> list = sysPermissionService.getList();
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
+        return RestResultGenerator.genSuccessResult(list);
+    }
+
+
     @ApiOperation("得到权限Item")
     @GetMapping("/item")
     public RestResult<SysPermission> getItem(@RequestParam("id") int id) {
@@ -67,6 +79,7 @@ public class SysPermissionController {
     @ApiOperation("添加权限")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody SysPermission sysPermission) {
+        sysPermission.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(sysPermissionService.addItem(sysPermission));
     }
 
