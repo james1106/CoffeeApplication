@@ -15,6 +15,7 @@ import com.mk.coffee.service.SysUserService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,7 @@ public class SysUserController {
     @ApiOperation("得到用户Item")
     @GetMapping("/item")
     public RestResult<SysUser> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:user:view");
         return RestResultGenerator.genSuccessResult(userService.getItem(id));
     }
 
@@ -46,6 +48,7 @@ public class SysUserController {
     @PutMapping("/update")
     @Transactional
     public RestResult<Boolean> updateItem(@RequestBody SysUser sysUser) {
+        SecurityUtils.getSubject().checkPermission("sys:user:update");
         SysUserRole sysUserRole = new SysUserRole(sysUser.getSysUserRoleId(), sysUser.getUserId(),
                 sysUser.getSysRole().getRoleId(), null);
         userRoleService.updateItem(sysUserRole);
@@ -57,6 +60,7 @@ public class SysUserController {
     @DeleteMapping("/delete")
     @Transactional
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:user:delete");
         SysUser sysUser = userService.getItem(id);
         return RestResultGenerator.genSuccessResult(userRoleService.deleteItem(sysUser.getSysUserRoleId())
                 && userService.deleteItem(id));
@@ -67,6 +71,7 @@ public class SysUserController {
     @PostMapping("/add")
     @Transactional
     public RestResult<Boolean> addItem(@RequestBody RequestAddSysUser requestAddSysUser) {
+        SecurityUtils.getSubject().checkPermission("sys:user:create");
         SysUser sysUser = new SysUser();
         sysUser.setUsername(requestAddSysUser.username);
         sysUser.setStatus(0);
@@ -90,6 +95,7 @@ public class SysUserController {
     public RestResult<ListResult<SysUser>>
     getUserPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                  @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:user:view");
         PageHelper.startPage(page, size);
         List<SysUser> list = userService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -106,6 +112,7 @@ public class SysUserController {
     searchUserPages(@RequestParam(name = "keyword", required = false) String keyword,
                     @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                     @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:user:view");
         PageHelper.startPage(page, size);
         List<SysUser> list = userService.searchSysUser(keyword);
         if (EmptyUtils.isEmpty(list)) {
@@ -118,7 +125,7 @@ public class SysUserController {
     @GetMapping("/all")
     @ApiOperation("得到所有的用户列表")
     public RestResult<List<SysUser>> getUserList() {
-
+        SecurityUtils.getSubject().checkPermission("sys:user:view");
         List<SysUser> list = userService.getList();
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);

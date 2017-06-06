@@ -10,10 +10,13 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.MembersMapper;
 import com.mk.coffee.model.Members;
 import com.mk.coffee.model.MembersExample;
+import com.mk.coffee.model.SysUser;
 import com.mk.coffee.service.MembersService;
 import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,13 +40,14 @@ public class SysMemberController {
     @ApiOperation(value = "得到成员列表", httpMethod = "GET")
     public RestResult<ListResult<Members>> getMembersByPage(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                                             @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-
+        SecurityUtils.getSubject().checkPermission("sys:member:view");
         return RestResultGenerator.genSuccessResult(membersService.getListByPage(page, size));
     }
 
     @PutMapping("/updateMember")
     @ApiOperation(value = "修改会员")
     public RestResult<Boolean> updateMember(@RequestBody Members members) {
+        SecurityUtils.getSubject().checkPermission("sys:member:update");
         if (!members.getIsRegist()) {
             members.setPhone("");
         }
@@ -53,6 +57,7 @@ public class SysMemberController {
     @PostMapping("/addMember")
     @ApiOperation(value = "增加成员")
     public RestResult<Boolean> addMember(@RequestBody Members members) {
+        SecurityUtils.getSubject().checkPermission("sys:member:create");
         members.setId(System.currentTimeMillis());
         members.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(membersMapper.insert(members) > 0);
@@ -61,6 +66,7 @@ public class SysMemberController {
     @DeleteMapping("/deleteMember")
     @ApiOperation(value = "删除成员")
     public RestResult<Boolean> deleteMember(@RequestParam("id") long id) {
+        SecurityUtils.getSubject().checkPermission("sys:member:delete");
         return RestResultGenerator.genSuccessResult(membersMapper.deleteByPrimaryKey(id) > 0);
     }
 
@@ -70,7 +76,7 @@ public class SysMemberController {
     searchMemberByKeyword(@RequestParam("keyword") String keyword,
                           @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-
+        SecurityUtils.getSubject().checkPermission("sys:member:view");
         PageHelper.startPage(page, size);
         MembersExample example = null;
         if (keyword != null && !keyword.equals("")) {

@@ -12,6 +12,7 @@ import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,10 @@ public class SysOrderDetailsController {
 
     @ApiOperation("得到订单列表")
     @GetMapping("/list")
-    public RestResult<ListResult<OrderDetails>> getList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<OrderDetails>>
+    getList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:order:view");
         PageHelper.startPage(page, size);
         List<OrderDetails> list = orderDetailsService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -45,6 +48,7 @@ public class SysOrderDetailsController {
     @ApiOperation("得到订单Item")
     @GetMapping("/item")
     public RestResult<OrderDetails> getItem(@RequestParam("id") String id) {
+        SecurityUtils.getSubject().checkPermission("sys:order:view");
         return RestResultGenerator.genSuccessResult(orderDetailsService.getItem(id));
     }
 
@@ -52,6 +56,7 @@ public class SysOrderDetailsController {
     @ApiOperation("更新订单")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody OrderDetails orderDetails) {
+        SecurityUtils.getSubject().checkPermission("sys:order:update");
         return RestResultGenerator.genSuccessResult(orderDetailsService.updateItem(orderDetails));
     }
 
@@ -59,6 +64,7 @@ public class SysOrderDetailsController {
     @ApiOperation("删除订单")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") String id) {
+        SecurityUtils.getSubject().checkPermission("sys:order:delete");
         return RestResultGenerator.genSuccessResult(orderDetailsService.deleteItem(id));
     }
 
@@ -66,6 +72,7 @@ public class SysOrderDetailsController {
     @ApiOperation("添加订单")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody OrderDetails orderDetails) {
+        SecurityUtils.getSubject().checkPermission("sys:order:create");
         return RestResultGenerator.genSuccessResult(orderDetailsService.addItem(orderDetails));
     }
 
@@ -75,8 +82,8 @@ public class SysOrderDetailsController {
     public RestResult<ListResult<OrderDetails>>
     searchOrderDetails(@RequestParam(name = "keyword", required = false) String keyword,
                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                       @RequestParam(name = "size", required = false, defaultValue = "10") int size
-    ) {
+                       @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:order:view");
         PageHelper.startPage(page, size);
         List<OrderDetails> list = orderDetailsService.searchOrderDetails(keyword);
         PageInfo<OrderDetails> info = new PageInfo<>(list);

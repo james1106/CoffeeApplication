@@ -12,6 +12,7 @@ import com.mk.coffee.service.WXMessageService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,11 @@ public class SysWXMessageController {
 
     @GetMapping("/search")
     @ApiOperation("搜索微信消息")
-    public RestResult<ListResult<WxMessage>> searchList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size,
-                                                        @RequestParam(name = "keyword", required = false) String keyword) {
+    public RestResult<ListResult<WxMessage>>
+    searchList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+               @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+               @RequestParam(name = "keyword", required = false) String keyword) {
+        SecurityUtils.getSubject().checkPermission("sys:wxMessage:view");
         PageHelper.startPage(page, size);
         List<WxMessage> list = wxMessageService.searchList(keyword);
         if (EmptyUtils.isEmpty(list)) {
@@ -44,6 +47,7 @@ public class SysWXMessageController {
     @DeleteMapping("/delete")
     @ApiOperation("删除微信消息纪录")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:wxMessage:delete");
         return RestResultGenerator.genSuccessResult(wxMessageService.deleteItem(id));
     }
 

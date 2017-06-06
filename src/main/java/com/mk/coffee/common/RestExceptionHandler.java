@@ -1,6 +1,7 @@
 package com.mk.coffee.common;
 
 import com.mk.coffee.exception.*;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,14 @@ public class RestExceptionHandler {
         //TODO:记录日志
         LOGGER.error("AppException", ex);
         return RestResultGenerator.genErrorResult(ex.getCode(), ex.getMessage());
+    }
+
+    //没有权限异常
+    @ExceptionHandler({UnauthorizedException.class})
+    @ResponseBody
+    public <T> RestResult<T> unauthorizedExceptionHandler(UnauthorizedException exception) {
+        LOGGER.error("UnauthorizedException", exception);
+        return RestResultGenerator.genErrorResult(AppException.getException(ErrorCode.Un_Authorized_Exception));
     }
 
 

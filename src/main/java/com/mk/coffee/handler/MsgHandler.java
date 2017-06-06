@@ -52,7 +52,7 @@ public class MsgHandler extends AbstractHandler {
             if (isExt) {
                 //保存消息
                 WxMessage localWxMessage = new WxMessage();
-                localWxMessage.setCreateDate(new Date(wxMessage.getCreateTime()));
+                localWxMessage.setCreateDate(new Date());
                 localWxMessage.setContent(wxMessage.getContent());
                 localWxMessage.setMsgType(wxMessage.getMsgType());
                 localWxMessage.setFromUser(wxMessage.getFromUser());

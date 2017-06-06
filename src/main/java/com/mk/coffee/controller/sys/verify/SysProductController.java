@@ -13,6 +13,7 @@ import com.mk.coffee.requestbody.RequestUpdateProduct;
 import com.mk.coffee.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class SysProductController {
     @ApiOperation("得到商品Item")
     @GetMapping("/item")
     public RestResult<Product> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:product:view");
         return RestResultGenerator.genSuccessResult(productService.getItem(id));
     }
 
@@ -40,6 +42,7 @@ public class SysProductController {
     @ApiOperation("更新商品")
     @PutMapping("/updateById")
     public RestResult<Boolean> updateItemById(@RequestBody RequestUpdateProduct updateProduct) {
+        SecurityUtils.getSubject().checkPermission("sys:product:update");
         if (updateProduct.productId == null) {
             updateProduct.productId = updateProduct.product.getId();
         }
@@ -53,6 +56,7 @@ public class SysProductController {
     @ApiOperation("更新商品")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody Product product) {
+        SecurityUtils.getSubject().checkPermission("sys:product:update");
         return RestResultGenerator.genSuccessResult(productService.updateItem(product));
     }
 
@@ -60,6 +64,7 @@ public class SysProductController {
     @ApiOperation("删除商品")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:product:delete");
         return RestResultGenerator.genSuccessResult(productService.deleteItem(id));
     }
 
@@ -67,6 +72,7 @@ public class SysProductController {
     @ApiOperation("添加商品Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody Product product) {
+        SecurityUtils.getSubject().checkPermission("sys:product:create");
         if (productService.getItem(product.getId()) != null) {
             throw AppException.getException(ErrorCode.Product_Already_Exist);
         }
@@ -79,16 +85,20 @@ public class SysProductController {
 
     @GetMapping("/list")
     @ApiOperation("分页得到商品列表")
-    public RestResult<ListResult<Product>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<Product>>
+    getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:product:view");
         return RestResultGenerator.genSuccessResult(productService.getListResultPages(page, size));
     }
 
     @GetMapping("/searchProductByKeyword")
     @ApiOperation(value = "搜索商品")
-    public RestResult<ListResult<Product>> searchProductByKeyword(@RequestParam("keyword") String keyword,
-                                                                  @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                                  @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<Product>>
+    searchProductByKeyword(@RequestParam("keyword") String keyword,
+                           @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                           @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:product:view");
         PageHelper.startPage(page, size);
         ProductExample example = null;
         if (keyword != null && !keyword.equals("")) {

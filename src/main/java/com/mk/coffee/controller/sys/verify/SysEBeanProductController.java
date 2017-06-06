@@ -12,6 +12,7 @@ import com.mk.coffee.service.EBeanProductService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class SysEBeanProductController {
     @ApiOperation("得到E豆商品Item")
     @GetMapping("/item")
     public RestResult<EbeanProduct> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:eBeanProduct:view");
         return RestResultGenerator.genSuccessResult(ebeanProductService.getItem(id));
     }
 
@@ -38,6 +40,7 @@ public class SysEBeanProductController {
     @ApiOperation("更新E豆商品")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody EbeanProduct ebeanProduct) {
+        SecurityUtils.getSubject().checkPermission("sys:eBeanProduct:update");
         ebeanProduct.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(ebeanProductService.updateItem(ebeanProduct));
     }
@@ -46,6 +49,7 @@ public class SysEBeanProductController {
     @ApiOperation("删除E豆商品")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:eBeanProduct:delete");
         return RestResultGenerator.genSuccessResult(ebeanProductService.deleteItem(id));
     }
 
@@ -53,14 +57,17 @@ public class SysEBeanProductController {
     @ApiOperation("添加E豆商品Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody EbeanProduct ebeanProduct) {
+        SecurityUtils.getSubject().checkPermission("sys:eBeanProduct:create");
         ebeanProduct.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(ebeanProductService.addItem(ebeanProduct));
     }
 
     @GetMapping("/list")
     @ApiOperation("分页得到E豆商品列表")
-    public RestResult<ListResult<EbeanProduct>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                                @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<EbeanProduct>>
+    getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:eBeanProduct:view");
         PageHelper.startPage(page, size);
         List<EbeanProduct> list = ebeanProductService.getList();
         if (EmptyUtils.isEmpty(list)) {

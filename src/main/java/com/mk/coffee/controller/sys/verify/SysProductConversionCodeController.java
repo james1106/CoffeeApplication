@@ -12,6 +12,7 @@ import com.mk.coffee.service.ProductConversionCodeService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class SysProductConversionCodeController {
     @ApiOperation("得到兑换码Item")
     @GetMapping("/item")
     public RestResult<ProductConversionCode> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:view");
         return RestResultGenerator.genSuccessResult(productConversionCodeService.getItem(id));
     }
 
@@ -38,12 +40,14 @@ public class SysProductConversionCodeController {
     @ApiOperation("更新兑换码")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody ProductConversionCode productConversionCode) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:update");
         return RestResultGenerator.genSuccessResult(productConversionCodeService.updateItem(productConversionCode));
     }
 
     @ApiOperation("删除兑换码")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:delete");
         return RestResultGenerator.genSuccessResult(productConversionCodeService.deleteItem(id));
     }
 
@@ -51,6 +55,7 @@ public class SysProductConversionCodeController {
     @ApiOperation("添加兑换码Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody ProductConversionCode productConversionCode) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:create");
         productConversionCode.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(productConversionCodeService.addItem(productConversionCode));
     }
@@ -60,6 +65,7 @@ public class SysProductConversionCodeController {
     public RestResult<ListResult<ProductConversionCode>>
     getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                     @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:view");
         PageHelper.startPage(page, size);
         List<ProductConversionCode> list = productConversionCodeService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -76,6 +82,7 @@ public class SysProductConversionCodeController {
                                 @RequestParam(name = "conversionState", required = false) Integer conversionState,
                                 @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                 @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:conversionCode:view");
         PageHelper.startPage(page, size);
         List<ProductConversionCode> list = productConversionCodeService.searchProductConversionCode(keyword, conversionState);
         PageInfo<ProductConversionCode> info = new PageInfo<>(list);

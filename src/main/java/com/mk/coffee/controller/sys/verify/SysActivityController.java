@@ -12,6 +12,7 @@ import com.mk.coffee.service.ActivityService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class SysActivityController {
     @ApiOperation("得到活动Item")
     @GetMapping("/item")
     public RestResult<Activity> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:activity:view");
         return RestResultGenerator.genSuccessResult(activityService.getItem(id));
     }
 
@@ -38,6 +40,7 @@ public class SysActivityController {
     @ApiOperation("更新商品")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody Activity activity) {
+        SecurityUtils.getSubject().checkPermission("sys:activity:update");
         return RestResultGenerator.genSuccessResult(activityService.updateItem(activity));
     }
 
@@ -45,6 +48,7 @@ public class SysActivityController {
     @ApiOperation("删除Activity")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:activity:delete");
         return RestResultGenerator.genSuccessResult(activityService.deleteItem(id));
     }
 
@@ -52,14 +56,17 @@ public class SysActivityController {
     @ApiOperation("添加活动Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody Activity activity) {
+        SecurityUtils.getSubject().checkPermission("sys:activity:create");
         activity.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(activityService.addItem(activity));
     }
 
     @GetMapping("/list")
     @ApiOperation("分页得到活动列表")
-    public RestResult<ListResult<Activity>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                            @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<Activity>>
+    getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:activity:view");
         PageHelper.startPage(page, size);
         List<Activity> list = activityService.getList();
         if (EmptyUtils.isEmpty(list)) {

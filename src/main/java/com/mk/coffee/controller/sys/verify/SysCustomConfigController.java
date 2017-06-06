@@ -12,6 +12,7 @@ import com.mk.coffee.service.CustomConfigService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class SysCustomConfigController {
     @ApiOperation("得到所有的个性调制列表")
     @GetMapping("/all")
     public RestResult<List<CustomConfig>> getList() {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:view");
         List<CustomConfig> list = customConfigService.getList();
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
@@ -40,8 +42,10 @@ public class SysCustomConfigController {
 
     @ApiOperation("分页得到个性调制列表")
     @GetMapping("/list")
-    public RestResult<ListResult<CustomConfig>> getList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<CustomConfig>>
+    getList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:view");
         PageHelper.startPage(page, size);
         List<CustomConfig> list = customConfigService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -55,9 +59,11 @@ public class SysCustomConfigController {
 
     @ApiOperation("搜索分页得到个性调制列表")
     @GetMapping("/search")
-    public RestResult<ListResult<CustomConfig>> search(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                       @RequestParam(name = "size", required = false, defaultValue = "10") int size,
-                                                       @RequestParam(name = "keyword", required = false) String keyword) {
+    public RestResult<ListResult<CustomConfig>>
+    search(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+           @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+           @RequestParam(name = "keyword", required = false) String keyword) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:view");
         PageHelper.startPage(page, size);
         List<CustomConfig> list = customConfigService.searchCustomConfig(keyword);
         PageInfo<CustomConfig> info = new PageInfo<>(list);
@@ -69,12 +75,14 @@ public class SysCustomConfigController {
     @ApiOperation("得到个性调制item")
     @GetMapping("/item")
     public RestResult<CustomConfig> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:view");
         return RestResultGenerator.genSuccessResult(customConfigService.getItem(id));
     }
 
     @ApiOperation("更新个性调制")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody CustomConfig customConfig) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:update");
         return RestResultGenerator.genSuccessResult(customConfigService.updateItem(customConfig));
     }
 
@@ -82,12 +90,14 @@ public class SysCustomConfigController {
     @ApiOperation("删除个性调制")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:delete");
         return RestResultGenerator.genSuccessResult(customConfigService.deleteItem(id));
     }
 
     @ApiOperation("添加个性调制")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody CustomConfig customConfig) {
+        SecurityUtils.getSubject().checkPermission("sys:customconfig:create");
         return RestResultGenerator.genSuccessResult(customConfigService.addItem(customConfig));
     }
 }

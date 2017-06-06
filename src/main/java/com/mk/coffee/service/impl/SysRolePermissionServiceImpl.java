@@ -65,20 +65,23 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     @Transactional
     public boolean addRolePermissionsByRoleId(int roleId, int[] ids) {
         boolean addRolePermission = false;
+        boolean deleteRolePermission = false;
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         SysRolePermissionExample example = new SysRolePermissionExample();
         example.createCriteria().andRoleIdEqualTo(roleId);
-        sysRolePermissionMapper.deleteByExample(example);//清除旧纪录
-        for (int i = 0; i < ids.length; i++) {
-            SysRolePermission sysRolePermission = new SysRolePermission();
-            sysRolePermission.setPermissionId(ids[i]);
-            sysRolePermission.setRoleId(roleId);
-            sysRolePermission.setCreateDate(new Date());
-            sysRolePermission.setUpdateDate(new Date());
-            sysRolePermission.setCreateId(sysUser.getUserId());
-            sysRolePermission.setUpdateId(sysUser.getUpdateId());
-            addRolePermission = sysRolePermissionMapper.insertSelective(sysRolePermission) > 0;
+        deleteRolePermission = sysRolePermissionMapper.deleteByExample(example) > 0;//清除旧纪录
+        if (!EmptyUtils.isEmpty(ids)) {
+            for (int i = 0; i < ids.length; i++) {
+                SysRolePermission sysRolePermission = new SysRolePermission();
+                sysRolePermission.setPermissionId(ids[i]);
+                sysRolePermission.setRoleId(roleId);
+                sysRolePermission.setCreateDate(new Date());
+                sysRolePermission.setUpdateDate(new Date());
+                sysRolePermission.setCreateId(sysUser.getUserId());
+                sysRolePermission.setUpdateId(sysUser.getUserId());
+                addRolePermission = sysRolePermissionMapper.insertSelective(sysRolePermission) > 0;
+            }
         }
-        return addRolePermission;
+        return addRolePermission || deleteRolePermission;
     }
 }

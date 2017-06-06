@@ -12,6 +12,7 @@ import com.mk.coffee.service.CoffeeMachineService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class SysCoffeeMachineController {
     @ApiOperation("得到咖啡机Item")
     @GetMapping("/item")
     public RestResult<CoffeeMachine> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:view");
         return RestResultGenerator.genSuccessResult(coffeeMachineService.getItem(id));
     }
 
@@ -37,6 +39,7 @@ public class SysCoffeeMachineController {
     @ApiOperation("更新咖啡机")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody CoffeeMachine coffeeMachine) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:update");
         return RestResultGenerator.genSuccessResult(coffeeMachineService.updateItem(coffeeMachine));
     }
 
@@ -44,6 +47,7 @@ public class SysCoffeeMachineController {
     @ApiOperation("删除咖啡机")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:delete");
         return RestResultGenerator.genSuccessResult(coffeeMachineService.deleteItem(id));
     }
 
@@ -51,13 +55,16 @@ public class SysCoffeeMachineController {
     @ApiOperation("添加咖啡机Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody CoffeeMachine coffeeMachine) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:create");
         return RestResultGenerator.genSuccessResult(coffeeMachineService.addItem(coffeeMachine));
     }
 
     @GetMapping("/list")
     @ApiOperation("分页得到咖啡机列表")
-    public RestResult<ListResult<CoffeeMachine>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                                 @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<CoffeeMachine>>
+    getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:view");
         PageHelper.startPage(page, size);
         List<CoffeeMachine> list = coffeeMachineService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -74,6 +81,7 @@ public class SysCoffeeMachineController {
     searchProductPages(@RequestParam(name = "keyword") String keyword,
                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:coffeeMachine:view");
         PageHelper.startPage(page, size);
         List<CoffeeMachine> list = coffeeMachineService.searchCoffeeMachine(keyword);
         PageInfo<CoffeeMachine> info = new PageInfo<>(list);

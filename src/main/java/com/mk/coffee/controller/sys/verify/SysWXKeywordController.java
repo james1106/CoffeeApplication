@@ -12,9 +12,11 @@ import com.mk.coffee.service.WXKeywordService;
 import com.mk.coffee.utils.EmptyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,21 +32,20 @@ public class SysWXKeywordController {
 
     @GetMapping("/list")
     @ApiOperation("得到列表")
-    public RestResult<ListResult<WxKeyword>> getList(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                     @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        PageHelper.startPage(page, size);
+    public RestResult<List<WxKeyword>> getList() {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:view");
         List<WxKeyword> list = wxKeywordService.getList();
         if (EmptyUtils.isEmpty(list)) {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }
-        PageInfo<WxKeyword> pageInfo = new PageInfo<>(list);
-        return RestResultGenerator.genSuccessResult(new ListResult<>(pageInfo.getList(), pageInfo.getTotal(), pageInfo.getPages()));
+        return RestResultGenerator.genSuccessResult(list);
     }
 
 
     @GetMapping("/item")
     @ApiOperation("得到关键字")
     public RestResult<WxKeyword> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:view");
         return RestResultGenerator.genSuccessResult(wxKeywordService.getItem(id));
     }
 
@@ -52,6 +53,7 @@ public class SysWXKeywordController {
     @PutMapping("/update")
     @ApiOperation("更新关键字")
     public RestResult<Boolean> updateItem(@RequestBody WxKeyword wxKeyword) {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:update");
         return RestResultGenerator.genSuccessResult(wxKeywordService.updateItem(wxKeyword));
     }
 
@@ -59,6 +61,7 @@ public class SysWXKeywordController {
     @DeleteMapping("/delete")
     @ApiOperation("删除关键字")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:delete");
         return RestResultGenerator.genSuccessResult(wxKeywordService.deleteItem(id));
     }
 
@@ -66,6 +69,8 @@ public class SysWXKeywordController {
     @PostMapping("/add")
     @ApiOperation("添加关键字")
     public RestResult<Boolean> addItem(@RequestBody WxKeyword wxKeyword) {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:create");
+        wxKeyword.setCreateDate(new Date());
         return RestResultGenerator.genSuccessResult(wxKeywordService.addItem(wxKeyword));
     }
 
@@ -73,6 +78,7 @@ public class SysWXKeywordController {
     @GetMapping("/getWxKeywordByKeyword")
     @ApiOperation("根据关键字内容搜索关键字")
     public RestResult<List<WxKeyword>> getWxKeywordByKeyword(@RequestParam("keyword") String keyword) {
+        SecurityUtils.getSubject().checkPermission("sys:wxKeyword:view");
         return RestResultGenerator.genSuccessResult(wxKeywordService.getWxKeywordByKeyword(keyword));
     }
 }

@@ -48,6 +48,17 @@ public class SysLoginController {
         return RestResultGenerator.genSuccessResult(sysUser);
     }
 
+    @PostMapping("/autoLogin")
+    @ApiOperation("自动登录")
+    public RestResult<SysUser> autoLogin() {
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        if (sysUser == null) {
+            throw AppException.getException(ErrorCode.Current_User_Not_Exist);
+        }
+        sysUser.setPassword(null);
+        return RestResultGenerator.genSuccessResult(sysUser);
+    }
+
     @PostMapping("/logout")
     @ApiOperation("注销")
     public RestResult<Boolean> logout() {

@@ -13,6 +13,7 @@ import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.VerifyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,14 @@ public class SysEBeanController {
     @ApiOperation("得到E豆Item")
     @GetMapping("/item")
     public RestResult<Ebean> getItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:view");
         return RestResultGenerator.genSuccessResult(ebeanService.getItem(id));
     }
 
     @ApiOperation("根据memberId得到e豆")
     @GetMapping("/getEBeanByMemberId")
     public RestResult<Ebean> getEBeanByMemberId(@RequestParam("id") long memberId) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:view");
         return RestResultGenerator.genSuccessResult(ebeanService.getEbeanByMemberId(memberId));
     }
 
@@ -44,6 +47,7 @@ public class SysEBeanController {
     @ApiOperation("更新E豆")
     @PutMapping("/update")
     public RestResult<Boolean> updateItem(@RequestBody Ebean ebean) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:update");
         return RestResultGenerator.genSuccessResult(ebeanService.updateItem(ebean));
     }
 
@@ -51,6 +55,7 @@ public class SysEBeanController {
     @ApiOperation("删除E豆")
     @DeleteMapping("/delete")
     public RestResult<Boolean> deleteItem(@RequestParam("id") int id) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:delete");
         return RestResultGenerator.genSuccessResult(ebeanService.deleteItem(id));
     }
 
@@ -58,14 +63,17 @@ public class SysEBeanController {
     @ApiOperation("添加E豆Item")
     @PostMapping("/add")
     public RestResult<Boolean> addItem(@RequestBody Ebean ebean) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:create");
         return RestResultGenerator.genSuccessResult(ebeanService.addItem(ebean));
     }
 
 
     @GetMapping("/list")
     @ApiOperation("分页得到E豆列表")
-    public RestResult<ListResult<Ebean>> getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                                         @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public RestResult<ListResult<Ebean>>
+    getProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                    @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:view");
         PageHelper.startPage(page, size);
         List<Ebean> list = ebeanService.getList();
         if (EmptyUtils.isEmpty(list)) {
@@ -81,6 +89,7 @@ public class SysEBeanController {
     serachProductPages(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                        @RequestParam(name = "size", required = false, defaultValue = "10") int size,
                        @RequestParam(name = "keyword", required = false) String keyword) {
+        SecurityUtils.getSubject().checkPermission("sys:eBean:view");
         List<Ebean> list = null;
         PageHelper.startPage(page, size);
         if (!EmptyUtils.isEmpty(keyword) && !VerifyUtils.isDigit(keyword)) {

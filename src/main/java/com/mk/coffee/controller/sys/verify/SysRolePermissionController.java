@@ -31,13 +31,13 @@ public class SysRolePermissionController {
     private SysRolePermissionService sysRolePermissionService;
 
     @ApiOperation("得到角色所有的权限")
-    @GetMapping("/getSysRolePermissionListByRoleId")
+    @GetMapping("/getListByRoleId")
     public RestResult<List<SysRolePermission>> getSysRolePermissionListByRoleId(@RequestParam("roleId") int roleId) {
         return RestResultGenerator.genSuccessResult(sysRolePermissionService.getSysRolePermissionListByRoleId(roleId));
     }
 
     @ApiOperation("批量添加角色权限")
-    @PostMapping("/addRolePermissionsByRoleId")
+    @PostMapping("/addByRoleId")
     public RestResult<Boolean> addRolePermissionsByRoleId(@RequestBody RequestAddRolePermission requestAddRolePermission) {
         return RestResultGenerator.genSuccessResult(sysRolePermissionService.
                 addRolePermissionsByRoleId(requestAddRolePermission.roleId, requestAddRolePermission.ids));
