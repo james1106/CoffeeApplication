@@ -36,6 +36,21 @@ public class RestExceptionHandler {
         return RestResultGenerator.genErrorResult(AppException.getException(ErrorCode.ILLEGAL_PARAMS.getCode()));
     }
 
+    //没有权限异常
+    @ExceptionHandler({UnauthorizedException.class})
+    @ResponseBody
+    public <T> RestResult<T> unauthorizedExceptionHandler(UnauthorizedException exception) {
+        LOGGER.error("UnauthorizedException", exception);
+        return RestResultGenerator.genErrorResult(AppException.getException(ErrorCode.Un_Authorized_Exception));
+    }
+
+    //空指针异常
+    @ExceptionHandler({NullPointerException.class})
+    @ResponseBody
+    public <T> RestResult<T> nullPointerExceptionHandler(NullPointerException exception) {
+        LOGGER.error("NullPointerException", exception);
+        return RestResultGenerator.genErrorResult(AppException.getException(ErrorCode.NOT_FOUND_DATA));
+    }
 
     //处理APP异常
     @ExceptionHandler({AppException.class})
@@ -46,13 +61,6 @@ public class RestExceptionHandler {
         return RestResultGenerator.genErrorResult(ex.getCode(), ex.getMessage());
     }
 
-    //没有权限异常
-    @ExceptionHandler({UnauthorizedException.class})
-    @ResponseBody
-    public <T> RestResult<T> unauthorizedExceptionHandler(UnauthorizedException exception) {
-        LOGGER.error("UnauthorizedException", exception);
-        return RestResultGenerator.genErrorResult(AppException.getException(ErrorCode.Un_Authorized_Exception));
-    }
 
 
 }

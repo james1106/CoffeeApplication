@@ -1,8 +1,5 @@
 package com.mk.coffee.model;
 
-import com.mk.coffee.utils.CommonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.Serializable;
 
 /**
@@ -14,8 +11,6 @@ public class ShoppingCartTotal implements Serializable {
     private float discountMoney;//优惠后的金额
     private float deductionMoney;//减免的金额
     private int count;//总数量
-    @Autowired
-    private CommonUtils commonUtils;
 
     public int getCount() {
         return count;
@@ -38,7 +33,7 @@ public class ShoppingCartTotal implements Serializable {
     }
 
     public void setDiscountMoney(float discountMoney) {
-        this.discountMoney = commonUtils.keepTwoDecimal(discountMoney);
+        this.discountMoney = discountMoney;
     }
 
     public float getDeductionMoney() {
@@ -46,6 +41,6 @@ public class ShoppingCartTotal implements Serializable {
     }
 
     public void setDeductionMoney(float deductionMoney) {
-        this.deductionMoney = commonUtils.keepTwoDecimal(deductionMoney);
+        this.deductionMoney = deductionMoney;
     }
 }

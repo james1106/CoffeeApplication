@@ -86,6 +86,10 @@
         enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false"></table>-->
         <table tableName="havecoupon" domainObjectName="HaveCoupon"/>
+        <!--商户-->
+        <!--<table tableName="sys_user_order_details"></table>
+        <table tableName="address"></table>
+        <table tableName="member_address"></table>-->
         <!--合作伙伴-->
         <!--<table tableName="cooperative_partner"/>
         <table tableName="cooperative_partner_product"/>
@@ -108,8 +112,8 @@
         <table tableName="sys_user_role"/>-->
         <!-- <table tableName="sys_role"/>-->
         <!-- <table tableName="sys_log"/>-->
-       <!-- <table tableName="wx_message"></table>
-        <table tableName="wx_keyword"></table>-->
+        <!-- <table tableName="wx_message"></table>
+         <table tableName="wx_keyword"></table>-->
 
     </context>
 </generatorConfiguration>
