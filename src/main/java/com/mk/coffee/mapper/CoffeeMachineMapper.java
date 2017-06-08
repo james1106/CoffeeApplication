@@ -51,11 +51,13 @@ public interface CoffeeMachineMapper {
             "insert into coffee_machine (id, user_id, ",
             "code, create_date, ",
             "address, longitude, ",
-            "latitude)",
+            "latitude, is_takeout_status, ",
+            "start_time, end_time)",
             "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
             "#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
             "#{address,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, ",
-            "#{latitude,jdbcType=DOUBLE})"
+            "#{latitude,jdbcType=DOUBLE}, #{isTakeoutStatus,jdbcType=BIT}, ",
+            "#{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR})"
     })
     int insert(CoffeeMachine record);
 
@@ -83,7 +85,8 @@ public interface CoffeeMachineMapper {
      */
     @Select({
             "select",
-            "id, user_id, code, create_date, address, longitude, latitude",
+            "id, user_id, code, create_date, address, longitude, latitude, is_takeout_status, ",
+            "start_time, end_time",
             "from coffee_machine",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -127,7 +130,10 @@ public interface CoffeeMachineMapper {
             "create_date = #{createDate,jdbcType=TIMESTAMP},",
             "address = #{address,jdbcType=VARCHAR},",
             "longitude = #{longitude,jdbcType=DOUBLE},",
-            "latitude = #{latitude,jdbcType=DOUBLE}",
+            "latitude = #{latitude,jdbcType=DOUBLE},",
+            "is_takeout_status = #{isTakeoutStatus,jdbcType=BIT},",
+            "start_time = #{startTime,jdbcType=VARCHAR},",
+            "end_time = #{endTime,jdbcType=VARCHAR}",
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoffeeMachine record);
@@ -136,5 +142,6 @@ public interface CoffeeMachineMapper {
 
     List<CoffeeMachine> searchCoffeesMachine(@Param("keyword") String keyword);
 
-    List<CoffeeMachine> getNearbyCoffeesMachine(@Param("minLat") double minLat, @Param("maxLat") double maxLat, @Param("minLng") double minLng, @Param("maxLng") double maxLng);
+    List<CoffeeMachine> getNearbyCoffeesMachine(@Param("minLat") double minLat, @Param("maxLat") double maxLat,
+                                                @Param("minLng") double minLng, @Param("maxLng") double maxLng);
 }

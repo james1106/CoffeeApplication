@@ -634,6 +634,206 @@ public class CoffeeMachineExample {
             addCriterion("latitude not between", value1, value2, "latitude");
             return (Criteria) this;
         }
+
+        public Criteria andIsTakeoutStatusIsNull() {
+            addCriterion("is_takeout_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusIsNotNull() {
+            addCriterion("is_takeout_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusEqualTo(Boolean value) {
+            addCriterion("is_takeout_status =", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusNotEqualTo(Boolean value) {
+            addCriterion("is_takeout_status <>", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusGreaterThan(Boolean value) {
+            addCriterion("is_takeout_status >", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_takeout_status >=", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusLessThan(Boolean value) {
+            addCriterion("is_takeout_status <", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_takeout_status <=", value, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusIn(List<Boolean> values) {
+            addCriterion("is_takeout_status in", values, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusNotIn(List<Boolean> values) {
+            addCriterion("is_takeout_status not in", values, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_takeout_status between", value1, value2, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTakeoutStatusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_takeout_status not between", value1, value2, "isTakeoutStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeIsNull() {
+            addCriterion("start_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeIsNotNull() {
+            addCriterion("start_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeEqualTo(String value) {
+            addCriterion("start_time =", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotEqualTo(String value) {
+            addCriterion("start_time <>", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeGreaterThan(String value) {
+            addCriterion("start_time >", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("start_time >=", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeLessThan(String value) {
+            addCriterion("start_time <", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeLessThanOrEqualTo(String value) {
+            addCriterion("start_time <=", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeLike(String value) {
+            addCriterion("start_time like", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotLike(String value) {
+            addCriterion("start_time not like", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeIn(List<String> values) {
+            addCriterion("start_time in", values, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotIn(List<String> values) {
+            addCriterion("start_time not in", values, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeBetween(String value1, String value2) {
+            addCriterion("start_time between", value1, value2, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotBetween(String value1, String value2) {
+            addCriterion("start_time not between", value1, value2, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIsNull() {
+            addCriterion("end_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIsNotNull() {
+            addCriterion("end_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeEqualTo(String value) {
+            addCriterion("end_time =", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotEqualTo(String value) {
+            addCriterion("end_time <>", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeGreaterThan(String value) {
+            addCriterion("end_time >", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("end_time >=", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeLessThan(String value) {
+            addCriterion("end_time <", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeLessThanOrEqualTo(String value) {
+            addCriterion("end_time <=", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeLike(String value) {
+            addCriterion("end_time like", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotLike(String value) {
+            addCriterion("end_time not like", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIn(List<String> values) {
+            addCriterion("end_time in", values, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotIn(List<String> values) {
+            addCriterion("end_time not in", values, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeBetween(String value1, String value2) {
+            addCriterion("end_time between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotBetween(String value1, String value2) {
+            addCriterion("end_time not between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
     }
 
     /**

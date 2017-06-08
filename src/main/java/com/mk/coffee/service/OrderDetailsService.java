@@ -2,6 +2,8 @@ package com.mk.coffee.service;
 
 import com.mk.coffee.exception.AppException;
 import com.mk.coffee.model.OrderDetails;
+import com.mk.coffee.requestbody.RequestCreateTakeOutOrder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,10 +24,17 @@ public interface OrderDetailsService {
     //使用微信卡券下单通过加密code和购物车商品ids
     OrderDetails orderUseEncryptCode(long memberId, String cardId, String encryptCode, int[] ids, int eNum);
 
+    //创建外卖订单
+    OrderDetails createTakeOutOrder(RequestCreateTakeOutOrder createTakeOutOrder);
+
     //得到订单
     OrderDetails getOrderDetail(String id) throws AppException;
 
     List<OrderDetails> getOrderDetails(long memberId, int payState);
+
+
+    //得到商户接收到的订单
+    List<OrderDetails> getMerchantOrder(int userId, int coffeeMachineId);
 
     //删除订单
     boolean deleteOrder(String orderId);

@@ -2,11 +2,11 @@ package com.mk.coffee.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mk.coffee.common.ErrorCode;
+import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.exception.AppException;
-import com.mk.coffee.mapper.EbeanMapper;
-import com.mk.coffee.mapper.OrderDetailsMapper;
-import com.mk.coffee.mapper.ShoppingCartMapper;
+import com.mk.coffee.mapper.*;
 import com.mk.coffee.model.*;
+import com.mk.coffee.requestbody.RequestCreateTakeOutOrder;
 import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.service.ShoppingCartService;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
 
+
+    @Autowired
+    private CoffeeMachineMapper coffeeMachineMapper;
+
+    @Autowired
+    private AddressMapper addressMapper;
+
     @Autowired
     private WXInfoService wxInfoService;
 
@@ -43,6 +51,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Autowired
     private EBeanServie eBeanServie;
+
 
     @Override
     @Transactional
@@ -135,6 +144,42 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
 
     @Override
+    @Transactional
+    public OrderDetails createTakeOutOrder(RequestCreateTakeOutOrder takeOutOrder) {
+        OrderDetails orderDetails;
+        CoffeeMachine coffeeMachine = coffeeMachineMapper.selectByPrimaryKey(takeOutOrder.coffeeMachineId);
+        Address address = addressMapper.selectByPrimaryKey(takeOutOrder.addressId);
+        if (coffeeMachine == null || address == null) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
+        }
+
+        if (EmptyUtils.isEmpty(takeOutOrder.encryptCode) || EmptyUtils.isEmpty(takeOutOrder.cardId)) {
+            orderDetails = order(takeOutOrder.memberId, takeOutOrder.shoppingCartsItemIds, takeOutOrder.eNum);
+        } else {
+            orderDetails = orderUseEncryptCode(takeOutOrder.memberId, takeOutOrder.cardId,
+                    takeOutOrder.encryptCode, takeOutOrder.shoppingCartsItemIds, takeOutOrder.eNum);
+        }
+
+        if (coffeeMachine.getUserId() == null) {
+            throw AppException.getException(ErrorCode.Coffees_Machine_NOT_SYS_USER);
+        }
+        orderDetails.setCreateDate(new Date());
+        orderDetails.setCoffeeMachineId(takeOutOrder.coffeeMachineId);
+        orderDetails.setUserId(coffeeMachine.getUserId());
+        orderDetails.setState(0);
+        //联系人、地址
+        orderDetails.setContacts(address.getContacts());
+        orderDetails.setPhone(address.getPhone());
+        orderDetails.setLongitude(address.getLongitude());
+        orderDetails.setLatitude(address.getLatitude());
+        orderDetails.setAddress(address.getAddress());
+        //更新
+        orderDetailsMapper.updateByPrimaryKeySelective(orderDetails);
+        return orderDetails;
+    }
+
+
+    @Override
     public OrderDetails getOrderDetail(String id) {
         OrderDetails orderDetails = orderDetailsMapper.selectByPrimaryKey(id);
         if (orderDetails == null) {
@@ -156,6 +201,15 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA.getCode());
         }
         commonUtils.convertShoppingCart(list);
+        return list;
+    }
+
+    @Override
+    public List<OrderDetails> getMerchantOrder(int userId, int coffeeMachineId) {
+        List<OrderDetails> list = orderDetailsMapper.getMerchantOrder(userId, coffeeMachineId);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
         return list;
     }
 
@@ -192,7 +246,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     public boolean updateItem(OrderDetails orderDetails) {
-        return orderDetailsMapper.updateByPrimaryKey(orderDetails) > 0;
+        return orderDetailsMapper.updateByPrimaryKeySelective(orderDetails) > 0;
     }
 
     @Override

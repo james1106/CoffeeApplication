@@ -19,5 +19,6 @@ public interface CoffeeMachineService extends IBaseService<CoffeeMachine> {
     //通过id
     CoffeeMachine getCoffeeMachine(int id);
 
+
     List<CoffeeMachine> searchCoffeeMachine(String key);
 }

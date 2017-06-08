@@ -54,14 +54,22 @@ public interface OrderDetailsMapper {
             "bean, custom_id, ",
             "notes, create_date, ",
             "pay_state, end_date, ",
-            "total, order_details)",
+            "total, user_id, coffee_machine_id, ",
+            "contacts, phone, ",
+            "longitude, latitude, ",
+            "address, state, ",
+            "order_details)",
             "values (#{id,jdbcType=VARCHAR}, #{membersId,jdbcType=DECIMAL}, ",
             "#{money,jdbcType=REAL}, #{discountMoney,jdbcType=REAL}, ",
             "#{couponId,jdbcType=INTEGER}, #{wxCardCode,jdbcType=VARCHAR}, ",
             "#{bean,jdbcType=INTEGER}, #{customId,jdbcType=INTEGER}, ",
             "#{notes,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, ",
             "#{payState,jdbcType=INTEGER}, #{endDate,jdbcType=TIMESTAMP}, ",
-            "#{total,jdbcType=INTEGER}, #{orderDetails,jdbcType=LONGVARCHAR})"
+            "#{total,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{coffeeMachineId,jdbcType=INTEGER}, ",
+            "#{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, ",
+            "#{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, ",
+            "#{address,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, ",
+            "#{orderDetails,jdbcType=LONGVARCHAR})"
     })
     int insert(OrderDetails record);
 
@@ -98,7 +106,8 @@ public interface OrderDetailsMapper {
     @Select({
             "select",
             "id, members_id, money, discount_money, coupon_id, wx_card_code, bean, custom_id, ",
-            "notes, create_date, pay_state, end_date, total, order_details",
+            "notes, create_date, pay_state, end_date, total, user_id, coffee_machine_id, ",
+            "contacts, phone, longitude, latitude, address, state, order_details",
             "from order_details",
             "where id = #{id,jdbcType=VARCHAR}"
     })
@@ -157,6 +166,14 @@ public interface OrderDetailsMapper {
             "pay_state = #{payState,jdbcType=INTEGER},",
             "end_date = #{endDate,jdbcType=TIMESTAMP},",
             "total = #{total,jdbcType=INTEGER},",
+            "user_id = #{userId,jdbcType=INTEGER},",
+            "coffee_machine_id = #{coffeeMachineId,jdbcType=INTEGER},",
+            "contacts = #{contacts,jdbcType=VARCHAR},",
+            "phone = #{phone,jdbcType=VARCHAR},",
+            "longitude = #{longitude,jdbcType=DOUBLE},",
+            "latitude = #{latitude,jdbcType=DOUBLE},",
+            "address = #{address,jdbcType=VARCHAR},",
+            "state = #{state,jdbcType=INTEGER},",
             "order_details = #{orderDetails,jdbcType=LONGVARCHAR}",
             "where id = #{id,jdbcType=VARCHAR}"
     })
@@ -181,22 +198,32 @@ public interface OrderDetailsMapper {
             "create_date = #{createDate,jdbcType=TIMESTAMP},",
             "pay_state = #{payState,jdbcType=INTEGER},",
             "end_date = #{endDate,jdbcType=TIMESTAMP},",
-            "total = #{total,jdbcType=INTEGER}",
+            "total = #{total,jdbcType=INTEGER},",
+            "user_id = #{userId,jdbcType=INTEGER},",
+            "coffee_machine_id = #{coffeeMachineId,jdbcType=INTEGER},",
+            "contacts = #{contacts,jdbcType=VARCHAR},",
+            "phone = #{phone,jdbcType=VARCHAR},",
+            "longitude = #{longitude,jdbcType=DOUBLE},",
+            "latitude = #{latitude,jdbcType=DOUBLE},",
+            "address = #{address,jdbcType=VARCHAR},",
+            "state = #{state,jdbcType=INTEGER}",
             "where id = #{id,jdbcType=VARCHAR}"
     })
     int updateByPrimaryKey(OrderDetails record);
 
     @Select({"select",
-            "id, members_id, money,discount_money, coupon_id, bean, custom_id, notes, create_date, pay_state, ",
-            "end_date,total,wx_card_code, order_details",
+            "id, members_id, money, discount_money, coupon_id, wx_card_code, bean, custom_id, ",
+            "notes, create_date, pay_state, end_date, total, user_id, coffee_machine_id, ",
+            "contacts, phone, longitude, latitude, address, state, order_details",
             "from order_details",
             "where members_id = #{memberId} and pay_state=#{payState} ORDER BY create_date DESC"})
     @ResultMap({"com.mk.coffee.mapper.OrderDetailsMapper.ResultMapWithBLOBs"})
     List<OrderDetails> selectOrderDetailsByMemberIdAndPayState(@Param("memberId") long memberId, @Param("payState") int payState);
 
     @Select({"select",
-            "id, members_id, money,discount_money, coupon_id, bean, custom_id, notes, create_date, pay_state, ",
-            "end_date,total,wx_card_code, order_details",
+            "id, members_id, money, discount_money, coupon_id, wx_card_code, bean, custom_id, ",
+            "notes, create_date, pay_state, end_date, total, user_id, coffee_machine_id, ",
+            "contacts, phone, longitude, latitude, address, state, order_details",
             "from order_details",
             "ORDER BY create_date DESC"})
     @ResultMap({"com.mk.coffee.mapper.OrderDetailsMapper.ResultMapWithBLOBs"})
@@ -210,4 +237,7 @@ public interface OrderDetailsMapper {
             "where wx_card_code = #{wxCardCode} and pay_state =0"
     })
     int updateOrderDetailsByWxCardCode(@Param("wxCardCode") String wxCardCode);
+
+
+    List<OrderDetails> getMerchantOrder(@Param("userId") int userId, @Param("coffeeMachineId") int coffeeMachineId);
 }

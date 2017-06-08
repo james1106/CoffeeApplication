@@ -57,6 +57,7 @@ public enum ErrorCode {
     Current_User_Not_Exist("current_user_not_exist", "当前用户已退出"),
     User_Role_Already("user_role_already", "此用户已属于该角色"),
     UserId_Is_Null("userId_is_null", "您还没有登录，不能进行相关操作"),
+    Coffees_Machine_NOT_SYS_USER("coffees_machine_not_sys_user","该咖啡机器暂时没有商户管理"),
     Un_Authorized_Exception("un_authorized_exception", "该管理员没有相关权限进行此操作");
     private String code;
     private String message;
