@@ -5,6 +5,7 @@ import com.mk.coffee.exception.AppException;
 import com.mk.coffee.mapper.VerificationCodeMapper;
 import com.mk.coffee.model.VerificationCode;
 import com.mk.coffee.service.VerificationCodeService;
+import com.mk.coffee.utils.CalendarUtil;
 import com.mk.coffee.utils.DaYuUtils;
 import com.mk.coffee.utils.DateUtils;
 import com.mk.coffee.utils.VerifyUtils;
@@ -46,8 +47,8 @@ public class VerificationCodeServieImpl implements VerificationCodeService {
             VerificationCode olderVerificationCode = olderVerificationCodes.get(0);
             if (olderVerificationCode != null) {
                 //验证码可用
-                logger.info("当前时间：" + DateUtils.getDate2LStr(DateUtils.getGMT8Time()));
-                if (DateUtils.getGMT8Time().getTime() - olderVerificationCode.getCreateDate().getTime() <= olderVerificationCode.getValidityMinute() * 1000 * 60
+                logger.info("当前时间：" + CalendarUtil.getCalendar().getTime().getTime());
+                if (CalendarUtil.getCalendar().getTime().getTime() - olderVerificationCode.getCreateDate().getTime() <= olderVerificationCode.getValidityMinute() * 1000 * 60
                         && !olderVerificationCode.getVerifyState()) {
                     throw AppException.getException(ErrorCode.Verification_Code_Availability.getCode());
                 }

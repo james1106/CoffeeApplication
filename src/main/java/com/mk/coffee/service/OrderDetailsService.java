@@ -36,6 +36,7 @@ public interface OrderDetailsService {
     //得到商户接收到的订单
     List<OrderDetails> getMerchantOrder(int userId, int coffeeMachineId);
 
+
     //删除订单
     boolean deleteOrder(String orderId);
 
@@ -61,5 +62,9 @@ public interface OrderDetailsService {
 
     //搜索
     List<OrderDetails> searchOrderDetails(String keyword);
+
+
+    List<OrderDetails> getMerchantOrderByStateAndTimestamp(int userId, int coffeeMachineId,
+                                                           Boolean completed, Long timeStamp);
 
 }

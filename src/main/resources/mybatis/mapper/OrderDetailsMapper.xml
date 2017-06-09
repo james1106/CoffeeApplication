@@ -601,4 +601,55 @@
     WHERE o.user_id=#{userId} AND o.coffee_machine_id=#{coffeeMachineId} AND o.state!=1
   </select>
 
+    <select id="getMerchantOrderByStateAndTimestamp" resultType="com.mk.coffee.model.OrderDetails">
+        SELECT
+        o.id,
+        o.money,
+        o.discount_money,
+        o.wx_card_code,
+        o.bean,
+        o.create_date,
+        o.order_details,
+        o.pay_state,
+        o.end_date,
+        o.total,
+        o.user_id,
+        o.contacts,
+        o.phone,
+        o.longitude,
+        o.latitude,
+        o.address,
+        o.state,
+        m.id "member.id",
+        m.name "member.name",
+        m.email "member.email",
+        m.phone "member.phone",
+        m.headportrait_url "member.headportraitUrl",
+        m.open_id "member.openId",
+        m.sex "member.sex",
+        cm.id "coffeeMachine.id",
+        cm.code "coffeeMachine.code",
+        cm.address "coffeeMachine.address",
+        cm.longitude "coffeeMachine.longitude",
+        cm.latitude "coffeeMachine.latitude",
+        cm.is_takeout_status "coffeeMachine.isTakeoutStatus",
+        cm.start_time "coffeeMachine.startTime",
+        cm.end_time "coffeeMachine.endTime"
+        FROM order_details o
+        LEFT OUTER JOIN members m ON o.members_id=m.id
+        LEFT OUTER JOIN coffee_machine cm ON cm.id=o.coffee_machine_id
+        <where>
+            o.user_id=#{userId} AND o.coffee_machine_id=#{coffeeMachineId}
+            <if test="startTimestamp!=null and endTimestamp!=null">
+                AND o.create_date BETWEEN #{startTimestamp} AND #{endTimestamp}
+            </if>
+            <if test="completed!=null and completed==true">
+                AND o.state=1
+            </if>
+            <if test="completed!=null and completed==false">
+                AND o.state!=1
+            </if>
+        </where>
+    </select>
+
 </mapper>

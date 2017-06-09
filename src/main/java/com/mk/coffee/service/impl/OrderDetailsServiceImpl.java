@@ -11,6 +11,7 @@ import com.mk.coffee.service.EBeanServie;
 import com.mk.coffee.service.OrderDetailsService;
 import com.mk.coffee.service.ShoppingCartService;
 import com.mk.coffee.service.WXInfoService;
+import com.mk.coffee.utils.CalendarUtil;
 import com.mk.coffee.utils.EmptyUtils;
 import com.mk.coffee.utils.CommonUtils;
 import com.mk.coffee.utils.JsonUtils;
@@ -285,6 +286,23 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
         }
         commonUtils.convertShoppingCart(list);
+        return list;
+    }
+
+    @Override
+    public List<OrderDetails> getMerchantOrderByStateAndTimestamp(int userId, int coffeeMachineId,
+                                                                 Boolean completed, Long timeStamp) {
+        Date startTimestamp = null;
+        Date endTimestamp = null;
+        if (timeStamp != null) {
+            startTimestamp = CalendarUtil.zeroFromHour(timeStamp).getTime();
+            endTimestamp = CalendarUtil.endFromHour(timeStamp).getTime();
+        }
+        List<OrderDetails> list = orderDetailsMapper
+                .getMerchantOrderByStateAndTimestamp(userId, coffeeMachineId, completed, startTimestamp, endTimestamp);
+        if (EmptyUtils.isEmpty(list)) {
+            throw AppException.getException(ErrorCode.NOT_FOUND_DATA);
+        }
         return list;
     }
 }

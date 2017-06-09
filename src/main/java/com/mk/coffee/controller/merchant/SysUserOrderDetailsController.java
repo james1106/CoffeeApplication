@@ -4,6 +4,7 @@ import com.mk.coffee.common.RestResult;
 import com.mk.coffee.common.RestResultGenerator;
 import com.mk.coffee.model.OrderDetails;
 import com.mk.coffee.service.OrderDetailsService;
+import com.mk.coffee.utils.CalendarUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.omg.CORBA.ORB;
@@ -31,6 +32,22 @@ public class SysUserOrderDetailsController {
         return RestResultGenerator.genSuccessResult(orderDetailsService.getMerchantOrder(userId, coffeeMachineId));
     }
 
+
+    @ApiOperation(value = "得到商户订单列表",
+            notes = "根据completed(不传默认全都状态)，timestamp:传入要查询当天的时间戳，" +
+                    "如：要查询今天订单，只需传今天内的某一时间点时间戳即可，其他时间同理,不传默认全都")
+    @GetMapping("/getMerchantOrderByStateAndTimestamp")
+    public RestResult<List<OrderDetails>>
+    getMerchantOrderByStateAndTimestamp(@RequestParam("userId") int userId,
+                                        @RequestParam("coffeeMachineId") int coffeeMachineId,
+                                        @RequestParam(value = "completed", required = false)
+                                                Boolean state,
+                                        @RequestParam(value = "timestamp", required = false) Long timestamp) {
+        return RestResultGenerator.genSuccessResult(orderDetailsService.
+                getMerchantOrderByStateAndTimestamp(userId, coffeeMachineId, state, timestamp));
+    }
+
+
     @ApiOperation("商户接收订单")
     @PostMapping("/receiveMerchantOrder")
     public RestResult<Boolean> receiveMerchantOrder(@RequestParam("orderId") String orderId) {
@@ -39,5 +56,6 @@ public class SysUserOrderDetailsController {
         orderDetails.setState(2);
         return RestResultGenerator.genSuccessResult(orderDetailsService.updateItem(orderDetails));
     }
+
 
 }

@@ -66,6 +66,19 @@ public class CoffeeMachineServiceImpl implements CoffeeMachineService {
     }
 
     @Override
+    public boolean updateMerchantCoffeeMachine(String code, boolean isTakeoutStatus, String startTime, String endTime) {
+
+        CoffeeMachine coffeeMachine=new CoffeeMachine();
+        coffeeMachine.setIsTakeoutStatus(isTakeoutStatus);
+        coffeeMachine.setStartTime(startTime);
+        coffeeMachine.setEndTime(endTime);
+
+        CoffeeMachineExample example=new CoffeeMachineExample();
+        example.createCriteria().andCodeEqualTo(code);
+        return coffeeMachineMapper.updateByExampleSelective(coffeeMachine,example)>0;
+    }
+
+    @Override
     public List<CoffeeMachine> getList() {
         return coffeeMachineMapper.getAllCoffeesMachine();
     }

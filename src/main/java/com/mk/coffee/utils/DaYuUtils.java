@@ -25,7 +25,8 @@ public class DaYuUtils {
     private DaYuProperties daYuProperties;
 
     public boolean sendSmsCode(VerificationCode verificationCode) {
-        TaobaoClient client = new DefaultTaobaoClient(daYuProperties.getUrl(), daYuProperties.getAppkey(), daYuProperties.getSecret());
+        TaobaoClient client = new DefaultTaobaoClient(daYuProperties.getUrl(), daYuProperties.getAppkey(),
+                daYuProperties.getSecret());
         AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
         req.setExtend(verificationCode.getPhone());
         req.setSmsType("normal");

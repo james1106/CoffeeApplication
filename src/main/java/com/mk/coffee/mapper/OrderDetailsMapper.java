@@ -3,6 +3,7 @@ package com.mk.coffee.mapper;
 import com.mk.coffee.model.OrderDetails;
 import com.mk.coffee.model.OrderDetailsExample;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -240,4 +241,11 @@ public interface OrderDetailsMapper {
 
 
     List<OrderDetails> getMerchantOrder(@Param("userId") int userId, @Param("coffeeMachineId") int coffeeMachineId);
+
+
+    List<OrderDetails> getMerchantOrderByStateAndTimestamp(@Param("userId") int userId,
+                                                           @Param("coffeeMachineId") int coffeeMachineId,
+                                                           @Param("completed") Boolean completed,
+                                                           @Param("startTimestamp") Date startTimestamp,
+                                                           @Param("endTimestamp")Date endTimestamp);
 }

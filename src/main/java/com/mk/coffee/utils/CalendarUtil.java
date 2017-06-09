@@ -57,6 +57,13 @@ public class CalendarUtil {
         calendar.set(Calendar.MILLISECOND, 0);
     }
 
+    public static void endFromHour(Calendar calendar){
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+    }
+
     /**
      * 将时间戳转换成当天零点的时间戳
      *
@@ -69,6 +76,21 @@ public class CalendarUtil {
         return calendar;
     }
 
+
+    /**
+     * 将时间戳转换成当天结束的时间戳
+     *
+     * @param milliseconds
+     * @return
+     */
+    public static Calendar endFromHour(long milliseconds) {
+        Calendar calendar = getCalendar(milliseconds);
+        endFromHour(calendar);
+        return calendar;
+    }
+
+
+
     /**
      * 将时间戳转换成当天零点的时间戳
      *
@@ -78,6 +100,18 @@ public class CalendarUtil {
     public static long zeroFromHourMilliseconds(long milliseconds) {
         return zeroFromHour(milliseconds).getTimeInMillis();
     }
+
+
+    /**
+     * 将时间戳转换成当天结束的时间戳
+     *
+     * @param milliseconds
+     * @return
+     */
+    public static long endFromHourMilliseconds(long milliseconds) {
+        return endFromHour(milliseconds).getTimeInMillis();
+    }
+
 
     public static Calendar getCalendar() {
         return Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"), Locale.CHINA);

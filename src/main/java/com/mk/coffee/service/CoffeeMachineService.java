@@ -21,4 +21,10 @@ public interface CoffeeMachineService extends IBaseService<CoffeeMachine> {
 
 
     List<CoffeeMachine> searchCoffeeMachine(String key);
+
+
+    boolean updateMerchantCoffeeMachine(String code,
+            boolean isTakeoutStatus,
+            String startTime,
+            String endTime);
 }
